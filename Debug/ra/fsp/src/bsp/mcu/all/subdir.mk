@@ -15,6 +15,7 @@ C_SRCS += \
 ../ra/fsp/src/bsp/mcu/all/bsp_register_protection.c \
 ../ra/fsp/src/bsp/mcu/all/bsp_rom_registers.c \
 ../ra/fsp/src/bsp/mcu/all/bsp_sbrk.c \
+../ra/fsp/src/bsp/mcu/all/bsp_sdram.c \
 ../ra/fsp/src/bsp/mcu/all/bsp_security.c 
 
 C_DEPS += \
@@ -29,6 +30,7 @@ C_DEPS += \
 ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.d \
 ./ra/fsp/src/bsp/mcu/all/bsp_rom_registers.d \
 ./ra/fsp/src/bsp/mcu/all/bsp_sbrk.d \
+./ra/fsp/src/bsp/mcu/all/bsp_sdram.d \
 ./ra/fsp/src/bsp/mcu/all/bsp_security.d 
 
 OBJS += \
@@ -43,6 +45,7 @@ OBJS += \
 ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o \
 ./ra/fsp/src/bsp/mcu/all/bsp_rom_registers.o \
 ./ra/fsp/src/bsp/mcu/all/bsp_sbrk.o \
+./ra/fsp/src/bsp/mcu/all/bsp_sdram.o \
 ./ra/fsp/src/bsp/mcu/all/bsp_security.o 
 
 SREC += \
@@ -54,6 +57,6 @@ minieco_paperoga_b_rotondi.map
 
 # Each subdirectory must supply rules for building sources it contributes
 ra/fsp/src/bsp/mcu/all/%.o: ../ra/fsp/src/bsp/mcu/all/%.c
-	$(file > $@.in,-mcpu=cortex-m23 -mthumb -O2 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-strict-aliasing -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wconversion -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -g -D_RENESAS_RA_ -D_RA_CORE=CM23 -D_RA_ORDINAL=1 -I"C:/Users/Maldus/Documents/Projects/minieco_paperoga_b_rotondi/src" -I"." -I"C:/Users/Maldus/Documents/Projects/minieco_paperoga_b_rotondi/ra/fsp/inc" -I"C:/Users/Maldus/Documents/Projects/minieco_paperoga_b_rotondi/ra/fsp/inc/api" -I"C:/Users/Maldus/Documents/Projects/minieco_paperoga_b_rotondi/ra/fsp/inc/instances" -I"C:/Users/Maldus/Documents/Projects/minieco_paperoga_b_rotondi/ra/arm/CMSIS_5/CMSIS/Core/Include" -I"C:/Users/Maldus/Documents/Projects/minieco_paperoga_b_rotondi/ra_gen" -I"C:/Users/Maldus/Documents/Projects/minieco_paperoga_b_rotondi/ra_cfg/fsp_cfg/bsp" -I"C:/Users/Maldus/Documents/Projects/minieco_paperoga_b_rotondi/ra_cfg/fsp_cfg" -std=c99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -c -o "$@" -x c "$<")
+	$(file > $@.in,-mcpu=cortex-m23 -mthumb -Og -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-strict-aliasing -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wconversion -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -g -D_RENESAS_RA_ -D_RA_CORE=CM23 -D_RA_ORDINAL=1 -I"/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/src" -I"/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/libs/c-debounce/src" -I"/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/libs/c-stopwatch/src" -I"/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/libs/c-state/src" -I"/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/libs/c-watcher/src" -I"/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/libs/liblightmodbus/include" -I"." -I"/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc" -I"/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api" -I"/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances" -I"/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_gen" -I"/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/bsp" -I"/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg" -I"/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/arm/CMSIS_6/CMSIS/Core/Include" -I"/minieco_paperoga_b_rotondi/libs/c-state/src" -std=c99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -c -o "$@" -x c "$<")
 	@echo Building file: $< && arm-none-eabi-gcc @"$@.in"
 

@@ -10,13 +10,23 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include src/services/subdir.mk
+-include src/model/subdir.mk
+-include src/controller/subdir.mk
 -include src/bsp/subdir.mk
+-include src/adapters/subdir.mk
 -include src/subdir.mk
 -include ra_gen/subdir.mk
+-include ra/fsp/src/r_sci_uart/subdir.mk
 -include ra/fsp/src/r_ioport/subdir.mk
+-include ra/fsp/src/r_agt/subdir.mk
+-include ra/fsp/src/r_adc/subdir.mk
 -include ra/fsp/src/bsp/mcu/ra2l1/subdir.mk
 -include ra/fsp/src/bsp/mcu/all/subdir.mk
 -include ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/subdir.mk
+-include libs/c-watcher/src/subdir.mk
+-include libs/c-stopwatch/src/subdir.mk
+-include libs/c-debounce/src/subdir.mk
 -include subdir.mk
 -include objects.mk
 
@@ -60,11 +70,11 @@ endif
 ifneq ($(strip $(PP_DEPS)),)
 -include $(PP_DEPS)
 endif
-ifneq ($(strip $(ASM_UPPER_DEPS)),)
--include $(ASM_UPPER_DEPS)
-endif
 ifneq ($(strip $(SX_DEPS)),)
 -include $(SX_DEPS)
+endif
+ifneq ($(strip $(ASM_UPPER_DEPS)),)
+-include $(ASM_UPPER_DEPS)
 endif
 ifneq ($(strip $(SX_UPPER_DEPS)),)
 -include $(SX_UPPER_DEPS)
@@ -92,7 +102,7 @@ all: minieco_paperoga_b_rotondi.elf secondary-outputs
 
 # Tool invocations
 minieco_paperoga_b_rotondi.elf: $(OBJS) $(USER_OBJS) $(LINKER_SCRIPT)
-	$(file > minieco_paperoga_b_rotondi.elf.in,-mcpu=cortex-m23 -mthumb -O2 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-strict-aliasing -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wconversion -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -g -T "fsp.ld" -Xlinker --gc-sections -L "C:\\Users\\Maldus\\Documents\\Projects\\minieco_paperoga_b_rotondi/script" -Wl,-Map,"minieco_paperoga_b_rotondi.map" --specs=nano.specs -o "minieco_paperoga_b_rotondi.elf" -Wl,--start-group $(OBJS) $(USER_OBJS) $(LIBS) -Wl,--end-group)
+	$(file > minieco_paperoga_b_rotondi.elf.in,-mcpu=cortex-m23 -mthumb -Og -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-strict-aliasing -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wconversion -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -g -T "fsp.ld" -Xlinker --gc-sections -L "/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/script" -Wl,-Map,"minieco_paperoga_b_rotondi.map" --specs=nano.specs -o "minieco_paperoga_b_rotondi.elf" -Wl,--start-group $(OBJS) $(USER_OBJS) $(LIBS) -Wl,--end-group)
 	@echo Building target: $@ && arm-none-eabi-gcc @"minieco_paperoga_b_rotondi.elf.in"
 minieco_paperoga_b_rotondi.srec: minieco_paperoga_b_rotondi.elf
 	arm-none-eabi-objcopy -O srec "minieco_paperoga_b_rotondi.elf"  "minieco_paperoga_b_rotondi.srec"
@@ -100,7 +110,7 @@ minieco_paperoga_b_rotondi.siz: minieco_paperoga_b_rotondi.elf
 	arm-none-eabi-size --format=berkeley "minieco_paperoga_b_rotondi.elf"
 # Other Targets
 clean:
-	-$(file > clean_file.tmp,  $(JMP_DEPS)  $(FSY_DEPS)  $(C_UPPER_DEPS)  $(SECONDARY_SIZE)  $(SRC_UPPER_DEPS)  $(P_UPPER_DEPS)  $(S_DEPS)  $(PP_UPPER_DEPS)  $(P_DEPS)  $(FSY_UPPER_DEPS)  $(C_DEPS)  $(SRC_DEPS)  $(JMP_UPPER_DEPS)  $(PP_DEPS)  $(ASM_UPPER_DEPS)  $(SX_DEPS)  $(SX_UPPER_DEPS)  $(OBJS)  $(SECONDARY_FLASH)  $(ASM_DEPS)  $(SREC)  $(S_UPPER_DEPS)  $(MAP) )
+	-$(file > clean_file.tmp,  $(JMP_DEPS)  $(FSY_DEPS)  $(C_UPPER_DEPS)  $(SECONDARY_SIZE)  $(SRC_UPPER_DEPS)  $(P_UPPER_DEPS)  $(S_DEPS)  $(PP_UPPER_DEPS)  $(P_DEPS)  $(FSY_UPPER_DEPS)  $(C_DEPS)  $(SRC_DEPS)  $(JMP_UPPER_DEPS)  $(PP_DEPS)  $(SX_DEPS)  $(ASM_UPPER_DEPS)  $(SX_UPPER_DEPS)  $(OBJS)  $(SECONDARY_FLASH)  $(ASM_DEPS)  $(SREC)  $(S_UPPER_DEPS)  $(MAP) )
 	-@ xargs -P 2 -s 32000 -t -a clean_file.tmp $(RM)
 	-@$(RM) clean_file.tmp
 	-$(RM)  minieco_paperoga_b_rotondi.elf

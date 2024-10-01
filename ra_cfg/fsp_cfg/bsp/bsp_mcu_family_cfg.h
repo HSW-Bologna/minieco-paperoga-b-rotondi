@@ -83,6 +83,10 @@
 #define BSP_CFG_ID_CODE_LONG_4 (0xffFFFFFF)
 #endif
 
+#if (0)
+            #define BSP_SECTION_FLASH_GAP BSP_PLACE_IN_SECTION(".flash_gap")
+            #endif
+
 #ifdef __cplusplus
             }
             #endif

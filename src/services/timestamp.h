@@ -36,4 +36,9 @@ static inline __attribute__((always_inline)) unsigned long timestamp_difference(
 }
 
 
+static inline __attribute__((always_inline)) unsigned long timestamp_elapsed(timestamp_t start) {
+    return timestamp_difference(start, timestamp_get());
+}
+
+
 #endif /* SERVICES_TIMESTAMP_H_ */

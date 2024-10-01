@@ -6,7 +6,29 @@
 /* Common macro for FSP header files. There is also a corresponding FSP_FOOTER macro at the end of this file. */
 FSP_HEADER
 
+#define BSP_PIN_P_G5 (BSP_IO_PORT_00_PIN_00) /* Coin 5 line */
+#define BSP_PIN_P_G4 (BSP_IO_PORT_00_PIN_01) /* Coin 4 line */
+#define BSP_PIN_P_G3 (BSP_IO_PORT_00_PIN_02) /* Coin 3 line */
+#define BSP_PIN_P_2 (BSP_IO_PORT_00_PIN_03) /* Coin 2 line */
+#define BSP_PIN_P_1 (BSP_IO_PORT_00_PIN_04) /* Coin 1 line */
+#define BSP_PIN_INIBIT (BSP_IO_PORT_00_PIN_10) /* Coin reader inhibition */
+#define BSP_PIN_PWM1 (BSP_IO_PORT_00_PIN_14) /* First PWM output */
+#define BSP_PIN_PWM2 (BSP_IO_PORT_00_PIN_15) /* Second PWM output */
+#define BSP_PIN_IN4 (BSP_IO_PORT_01_PIN_00) /* Digital input 4 */
+#define BSP_PIN_IN3 (BSP_IO_PORT_01_PIN_01) /* Digital input 3 */
+#define BSP_PIN_IN2 (BSP_IO_PORT_01_PIN_02) /* Digital input 2 */
+#define BSP_PIN_IN1 (BSP_IO_PORT_01_PIN_03) /* Digital input 1 */
+#define BSP_PIN_RL1 (BSP_IO_PORT_01_PIN_04) /* Relay 1 */
+#define BSP_PIN_RL2 (BSP_IO_PORT_01_PIN_05) /* Relay 2 */
+#define BSP_PIN_RL3 (BSP_IO_PORT_01_PIN_06) /* Relay 3 */
+#define BSP_PIN_RL4 (BSP_IO_PORT_01_PIN_07) /* Relay 4 */
+#define BSP_PIN_RL6 (BSP_IO_PORT_01_PIN_12) /* Relay 6 */
+#define BSP_PIN_RL5 (BSP_IO_PORT_01_PIN_13) /* Relay 5 */
+#define BSP_PIN_RX (BSP_IO_PORT_03_PIN_01) /* Machine communication RS232 RX Pin */
 #define BSP_PIN_RUN1 (BSP_IO_PORT_04_PIN_00) /* Heartbit LED */
+#define BSP_PIN_IN5 (BSP_IO_PORT_05_PIN_00) /* Digital input 5 */
+#define BSP_PIN_IN6 (BSP_IO_PORT_05_PIN_01) /* Digital input 6 */
+#define BSP_PIN_IN7 (BSP_IO_PORT_05_PIN_02) /* Digital input 7 */
 extern const ioport_cfg_t g_bsp_pin_cfg; /* R7FA2L1AB2DFM.pincfg */
 
 void BSP_PinConfigSecurityInit();
