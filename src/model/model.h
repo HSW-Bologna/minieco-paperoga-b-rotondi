@@ -34,6 +34,16 @@ typedef enum {
 } cycle_event_code_t;
 
 
+typedef enum {
+    BUSY_SIGNAL_TYPE_ALARMS_ACTIVITY_PAYMENT = 0,
+    BUSY_SIGNAL_TYPE_ALARMS,
+    BUSY_SIGNAL_TYPE_ACTIVITY,
+    BUSY_SIGNAL_TYPE_ALARMS_ACTIVITY_PAYMENT_INVERTED,
+    BUSY_SIGNAL_TYPE_ALARMS_INVERTED,
+    BUSY_SIGNAL_TYPE_ACTIVITY_INVERTED,
+} busy_signal_type_t;
+
+
 STATE_MACHINE_DECLARE(cycle, cycle_event_code_t);
 
 
@@ -133,8 +143,6 @@ typedef struct {
 
 
     // Parametri step
-    uint16_t temperatura;
-    uint16_t umidita;
     uint16_t flag_asciugatura;
     uint16_t tipo_sonda_temperatura;
 
@@ -164,21 +172,21 @@ typedef struct {
 
         struct {
             // Parametri macchina
-            uint16_t tipo_macchina_occupata;
-            uint16_t inverti_macchina_occupata;
-            uint16_t tempo_allarme_temperatura;
-            uint16_t temperatura_sicurezza;
-            uint16_t disabilita_allarmi;
-            uint16_t abilita_allarme_inverter;
-            uint16_t abilita_allarme_filtro;
-
-            uint8_t  stop_time_in_pause;
-            uint16_t cycle_delay_time;
-            uint16_t rotation_running_time;
-            uint16_t rotation_pause_time;
-            uint16_t drying_duration;
-            uint16_t speed;
-            uint16_t drying_type;
+            busy_signal_type_t busy_signal_type;
+            int16_t            safety_temperature;
+            uint16_t           temperature_alarm_delay_seconds;
+            uint8_t            disable_alarms;
+            uint16_t           enable_inverter_alarm;
+            uint16_t           enable_filter_alarm;
+            uint8_t            stop_time_in_pause;
+            uint16_t           cycle_delay_time;
+            uint16_t           rotation_running_time;
+            uint16_t           rotation_pause_time;
+            uint16_t           drying_duration;
+            uint16_t           speed;
+            uint16_t           drying_type;
+            uint16_t           drying_temperature;
+            uint16_t           drying_humidity;
         } parmac;
 
         struct {

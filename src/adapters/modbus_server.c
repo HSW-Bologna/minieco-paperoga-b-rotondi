@@ -42,6 +42,10 @@ enum {
     MODBUS_HR_TEST_MODE,
     MODBUS_HR_TEST_OUTPUTS,
     MODBUS_HR_TEST_PWM,
+    MODBUS_HR_BUSY_SIGNAL_TYPE,
+    MODBUS_HR_SAFETY_TEMPERATURE,
+    MODBUS_HR_TEMPERATURE_ALARM_DELAY_SECONDS,
+    MODBUS_HR_DISABLE_ALARMS,
     MODBUS_HR_CYCLE_DELAY_TIME,
     MODBUS_HR_FLAGS,
     MODBUS_HR_ROTATION_RUNNING_TIME,
@@ -49,6 +53,8 @@ enum {
     MODBUS_HR_ROTATION_SPEED,
     MODBUS_HR_DRYING_DURATION,
     MODBUS_HR_DRYING_TYPE,
+    MODBUS_HR_DRYING_TEMPERATURE,
+    MODBUS_HR_DRYING_HUMIDITY,
     MODBUS_HR_PROGRAM_NUMBER,
     MODBUS_HR_STEP_NUMBER,
 };
@@ -142,6 +148,10 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                         case MODBUS_HR_TEST_MODE:
                         case MODBUS_HR_TEST_OUTPUTS:
                         case MODBUS_HR_TEST_PWM:
+                        case MODBUS_HR_BUSY_SIGNAL_TYPE:
+                        case MODBUS_HR_SAFETY_TEMPERATURE:
+                        case MODBUS_HR_TEMPERATURE_ALARM_DELAY_SECONDS:
+                        case MODBUS_HR_DISABLE_ALARMS:
                         case MODBUS_HR_CYCLE_DELAY_TIME:
                         case MODBUS_HR_FLAGS:
                         case MODBUS_HR_ROTATION_RUNNING_TIME:
@@ -149,6 +159,8 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                         case MODBUS_HR_ROTATION_SPEED:
                         case MODBUS_HR_DRYING_DURATION:
                         case MODBUS_HR_DRYING_TYPE:
+                        case MODBUS_HR_DRYING_TEMPERATURE:
+                        case MODBUS_HR_DRYING_HUMIDITY:
                         case MODBUS_HR_PROGRAM_NUMBER:
                         case MODBUS_HR_STEP_NUMBER:
                             result->exceptionCode = MODBUS_EXCEP_NONE;
@@ -249,6 +261,22 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             result->value = (uint16_t)model->run.test.pwm1 | (uint16_t)(model->run.test.pwm2 << 8);
                             break;
 
+                        case MODBUS_HR_BUSY_SIGNAL_TYPE:
+                            result->value = (uint16_t)model->run.parmac.busy_signal_type;
+                            break;
+
+                        case MODBUS_HR_SAFETY_TEMPERATURE:
+                            result->value = (uint16_t)model->run.parmac.safety_temperature;
+                            break;
+
+                        case MODBUS_HR_TEMPERATURE_ALARM_DELAY_SECONDS:
+                            result->value = (uint16_t)model->run.parmac.temperature_alarm_delay_seconds;
+                            break;
+
+                        case MODBUS_HR_DISABLE_ALARMS:
+                            result->value = (uint16_t)model->run.parmac.disable_alarms;
+                            break;
+
                         case MODBUS_HR_CYCLE_DELAY_TIME:
                             result->value = model->run.parmac.cycle_delay_time;
                             break;
@@ -263,6 +291,14 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
 
                         case MODBUS_HR_DRYING_TYPE:
                             result->value = model->run.parmac.drying_type;
+                            break;
+
+                        case MODBUS_HR_DRYING_TEMPERATURE:
+                            result->value = model->run.parmac.drying_temperature;
+                            break;
+
+                        case MODBUS_HR_DRYING_HUMIDITY:
+                            result->value = model->run.parmac.drying_humidity;
                             break;
 
                         case MODBUS_HR_ROTATION_RUNNING_TIME:
@@ -327,6 +363,22 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             model->run.test.pwm2 = (uint8_t)((args->value >> 8) & 0xFF);
                             break;
 
+                        case MODBUS_HR_BUSY_SIGNAL_TYPE:
+                            model->run.parmac.busy_signal_type = (busy_signal_type_t)args->value;
+                            break;
+
+                        case MODBUS_HR_SAFETY_TEMPERATURE:
+                            model->run.parmac.safety_temperature = (int16_t)args->value;
+                            break;
+
+                        case MODBUS_HR_TEMPERATURE_ALARM_DELAY_SECONDS:
+                            model->run.parmac.temperature_alarm_delay_seconds = args->value;
+                            break;
+
+                        case MODBUS_HR_DISABLE_ALARMS:
+                            model->run.parmac.disable_alarms = (uint8_t)(args->value > 0);
+                            break;
+
                         case MODBUS_HR_CYCLE_DELAY_TIME:
                             model->run.parmac.cycle_delay_time = args->value;
                             break;
@@ -341,6 +393,14 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
 
                         case MODBUS_HR_DRYING_TYPE:
                             model->run.parmac.drying_type = args->value;
+                            break;
+
+                        case MODBUS_HR_DRYING_TEMPERATURE:
+                            model->run.parmac.drying_temperature = args->value;
+                            break;
+
+                        case MODBUS_HR_DRYING_HUMIDITY:
+                            model->run.parmac.drying_humidity = args->value;
                             break;
 
                         case MODBUS_HR_ROTATION_RUNNING_TIME:
