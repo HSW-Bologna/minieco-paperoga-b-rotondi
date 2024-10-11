@@ -27,9 +27,9 @@ void bsp_digin_manage(void) {
         };
 
         for (size_t i = 0; i < sizeof(pins) / sizeof(pins[0]); i++) {
-            bsp_io_level_t level = BSP_IO_LEVEL_LOW;
+            bsp_io_level_t level = BSP_IO_LEVEL_HIGH;
             g_ioport.p_api->pinRead(g_ioport.p_ctrl, pins[i], &level);
-            if (level == BSP_IO_LEVEL_HIGH) {
+            if (level == BSP_IO_LEVEL_LOW) {
                 bitmap |= 1 << i;
             }
         }

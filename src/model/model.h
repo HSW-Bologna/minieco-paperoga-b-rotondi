@@ -95,13 +95,13 @@ typedef enum {
 
 
 typedef enum {
-    INPUT_1 = 0,
-    INPUT_FILTER_FEEDBACK,
+    INPUT_PORTHOLE = 0,
+    INPUT_EMERGENCY,
     INPUT_3,
     INPUT_4,
     INPUT_5,
-    INPUT_EMERGENCY,
-    INPUT_PORTHOLE,
+    INPUT_FILTER_FEEDBACK,
+    INPUT_6,
 } input_t;
 
 

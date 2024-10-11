@@ -50,7 +50,6 @@ uint8_t model_is_porthole_open(model_t *model) {
 
 
 uint16_t model_get_alarms(model_t *model) {
-    return 0;
     assert(model != NULL);
     return (uint16_t)(((model_is_emergency_alarm_active(model) > 0) << 0) |
                       ((model_is_filter_alarm_active(model) > 0) << 1) | ((model_is_porthole_open(model) > 0) << 2));
@@ -286,7 +285,7 @@ uint16_t model_get_remaining_seconds(model_t *model) {
 
 int model_get_setpoint(model_t *pmodel) {
     assert(pmodel != NULL);
-    return pmodel->temperatura;
+    return pmodel->run.parmac.drying_temperature;
 }
 
 
@@ -356,7 +355,7 @@ int model_over_safety_temperature(model_t *pmodel) {
     if (!pmodel->run.inizializzato) {
         return 0;
     } else {
-        return model_get_default_temperature(pmodel) > pmodel->run.parmac.temperatura_sicurezza;
+        return model_get_default_temperature(pmodel) > pmodel->run.parmac.safety_temperature;
     }
 }
 
@@ -483,5 +482,5 @@ void model_set_heating_state(model_t *model, heating_state_t state) {
 
 uint8_t model_get_heating_alarm(model_t *model) {
     return (model->run.heating.state == HEATING_STATE_ON || model->run.heating.state == HEATING_STATE_MIDWAY) &&
-           timestamp_is_expired(model->run.heating.timestamp, model->run.parmac.tempo_allarme_temperatura * 1000UL);
+           timestamp_is_expired(model->run.heating.timestamp, model->run.parmac.temperature_alarm_delay_seconds * 1000UL);
 }

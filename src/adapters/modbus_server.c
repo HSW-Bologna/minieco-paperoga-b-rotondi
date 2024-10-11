@@ -45,7 +45,6 @@ enum {
     MODBUS_HR_BUSY_SIGNAL_TYPE,
     MODBUS_HR_SAFETY_TEMPERATURE,
     MODBUS_HR_TEMPERATURE_ALARM_DELAY_SECONDS,
-    MODBUS_HR_DISABLE_ALARMS,
     MODBUS_HR_CYCLE_DELAY_TIME,
     MODBUS_HR_FLAGS,
     MODBUS_HR_ROTATION_RUNNING_TIME,
@@ -151,7 +150,6 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                         case MODBUS_HR_BUSY_SIGNAL_TYPE:
                         case MODBUS_HR_SAFETY_TEMPERATURE:
                         case MODBUS_HR_TEMPERATURE_ALARM_DELAY_SECONDS:
-                        case MODBUS_HR_DISABLE_ALARMS:
                         case MODBUS_HR_CYCLE_DELAY_TIME:
                         case MODBUS_HR_FLAGS:
                         case MODBUS_HR_ROTATION_RUNNING_TIME:
@@ -273,16 +271,14 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             result->value = (uint16_t)model->run.parmac.temperature_alarm_delay_seconds;
                             break;
 
-                        case MODBUS_HR_DISABLE_ALARMS:
-                            result->value = (uint16_t)model->run.parmac.disable_alarms;
-                            break;
-
                         case MODBUS_HR_CYCLE_DELAY_TIME:
                             result->value = model->run.parmac.cycle_delay_time;
                             break;
 
                         case MODBUS_HR_FLAGS:
-                            result->value = (uint16_t)((model->run.parmac.stop_time_in_pause > 0) << 0);
+                            result->value = (uint16_t)((model->run.parmac.stop_time_in_pause > 0) << 0 |
+                                                       (model->run.parmac.disable_alarms > 0) << 1     //|
+                            );
                             break;
 
                         case MODBUS_HR_DRYING_DURATION:
@@ -375,16 +371,13 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             model->run.parmac.temperature_alarm_delay_seconds = args->value;
                             break;
 
-                        case MODBUS_HR_DISABLE_ALARMS:
-                            model->run.parmac.disable_alarms = (uint8_t)(args->value > 0);
-                            break;
-
                         case MODBUS_HR_CYCLE_DELAY_TIME:
                             model->run.parmac.cycle_delay_time = args->value;
                             break;
 
                         case MODBUS_HR_FLAGS:
                             model->run.parmac.stop_time_in_pause = (args->value & (1 << 0)) > 0;
+                            model->run.parmac.disable_alarms     = (args->value & (1 << 1)) > 0;
                             break;
 
                         case MODBUS_HR_DRYING_DURATION:
