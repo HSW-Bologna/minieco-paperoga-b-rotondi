@@ -5,34 +5,35 @@
 #include "stopwatch.h"
 #include "stopwatch_timer.h"
 // #include "ventilazione.h"
-// #include "riscaldamento.h"
+#include "heating.h"
 
 
 STATE_MACHINE_DEFINE(cycle, cycle_event_code_t);
 
+static void stopped_entry(void *arg);
 static int  stopped_event_manager(cycle_event_code_t event, void *arg);
 static int  active_event_manager(cycle_event_code_t event, void *arg);
 static int  wait_start_event_manager(cycle_event_code_t event, void *arg);
 static int  running_event_manager(cycle_event_code_t event, void *arg);
+static void paused_entry(void *arg);
 static int  paused_event_manager(cycle_event_code_t event, void *arg);
 static void timer_event_callback(stopwatch_timer_t *timer, void *user_ptr);
 static void stop_everything(model_t *model);
 static void start_everything(model_t *model);
-static void pause_everything(model_t *model);
 static void fix_timer(stopwatch_timer_t *timer, unsigned long period, int arg);
 
 
 static const cycle_node_t managers[] = {
     // No program loaded, everything off
-    [CYCLE_STATE_STOPPED] = STATE_MACHINE_EVENT_MANAGER(stopped_event_manager),
+    [CYCLE_STATE_STOPPED] = STATE_MACHINE_MANAGER(stopped_event_manager, stopped_entry, NULL),
     // In between steps
-    [CYCLE_STATE_ACTIVE] = STATE_MACHINE_EVENT_MANAGER(active_event_manager),
+    [CYCLE_STATE_ACTIVE] = STATE_MACHINE_MANAGER(active_event_manager, stopped_entry, NULL),
     // Delayed start
     [CYCLE_STATE_WAIT_START] = STATE_MACHINE_EVENT_MANAGER(wait_start_event_manager),
     // Running
     [CYCLE_STATE_RUNNING] = STATE_MACHINE_EVENT_MANAGER(running_event_manager),
     // Paused
-    [CYCLE_STATE_PAUSED] = STATE_MACHINE_EVENT_MANAGER(paused_event_manager),
+    [CYCLE_STATE_PAUSED] = STATE_MACHINE_MANAGER(paused_event_manager, paused_entry, NULL),
 };
 
 
@@ -71,38 +72,60 @@ void cycle_start(mut_model_t *model) {
 }
 
 
+void cycle_cold_start(mut_model_t *model, uint16_t remaining_time) {
+    cycle_change_remaining_time(model, remaining_time);
+    cycle_send_event(&model->run.cycle.state_machine, model, CYCLE_EVENT_CODE_COLD_START);
+}
+
+
+void cycle_check(mut_model_t *model) {
+    cycle_send_event(&model->run.cycle.state_machine, model, CYCLE_EVENT_CODE_CHECK);
+}
+
+
+static void stopped_entry(void *arg) {
+    model_t *model = arg;
+    stop_everything(model);
+}
+
+
 static int stopped_event_manager(cycle_event_code_t event, void *arg) {
     mut_model_t       *model       = arg;
     stopwatch_timer_t *timer_cycle = &model->run.cycle.timer_cycle;
 
     switch (event) {
+        case CYCLE_EVENT_CODE_COLD_START:
+            if (model->run.parmac.gas_preemptive_reset) {
+                model_reset_burner(model);
+            }
+            return CYCLE_STATE_PAUSED;
+
         case CYCLE_EVENT_CODE_START:
             // Do not start if there are alarms active
-            if (model_get_alarms(model) > 0) {
+            if (model->run.alarms) {
                 break;
             }
 
             // controller_update_pwoff(model);
 
+            if (model->run.parmac.gas_preemptive_reset) {
+                model_reset_burner(model);
+            }
+
             if (model->run.parmac.cycle_delay_time > 0) {
-                model_fan_on(model);
                 fix_timer(timer_cycle, model->run.parmac.cycle_delay_time * 1000UL, CYCLE_EVENT_CODE_STEP_DONE);
                 stopwatch_timer_resume(timer_cycle, timestamp_get());
                 return CYCLE_STATE_WAIT_START;
             } else {
                 start_everything(model);
 
-                fix_timer(timer_cycle, model_get_step_duration_seconds(model), CYCLE_EVENT_CODE_STEP_DONE);
-                stopwatch_timer_resume(timer_cycle, timestamp_get());
+                if (!model_is_step_endless(model)) {
+                    fix_timer(timer_cycle, model_get_step_duration_seconds(model), CYCLE_EVENT_CODE_STEP_DONE);
+                    stopwatch_timer_resume(timer_cycle, timestamp_get());
+                }
 
                 return CYCLE_STATE_RUNNING;
             }
-
-        case CYCLE_EVENT_CODE_RESUME:
-            fix_timer(timer_cycle, model->pwoff.remaining_time * 1000UL, CYCLE_EVENT_CODE_STEP_DONE);
-            stopwatch_timer_pause(timer_cycle, timestamp_get());
-            // controller_update_pwoff(model);
-            return CYCLE_STATE_PAUSED;
 
         default:
             break;
@@ -119,33 +142,35 @@ static int running_event_manager(cycle_event_code_t event, void *arg) {
 
     switch (event) {
         case CYCLE_EVENT_CODE_STOP:
-            stop_everything(model);
             return CYCLE_STATE_STOPPED;
 
         case CYCLE_EVENT_CODE_STEP_DONE:
             return CYCLE_STATE_ACTIVE;
 
-        case CYCLE_EVENT_CODE_ALARM:
         case CYCLE_EVENT_CODE_PAUSE:
-            pause_everything(model);
             return CYCLE_STATE_PAUSED;
+
+        case CYCLE_EVENT_CODE_CHECK:
+            if (model->run.alarms) {
+                return CYCLE_STATE_PAUSED;
+            }
+            break;
 
         case CYCLE_EVENT_CODE_MOTION_PAUSE:
             fix_timer(timer_rotation, model->run.parmac.rotation_pause_time * 1000UL,
                       model_is_drum_running_forward(model) ? CYCLE_EVENT_CODE_BACKWARD : CYCLE_EVENT_CODE_FORWARD);
             stopwatch_timer_resume(timer_rotation, timestamp_get());
 
-            if (model_is_step_unfolding(model)) {
-                // unsigned long tempo_ventilazione = ventilazione_off();
-                // model_add_ventilation_time_ms(model, tempo_ventilazione);
+            if (model_cycles_exceeded(model)) {
+                return CYCLE_STATE_STOPPED;
+            } else {
+                model->run.cycle.num_cycles++;
+                model_drum_stop(model);
             }
-
-            model_drum_stop(model);
             break;
 
         case CYCLE_EVENT_CODE_FORWARD:
             model_drum_forward(model);
-            model_fan_on(model);
 
             fix_timer(timer_rotation, model->run.parmac.rotation_running_time * 1000UL, CYCLE_EVENT_CODE_MOTION_PAUSE);
             stopwatch_timer_resume(timer_rotation, timestamp_get());
@@ -153,7 +178,6 @@ static int running_event_manager(cycle_event_code_t event, void *arg) {
 
         case CYCLE_EVENT_CODE_BACKWARD:
             model_drum_backward(model);
-            model_fan_on(model);
 
             fix_timer(timer_rotation, model->run.parmac.rotation_running_time * 1000UL, CYCLE_EVENT_CODE_MOTION_PAUSE);
             stopwatch_timer_resume(timer_rotation, timestamp_get());
@@ -173,29 +197,46 @@ static int wait_start_event_manager(cycle_event_code_t event, void *arg) {
 
     switch (event) {
         case CYCLE_EVENT_CODE_STOP:
-            stop_everything(model);
             return CYCLE_STATE_STOPPED;
 
         case CYCLE_EVENT_CODE_STEP_DONE: {
-            model_fan_off(model);
-
-            fix_timer(timer_cycle, model_get_step_duration_seconds(model), CYCLE_EVENT_CODE_STEP_DONE);
-            stopwatch_timer_resume(timer_cycle, timestamp_get());
+            if (!model_is_step_endless(model)) {
+                fix_timer(timer_cycle, model_get_step_duration_seconds(model), CYCLE_EVENT_CODE_STEP_DONE);
+                stopwatch_timer_resume(timer_cycle, timestamp_get());
+            }
 
             start_everything(model);
             return CYCLE_STATE_RUNNING;
         }
 
-        case CYCLE_EVENT_CODE_ALARM:
         case CYCLE_EVENT_CODE_PAUSE:
-            pause_everything(model);
             return CYCLE_STATE_PAUSED;
+
+        case CYCLE_EVENT_CODE_CHECK:
+            if (model->run.alarms) {
+                return CYCLE_STATE_PAUSED;
+            }
+            break;
 
         default:
             break;
     }
 
     return -1;
+}
+
+
+static void paused_entry(void *arg) {
+    model_t           *model          = arg;
+    stopwatch_timer_t *timer_cycle    = &model->run.cycle.timer_cycle;
+    stopwatch_timer_t *timer_rotation = &model->run.cycle.timer_rotation;
+    model_drum_stop(model);
+
+    heating_off(model);
+    if (model->run.parmac.stop_time_in_pause) {
+        stopwatch_timer_pause(timer_cycle, timestamp_get());
+    }
+    stopwatch_timer_pause(timer_rotation, timestamp_get());
 }
 
 
@@ -206,7 +247,7 @@ static int paused_event_manager(cycle_event_code_t event, void *arg) {
     switch (event) {
         case CYCLE_EVENT_CODE_START:
             // Do not start if there are alarms active
-            if (model_get_alarms(model) > 0) {
+            if (model->run.alarms) {
                 break;
             }
 
@@ -215,11 +256,9 @@ static int paused_event_manager(cycle_event_code_t event, void *arg) {
             return CYCLE_STATE_RUNNING;
 
         case CYCLE_EVENT_CODE_STOP:
-            stop_everything(model);
             return CYCLE_STATE_STOPPED;
 
         case CYCLE_EVENT_CODE_STEP_DONE:
-            stop_everything(model);
             return CYCLE_STATE_ACTIVE;
 
         default:
@@ -236,7 +275,9 @@ static int active_event_manager(cycle_event_code_t event, void *arg) {
 
     switch (event) {
         case CYCLE_EVENT_CODE_PAUSE:
-            fix_timer(timer_cycle, model_get_step_duration_seconds(model), CYCLE_EVENT_CODE_STEP_DONE);
+            if (!model_is_step_endless(model)) {
+                fix_timer(timer_cycle, model_get_step_duration_seconds(model), CYCLE_EVENT_CODE_STEP_DONE);
+            }
 
             if (model->run.parmac.stop_time_in_pause) {
                 stopwatch_timer_pause(timer_cycle, timestamp_get());
@@ -245,24 +286,37 @@ static int active_event_manager(cycle_event_code_t event, void *arg) {
             }
             return CYCLE_STATE_PAUSED;
 
-
         case CYCLE_EVENT_CODE_START:
             // Do not start if there are alarms active
-            if (model_get_alarms(model) > 0) {
+            if (model->run.alarms) {
                 break;
             }
 
             start_everything(model);
 
-            fix_timer(timer_cycle, model_get_step_duration_seconds(model), CYCLE_EVENT_CODE_STEP_DONE);
-            stopwatch_timer_resume(timer_cycle, timestamp_get());
+            if (!model_is_step_endless(model)) {
+                fix_timer(timer_cycle, model_get_step_duration_seconds(model), CYCLE_EVENT_CODE_STEP_DONE);
+                stopwatch_timer_resume(timer_cycle, timestamp_get());
+            }
 
-            return CYCLE_STATE_RUNNING;
+            if (model->run.parmac.start_delay > 0) {
+                fix_timer(timer_cycle, model->run.parmac.start_delay * 60UL * 1000UL, CYCLE_EVENT_CODE_STEP_DONE);
+                stopwatch_timer_resume(timer_cycle, timestamp_get());
+                model_drum_stop(model);
+                return CYCLE_STATE_WAIT_START;
+            } else {
+                return CYCLE_STATE_RUNNING;
+            }
 
         case CYCLE_EVENT_CODE_STOP:
-            stop_everything(model);
             // controller_update_pwoff(model);
             return CYCLE_STATE_STOPPED;
+
+        case CYCLE_EVENT_CODE_CHECK:
+            if (model->run.alarms) {
+                return CYCLE_STATE_PAUSED;
+            }
+            break;
 
         default:
             break;
@@ -293,9 +347,9 @@ static void stop_everything(model_t *model) {
     stopwatch_timer_reset(timer_rotation, timestamp_get());
     stopwatch_timer_pause(timer_rotation, timestamp_get());
 
-    model_fan_off(model);
+    heating_off(model);
 
-    // riscaldamento_off(model);
+    model->run.cycle.num_cycles = 0;
 }
 
 
@@ -303,37 +357,19 @@ static void start_everything(model_t *model) {
     stopwatch_timer_t *timer_rotation = &model->run.cycle.timer_rotation;
 
     if (model_heating_enabled(model)) {
-        // riscaldamento_on(model);
+        heating_on(model);
     } else {
-        // riscaldamento_off(model);
+        heating_off(model);
     }
 
     if (!model_ciclo_fermo(model)) {
         model_drum_forward(model);
-        model_fan_on(model);
-    } else {
-        model_fan_off(model);
     }
 
     if (!model_ciclo_continuo(model)) {
         fix_timer(timer_rotation, model->run.parmac.rotation_running_time * 1000UL, CYCLE_EVENT_CODE_MOTION_PAUSE);
         stopwatch_timer_resume(timer_rotation, timestamp_get());
     }
-}
-
-
-static void pause_everything(model_t *model) {
-    stopwatch_timer_t *timer_cycle    = &model->run.cycle.timer_cycle;
-    stopwatch_timer_t *timer_rotation = &model->run.cycle.timer_rotation;
-    model_drum_stop(model);
-
-    model_fan_off(model);
-
-    // riscaldamento_off(model);
-    if (model->run.parmac.stop_time_in_pause) {
-        stopwatch_timer_pause(timer_cycle, timestamp_get());
-    }
-    stopwatch_timer_pause(timer_rotation, timestamp_get());
 }
 
 

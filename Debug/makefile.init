@@ -3,7 +3,7 @@
 ################################################################################
 
 arg1 = $(1)
-export PATH=/home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/10_3_2021_10/gcc-arm-none-eabi-10.3-2021.10/bin/:/home/maldus/Local/renesas/e2_studio/eclipse/plugins/com.renesas.ide.exttools.gnumake.linux.x86_64_1.0.0.v20220121-1024/mk/:/home/maldus/.pyenv/bin:/home/maldus/Local/bin:/home/maldus:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/home/maldus/Mount/Data/Local/flutter/bin:/opt/android-sdk/tools/bin:/home/maldus/.cargo/bin:/home/maldus/.local/bin:/home/maldus/.node_modules/bin:/home/maldus/Local/python/local/bin
+export PATH=/home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/10_3_2021_10/gcc-arm-none-eabi-10.3-2021.10/bin/:/home/maldus/Local/renesas/e2_studio/eclipse/plugins/com.renesas.ide.exttools.gnumake.linux.x86_64_1.0.0.v20220121-1024/mk/:/home/maldus/.pyenv/bin:/home/maldus/Mount/Data/Flatpak/exports/bin:/home/maldus/Local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/home/maldus/Mount/Data/Local/flutter/bin:/opt/android-sdk/tools/bin:/home/maldus/.cargo/bin:/home/maldus/.local/bin:/home/maldus/.node_modules/bin:/home/maldus/Local/python/local/bin
 export TCINSTALL=/home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/10_3_2021_10/gcc-arm-none-eabi-10.3-2021.10/
 export CWD=$(CURDIR)
 export TC_VERSION=10.3.1.20210824

@@ -60,9 +60,12 @@ ra/fsp/src/bsp/cmsis/Device/RENESAS/Source \
 ra/fsp/src/bsp/mcu/all \
 ra/fsp/src/bsp/mcu/ra2l1 \
 ra/fsp/src/r_adc \
-ra/fsp/src/r_agt \
+ra/fsp/src/r_flash_lp \
+ra/fsp/src/r_gpt \
+ra/fsp/src/r_icu \
 ra/fsp/src/r_ioport \
 ra/fsp/src/r_sci_uart \
+ra/fsp/src/rm_vee_flash \
 ra_gen \
 src/adapters \
 src/bsp \

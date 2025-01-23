@@ -8,30 +8,39 @@ C_SRCS += \
 ../src/bsp/coin_reader.c \
 ../src/bsp/digin.c \
 ../src/bsp/heartbit.c \
+../src/bsp/power_off.c \
 ../src/bsp/pwm.c \
 ../src/bsp/relay.c \
 ../src/bsp/rs232.c \
-../src/bsp/system.c 
+../src/bsp/spi.c \
+../src/bsp/system.c \
+../src/bsp/temperature_humidity_probe.c 
 
 C_DEPS += \
 ./src/bsp/adc.d \
 ./src/bsp/coin_reader.d \
 ./src/bsp/digin.d \
 ./src/bsp/heartbit.d \
+./src/bsp/power_off.d \
 ./src/bsp/pwm.d \
 ./src/bsp/relay.d \
 ./src/bsp/rs232.d \
-./src/bsp/system.d 
+./src/bsp/spi.d \
+./src/bsp/system.d \
+./src/bsp/temperature_humidity_probe.d 
 
 OBJS += \
 ./src/bsp/adc.o \
 ./src/bsp/coin_reader.o \
 ./src/bsp/digin.o \
 ./src/bsp/heartbit.o \
+./src/bsp/power_off.o \
 ./src/bsp/pwm.o \
 ./src/bsp/relay.o \
 ./src/bsp/rs232.o \
-./src/bsp/system.o 
+./src/bsp/spi.o \
+./src/bsp/system.o \
+./src/bsp/temperature_humidity_probe.o 
 
 SREC += \
 minieco_paperoga_b_rotondi.srec 

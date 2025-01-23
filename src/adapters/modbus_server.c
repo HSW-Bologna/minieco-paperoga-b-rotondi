@@ -4,7 +4,7 @@
 #define LIGHTMODBUS_F04S
 #define LIGHTMODBUS_F16S
 #include <lightmodbus/lightmodbus.h>
-
+#include <string.h>
 #include "services/timestamp.h"
 #include "config/app_config.h"
 #include "modbus_server.h"
@@ -14,9 +14,11 @@
 #include "bsp/rs232.h"
 
 
-#define COMMAND_REGISTER_RESUME 1
-#define COMMAND_REGISTER_PAUSE  2
-#define COMMAND_REGISTER_DONE   3
+#define COMMAND_REGISTER_RESUME       1
+#define COMMAND_REGISTER_PAUSE        2
+#define COMMAND_REGISTER_DONE         3
+#define COMMAND_REGISTER_CLEAR_ALARMS 4
+#define COMMAND_REGISTER_CLEAR_COINS  5
 
 
 enum {
@@ -27,10 +29,17 @@ enum {
     MODBUS_IR_TEMPERATURE_1,
     MODBUS_IR_TEMPERATURE_2_ADC,
     MODBUS_IR_TEMPERATURE_2,
+    MODBUS_IR_TEMPERATURE_PROBE,
+    MODBUS_IR_HUMIDITY_PROBE,
     MODBUS_IR_PRESSURE_ADC,
     MODBUS_IR_PRESSURE,
+    MODBUS_IR_PAYMENT,
+    MODBUS_IR_COIN_LINES_1,
+    MODBUS_IR_COIN_LINES_2,
+    MODBUS_IR_COIN_LINES_3,
+    MODBUS_IR_COIN_LINES_4,
+    MODBUS_IR_COIN_LINES_5,
     MODBUS_IR_CYCLE_STATE,
-    MODBUS_IR_STEP_TYPE,
     MODBUS_IR_DEFAULT_TEMPERATURE,
     MODBUS_IR_REMAINING_TIME,
     MODBUS_IR_ALARMS,
@@ -38,24 +47,36 @@ enum {
 
 
 enum {
-    MODBUS_HR_COMMAND = 0,
-    MODBUS_HR_TEST_MODE,
+    MODBUS_HR_TEST_MODE = 0,
     MODBUS_HR_TEST_OUTPUTS,
     MODBUS_HR_TEST_PWM,
+    MODBUS_HR_COIN_READER_INHIBITION,
     MODBUS_HR_BUSY_SIGNAL_TYPE,
     MODBUS_HR_SAFETY_TEMPERATURE,
     MODBUS_HR_TEMPERATURE_ALARM_DELAY_SECONDS,
+    MODBUS_HR_AIR_FLOW_ALARM_TIME,
+    MODBUS_HR_TEMPERATURE_PROBE,
+    MODBUS_HR_HEATING_TYPE,
+    MODBUS_HR_GAS_IGNITION_ATTEMPTS,
+    MODBUS_HR_FAN_WITH_OPEN_PORTHOLE_TIME,
     MODBUS_HR_CYCLE_DELAY_TIME,
     MODBUS_HR_FLAGS,
+    MODBUS_HR_DURATION,
     MODBUS_HR_ROTATION_RUNNING_TIME,
     MODBUS_HR_ROTATION_PAUSE_TIME,
     MODBUS_HR_ROTATION_SPEED,
-    MODBUS_HR_DRYING_DURATION,
+    MODBUS_HR_SETPOINT_TEMPERATURE,
+    MODBUS_HR_SETPOINT_HUMIDITY,
+    MODBUS_HR_TEMPERATURE_COOLING_HYSTERESIS,
+    MODBUS_HR_TEMPERATURE_HEATING_HYSTERESIS,
+    MODBUS_HR_PROGRESSIVE_HEATING_TIME,
     MODBUS_HR_DRYING_TYPE,
-    MODBUS_HR_DRYING_TEMPERATURE,
-    MODBUS_HR_DRYING_HUMIDITY,
+    MODBUS_HR_START_DELAY,
+    MODBUS_HR_MAX_CYCLES,
     MODBUS_HR_PROGRAM_NUMBER,
     MODBUS_HR_STEP_NUMBER,
+    MODBUS_HR_STEP_TYPE,
+    MODBUS_HR_COMMAND,
 };
 
 
@@ -147,20 +168,32 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                         case MODBUS_HR_TEST_MODE:
                         case MODBUS_HR_TEST_OUTPUTS:
                         case MODBUS_HR_TEST_PWM:
+                        case MODBUS_HR_COIN_READER_INHIBITION:
                         case MODBUS_HR_BUSY_SIGNAL_TYPE:
                         case MODBUS_HR_SAFETY_TEMPERATURE:
                         case MODBUS_HR_TEMPERATURE_ALARM_DELAY_SECONDS:
+                        case MODBUS_HR_AIR_FLOW_ALARM_TIME:
+                        case MODBUS_HR_TEMPERATURE_PROBE:
+                        case MODBUS_HR_HEATING_TYPE:
+                        case MODBUS_HR_GAS_IGNITION_ATTEMPTS:
+                        case MODBUS_HR_FAN_WITH_OPEN_PORTHOLE_TIME:
                         case MODBUS_HR_CYCLE_DELAY_TIME:
                         case MODBUS_HR_FLAGS:
                         case MODBUS_HR_ROTATION_RUNNING_TIME:
                         case MODBUS_HR_ROTATION_PAUSE_TIME:
                         case MODBUS_HR_ROTATION_SPEED:
-                        case MODBUS_HR_DRYING_DURATION:
+                        case MODBUS_HR_DURATION:
                         case MODBUS_HR_DRYING_TYPE:
-                        case MODBUS_HR_DRYING_TEMPERATURE:
-                        case MODBUS_HR_DRYING_HUMIDITY:
+                        case MODBUS_HR_START_DELAY:
+                        case MODBUS_HR_MAX_CYCLES:
+                        case MODBUS_HR_SETPOINT_TEMPERATURE:
+                        case MODBUS_HR_SETPOINT_HUMIDITY:
+                        case MODBUS_HR_TEMPERATURE_COOLING_HYSTERESIS:
+                        case MODBUS_HR_TEMPERATURE_HEATING_HYSTERESIS:
+                        case MODBUS_HR_PROGRESSIVE_HEATING_TIME:
                         case MODBUS_HR_PROGRAM_NUMBER:
                         case MODBUS_HR_STEP_NUMBER:
+                        case MODBUS_HR_STEP_TYPE:
                             result->exceptionCode = MODBUS_EXCEP_NONE;
                             break;
                         default:
@@ -195,19 +228,27 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             break;
 
                         case MODBUS_IR_TEMPERATURE_1_ADC:
-                            result->value = model->run.sensors.temperature_1_adc;
+                            result->value = model->run.sensors.temperature_input_adc;
                             break;
 
                         case MODBUS_IR_TEMPERATURE_1:
-                            result->value = (uint16_t)model->run.sensors.temperature_1;
+                            result->value = (uint16_t)model->run.sensors.temperature_input;
                             break;
 
                         case MODBUS_IR_TEMPERATURE_2_ADC:
-                            result->value = model->run.sensors.temperature_2_adc;
+                            result->value = model->run.sensors.temperature_output_adc;
                             break;
 
                         case MODBUS_IR_TEMPERATURE_2:
-                            result->value = (uint16_t)model->run.sensors.temperature_2;
+                            result->value = (uint16_t)model->run.sensors.temperature_output;
+                            break;
+
+                        case MODBUS_IR_TEMPERATURE_PROBE:
+                            result->value = (uint16_t)model->run.sensors.temperature_probe;
+                            break;
+
+                        case MODBUS_IR_HUMIDITY_PROBE:
+                            result->value = (uint16_t)model->run.sensors.humidity_probe;
                             break;
 
                         case MODBUS_IR_PRESSURE_ADC:
@@ -218,12 +259,17 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             result->value = 0;
                             break;
 
-                        case MODBUS_IR_CYCLE_STATE:
-                            result->value = (uint16_t)model->run.cycle.state_machine.node_index;
+                        case MODBUS_IR_PAYMENT:
+                        case MODBUS_IR_COIN_LINES_1:
+                        case MODBUS_IR_COIN_LINES_2:
+                        case MODBUS_IR_COIN_LINES_3:
+                        case MODBUS_IR_COIN_LINES_4:
+                        case MODBUS_IR_COIN_LINES_5:
+                            result->value = model->run.sensors.coins[args->index - MODBUS_IR_PAYMENT];
                             break;
 
-                        case MODBUS_IR_STEP_TYPE:
-                            result->value = (uint16_t)model->run.step_type;
+                        case MODBUS_IR_CYCLE_STATE:
+                            result->value = (uint16_t)model->run.cycle.state_machine.node_index;
                             break;
 
                         case MODBUS_IR_DEFAULT_TEMPERATURE:
@@ -235,7 +281,7 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             break;
 
                         case MODBUS_IR_ALARMS:
-                            result->value = model_get_alarms(model);
+                            result->value = model->run.alarms;
                             break;
 
                         default:
@@ -259,6 +305,10 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             result->value = (uint16_t)model->run.test.pwm1 | (uint16_t)(model->run.test.pwm2 << 8);
                             break;
 
+                        case MODBUS_HR_COIN_READER_INHIBITION:
+                            result->value = model->run.coin_reader_enabled;
+                            break;
+
                         case MODBUS_HR_BUSY_SIGNAL_TYPE:
                             result->value = (uint16_t)model->run.parmac.busy_signal_type;
                             break;
@@ -271,30 +321,84 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             result->value = (uint16_t)model->run.parmac.temperature_alarm_delay_seconds;
                             break;
 
+                        case MODBUS_HR_AIR_FLOW_ALARM_TIME:
+                            result->value = (uint16_t)model->run.parmac.air_flow_alarm_time;
+                            break;
+
+                        case MODBUS_HR_TEMPERATURE_PROBE:
+                            result->value = (uint16_t)model->run.parmac.temperature_probe;
+                            break;
+
+                        case MODBUS_HR_HEATING_TYPE:
+                            result->value = (uint16_t)model->run.parmac.heating_type;
+                            break;
+
+                        case MODBUS_HR_GAS_IGNITION_ATTEMPTS:
+                            result->value = (uint16_t)model->run.parmac.gas_ignition_attempts;
+                            break;
+
+                        case MODBUS_HR_FAN_WITH_OPEN_PORTHOLE_TIME:
+                            result->value = (uint16_t)model->run.parmac.fan_with_open_porthole_time;
+                            break;
+
                         case MODBUS_HR_CYCLE_DELAY_TIME:
                             result->value = model->run.parmac.cycle_delay_time;
                             break;
 
                         case MODBUS_HR_FLAGS:
                             result->value = (uint16_t)((model->run.parmac.stop_time_in_pause > 0) << 0 |
-                                                       (model->run.parmac.disable_alarms > 0) << 1     //|
+                                                       (model->run.parmac.disable_alarms > 0) << 1 |
+                                                       (model->run.parmac.gas_preemptive_reset > 0) << 2 |
+                                                       (model->run.parmac.porthole_nc_na > 0) << 3 |
+                                                       (model->run.parmac.busy_signal_nc_na > 0) << 4 |
+                                                       (model->run.parmac.invert_fan_drum > 0) << 5 |
+                                                       (model->run.parmac.enable_reverse > 0) << 6 |
+                                                       (model->run.parmac.wait_for_temperature > 0) << 7     //|
                             );
                             break;
 
-                        case MODBUS_HR_DRYING_DURATION:
-                            result->value = model->run.parmac.drying_duration;
+                        case MODBUS_HR_DURATION:
+                            result->value = model->run.parmac.duration;
                             break;
 
                         case MODBUS_HR_DRYING_TYPE:
                             result->value = model->run.parmac.drying_type;
                             break;
 
-                        case MODBUS_HR_DRYING_TEMPERATURE:
-                            result->value = model->run.parmac.drying_temperature;
+                        case MODBUS_HR_START_DELAY:
+                            result->value = model->run.parmac.start_delay;
                             break;
 
-                        case MODBUS_HR_DRYING_HUMIDITY:
-                            result->value = model->run.parmac.drying_humidity;
+                        case MODBUS_HR_MAX_CYCLES:
+                            result->value = model->run.parmac.max_cycles;
+                            break;
+
+                        case MODBUS_HR_SETPOINT_TEMPERATURE:
+                            result->value = model->run.parmac.setpoint_temperature;
+                            break;
+
+                        case MODBUS_HR_SETPOINT_HUMIDITY:
+                            result->value = model->run.parmac.setpoint_humidity;
+                            break;
+
+                        case MODBUS_HR_TEMPERATURE_COOLING_HYSTERESIS:
+                            result->value = model->run.parmac.temperature_cooling_hysteresis;
+                            break;
+
+                        case MODBUS_HR_TEMPERATURE_HEATING_HYSTERESIS:
+                            result->value = model->run.parmac.temperature_heating_hysteresis;
+                            break;
+
+                        case MODBUS_HR_PROGRESSIVE_HEATING_TIME:
+                            result->value = model->run.parmac.progressive_heating_time;
+                            break;
+
+                        case MODBUS_HR_PROGRAM_NUMBER:
+                            result->value = model->run.program_number;
+                            break;
+
+                        case MODBUS_HR_STEP_NUMBER:
+                            result->value = model->run.step_number;
                             break;
 
                         case MODBUS_HR_ROTATION_RUNNING_TIME:
@@ -307,6 +411,10 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
 
                         case MODBUS_HR_ROTATION_SPEED:
                             result->value = model->run.parmac.speed;
+                            break;
+
+                        case MODBUS_HR_STEP_TYPE:
+                            result->value = (uint16_t)model->run.step_type;
                             break;
 
                         default:
@@ -340,6 +448,14 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                                     model_cycle_stop(model);
                                     break;
 
+                                case COMMAND_REGISTER_CLEAR_ALARMS:
+                                    model_clear_alarms(model);
+                                    break;
+
+                                case COMMAND_REGISTER_CLEAR_COINS:
+                                    model_clear_coins(model);
+                                    break;
+
                                 default:
                                     break;
                             }
@@ -359,6 +475,10 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             model->run.test.pwm2 = (uint8_t)((args->value >> 8) & 0xFF);
                             break;
 
+                        case MODBUS_HR_COIN_READER_INHIBITION:
+                            model->run.coin_reader_enabled = (uint8_t)(args->value > 0);
+                            break;
+
                         case MODBUS_HR_BUSY_SIGNAL_TYPE:
                             model->run.parmac.busy_signal_type = (busy_signal_type_t)args->value;
                             break;
@@ -371,29 +491,82 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             model->run.parmac.temperature_alarm_delay_seconds = args->value;
                             break;
 
+                        case MODBUS_HR_AIR_FLOW_ALARM_TIME:
+                            model->run.parmac.air_flow_alarm_time = args->value;
+                            break;
+
+                        case MODBUS_HR_TEMPERATURE_PROBE:
+                            model->run.parmac.temperature_probe = args->value;
+                            break;
+
+                        case MODBUS_HR_HEATING_TYPE:
+                            model->run.parmac.heating_type = args->value;
+                            break;
+
+                        case MODBUS_HR_GAS_IGNITION_ATTEMPTS:
+                            model->run.parmac.gas_ignition_attempts = args->value;
+                            break;
+
+                        case MODBUS_HR_FAN_WITH_OPEN_PORTHOLE_TIME:
+                            model->run.parmac.fan_with_open_porthole_time = args->value;
+                            break;
+
                         case MODBUS_HR_CYCLE_DELAY_TIME:
                             model->run.parmac.cycle_delay_time = args->value;
                             break;
 
                         case MODBUS_HR_FLAGS:
-                            model->run.parmac.stop_time_in_pause = (args->value & (1 << 0)) > 0;
-                            model->run.parmac.disable_alarms     = (args->value & (1 << 1)) > 0;
+                            model->run.parmac.stop_time_in_pause   = (args->value & (1 << 0)) > 0;
+                            model->run.parmac.disable_alarms       = (args->value & (1 << 1)) > 0;
+                            model->run.parmac.gas_preemptive_reset = (args->value & (1 << 2)) > 0;
+                            model->run.parmac.porthole_nc_na       = (args->value & (1 << 3)) > 0;
+                            model->run.parmac.busy_signal_nc_na    = (args->value & (1 << 4)) > 0;
+                            model->run.parmac.enable_reverse       = (args->value & (1 << 5)) > 0;
+                            model->run.parmac.wait_for_temperature = (args->value & (1 << 6)) > 0;
                             break;
 
-                        case MODBUS_HR_DRYING_DURATION:
-                            model->run.parmac.drying_duration = args->value;
+                        case MODBUS_HR_DURATION:
+                            model->run.parmac.duration = args->value;
                             break;
 
                         case MODBUS_HR_DRYING_TYPE:
                             model->run.parmac.drying_type = args->value;
                             break;
 
-                        case MODBUS_HR_DRYING_TEMPERATURE:
-                            model->run.parmac.drying_temperature = args->value;
+                        case MODBUS_HR_START_DELAY:
+                            model->run.parmac.start_delay = args->value;
                             break;
 
-                        case MODBUS_HR_DRYING_HUMIDITY:
-                            model->run.parmac.drying_humidity = args->value;
+                        case MODBUS_HR_MAX_CYCLES:
+                            model->run.parmac.max_cycles = args->value;
+                            break;
+
+                        case MODBUS_HR_SETPOINT_TEMPERATURE:
+                            model->run.parmac.setpoint_temperature = args->value;
+                            break;
+
+                        case MODBUS_HR_SETPOINT_HUMIDITY:
+                            model->run.parmac.setpoint_humidity = args->value;
+                            break;
+
+                        case MODBUS_HR_TEMPERATURE_COOLING_HYSTERESIS:
+                            model->run.parmac.temperature_cooling_hysteresis = args->value;
+                            break;
+
+                        case MODBUS_HR_TEMPERATURE_HEATING_HYSTERESIS:
+                            model->run.parmac.temperature_heating_hysteresis = args->value;
+                            break;
+
+                        case MODBUS_HR_PROGRESSIVE_HEATING_TIME:
+                            model->run.parmac.progressive_heating_time = args->value;
+                            break;
+
+                        case MODBUS_HR_PROGRAM_NUMBER:
+                            model->run.program_number = args->value;
+                            break;
+
+                        case MODBUS_HR_STEP_NUMBER:
+                            model->run.step_number = args->value;
                             break;
 
                         case MODBUS_HR_ROTATION_RUNNING_TIME:
@@ -406,6 +579,10 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
 
                         case MODBUS_HR_ROTATION_SPEED:
                             model->run.parmac.speed = args->value;
+                            break;
+
+                        case MODBUS_HR_STEP_TYPE:
+                            model->run.step_type = args->value;
                             break;
 
                         default:

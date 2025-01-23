@@ -5,8 +5,8 @@
 #include <stdint.h>
 
 
-#define BSP_PWM_DRUM BSP_PWM_1
-#define BSP_PWM_FAN  BSP_PWM_2
+#define BSP_PWM_FAN  BSP_PWM_1
+#define BSP_PWM_DRUM BSP_PWM_2
 
 
 typedef enum {

@@ -7,6 +7,7 @@
 
 void controller_init(mut_model_t *model);
 void controller_manage(mut_model_t *model);
+void controller_power_off(void *arg);
 
 
 #endif

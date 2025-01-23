@@ -44,13 +44,20 @@ src/hal_entry.o: ../src/hal_entry.c \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/../../src/bsp/mcu/all/bsp_delay.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/../../src/bsp/mcu/all/bsp_mcu_api.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_gen/common_data.h \
+ /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_icu.h \
+ /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_external_irq_api.h \
+ /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/bsp_api.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_ioport.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_ioport_api.h \
- /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/bsp_api.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/r_ioport_cfg.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/bsp/bsp_pin_cfg.h \
- /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_agt.h \
- /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/r_agt_cfg.h \
+ /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_flash_lp.h \
+ /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_flash_api.h \
+ /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/r_flash_lp_cfg.h \
+ /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/rm_vee_flash.h \
+ /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/rm_vee_api.h \
+ /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/rm_vee_flash_cfg.h \
+ /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_gpt.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_timer_api.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_adc.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/r_adc_cfg.h \
@@ -64,7 +71,8 @@ src/hal_entry.o: ../src/hal_entry.c \
  ../src/bsp/adc.h ../src/bsp/rs232.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/src/services/timestamp.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/src/bsp/system.h \
- ../src/bsp/pwm.h ../src/model/model.h \
+ ../src/bsp/pwm.h ../src/bsp/coin_reader.h ../src/bsp/power_off.h \
+ ../src/model/model.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/libs/c-stopwatch/src/stopwatch.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/libs/c-stopwatch/src/stopwatch_timer.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/libs/c-stopwatch/src/stopwatch.h \
@@ -116,13 +124,20 @@ src/hal_entry.o: ../src/hal_entry.c \
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/../../src/bsp/mcu/all/bsp_delay.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/../../src/bsp/mcu/all/bsp_mcu_api.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_gen/common_data.h:
+/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_icu.h:
+/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_external_irq_api.h:
+/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/bsp_api.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_ioport.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_ioport_api.h:
-/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/bsp_api.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/r_ioport_cfg.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/bsp/bsp_pin_cfg.h:
-/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_agt.h:
-/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/r_agt_cfg.h:
+/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_flash_lp.h:
+/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_flash_api.h:
+/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/r_flash_lp_cfg.h:
+/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/rm_vee_flash.h:
+/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/rm_vee_api.h:
+/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/rm_vee_flash_cfg.h:
+/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_gpt.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_timer_api.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_adc.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/r_adc_cfg.h:
@@ -140,6 +155,8 @@ src/hal_entry.o: ../src/hal_entry.c \
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/src/services/timestamp.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/src/bsp/system.h:
 ../src/bsp/pwm.h:
+../src/bsp/coin_reader.h:
+../src/bsp/power_off.h:
 ../src/model/model.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/libs/c-stopwatch/src/stopwatch.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/libs/c-stopwatch/src/stopwatch_timer.h:

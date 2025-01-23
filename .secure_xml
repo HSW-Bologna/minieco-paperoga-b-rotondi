@@ -38,14 +38,17 @@
       <configSetting altId="adc0.an08.p013" configurationId="adc0.an08" isUsedByDriver="true"/>
       <configSetting altId="debug0.swclk.p300" configurationId="debug0.swclk" isUsedByDriver="true"/>
       <configSetting altId="debug0.swdio.p108" configurationId="debug0.swdio" isUsedByDriver="true"/>
+      <configSetting altId="gpt2.gtioca.p500" configurationId="gpt2.gtioca" isUsedByDriver="true"/>
+      <configSetting altId="gpt2.gtiocb.p501" configurationId="gpt2.gtiocb" isUsedByDriver="true"/>
+      <configSetting altId="irq0.irq00.p206" configurationId="irq0.irq00" isUsedByDriver="true"/>
       <configSetting altId="p000.input" configurationId="p000"/>
       <configSetting altId="p001.input" configurationId="p001"/>
       <configSetting altId="p002.input" configurationId="p002"/>
       <configSetting altId="p003.input" configurationId="p003"/>
       <configSetting altId="p004.input" configurationId="p004"/>
       <configSetting altId="p010.output.low" configurationId="p010"/>
-      <configSetting altId="p014.output.low" configurationId="p014"/>
-      <configSetting altId="p015.output.low" configurationId="p015"/>
+      <configSetting altId="p014.input" configurationId="p014"/>
+      <configSetting altId="p015.input" configurationId="p015"/>
       <configSetting altId="p100.input" configurationId="p100"/>
       <configSetting altId="p101.input" configurationId="p101"/>
       <configSetting altId="p102.input" configurationId="p102"/>
@@ -54,11 +57,20 @@
       <configSetting altId="p105.output.low" configurationId="p105"/>
       <configSetting altId="p106.output.low" configurationId="p106"/>
       <configSetting altId="p107.output.low" configurationId="p107"/>
+      <configSetting altId="p109.output.low" configurationId="p109"/>
+      <configSetting altId="p110.input" configurationId="p110"/>
+      <configSetting altId="p111.output.high" configurationId="p111"/>
       <configSetting altId="p112.output.low" configurationId="p112"/>
       <configSetting altId="p113.output.low" configurationId="p113"/>
+      <configSetting altId="p204.input" configurationId="p204"/>
+      <configSetting altId="p207.input" configurationId="p207"/>
+      <configSetting altId="p303.output.high" configurationId="p303"/>
       <configSetting altId="p400.output.low" configurationId="p400"/>
-      <configSetting altId="p500.input" configurationId="p500"/>
-      <configSetting altId="p501.input" configurationId="p501"/>
+      <configSetting altId="p401.output.low" configurationId="p401"/>
+      <configSetting altId="p402.input" configurationId="p402"/>
+      <configSetting altId="p409.output.low" configurationId="p409"/>
+      <configSetting altId="p410.input" configurationId="p410"/>
+      <configSetting altId="p411.output.low" configurationId="p411"/>
       <configSetting altId="p502.input" configurationId="p502"/>
       <configSetting altId="sci2.rxd.p301" configurationId="sci2.rxd" isUsedByDriver="true"/>
       <configSetting altId="sci2.txd.p302" configurationId="sci2.txd" isUsedByDriver="true"/>

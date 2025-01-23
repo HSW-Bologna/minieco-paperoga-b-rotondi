@@ -42,9 +42,11 @@ ra_gen/common_data.o: ../ra_gen/common_data.c ../ra_gen/common_data.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/../../inc/../../fsp/src/bsp/mcu/all/bsp_compiler_support.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/../../src/bsp/mcu/all/bsp_delay.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/../../src/bsp/mcu/all/bsp_mcu_api.h \
+ /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_icu.h \
+ /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_external_irq_api.h \
+ /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/bsp_api.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_ioport.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_ioport_api.h \
- /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/bsp_api.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/r_ioport_cfg.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/bsp/bsp_pin_cfg.h
 ../ra_gen/common_data.h:
@@ -91,8 +93,10 @@ ra_gen/common_data.o: ../ra_gen/common_data.c ../ra_gen/common_data.h \
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/../../inc/../../fsp/src/bsp/mcu/all/bsp_compiler_support.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/../../src/bsp/mcu/all/bsp_delay.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/../../src/bsp/mcu/all/bsp_mcu_api.h:
+/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_icu.h:
+/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_external_irq_api.h:
+/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/bsp_api.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_ioport.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_ioport_api.h:
-/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/bsp_api.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/r_ioport_cfg.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/bsp/bsp_pin_cfg.h:

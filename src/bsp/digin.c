@@ -9,10 +9,16 @@
 
 
 static debounce_filter_t filter = {0};
+static uint8_t ready = 0;
 
 
 void bsp_digin_init(void) {
     debounce_filter_init(&filter);
+}
+
+
+uint8_t bsp_digin_is_ready(void) {
+    return ready >= 5;
 }
 
 
@@ -23,7 +29,7 @@ void bsp_digin_manage(void) {
         unsigned int bitmap = 0;
 
         const bsp_io_port_pin_t pins[] = {
-            BSP_PIN_IN1, BSP_PIN_IN2, BSP_PIN_IN3, BSP_PIN_IN4, BSP_PIN_IN5, BSP_PIN_IN6, BSP_PIN_IN7,
+            BSP_PIN_IN1, BSP_PIN_IN2, BSP_PIN_IN3, BSP_PIN_IN4, BSP_PIN_IN5, BSP_PIN_IN6, BSP_PIN_IN7, BSP_PIN_IN8,
         };
 
         for (size_t i = 0; i < sizeof(pins) / sizeof(pins[0]); i++) {
@@ -35,6 +41,10 @@ void bsp_digin_manage(void) {
         }
 
         debounce_filter(&filter, bitmap, DEBOUNCE_TIMES);
+
+        if (ready < 5) {
+            ready++;
+        }
 
         ts = timestamp_get();
     }

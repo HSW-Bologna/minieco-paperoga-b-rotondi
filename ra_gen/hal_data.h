@@ -4,22 +4,43 @@
 #include <stdint.h>
 #include "bsp_api.h"
 #include "common_data.h"
-#include "r_agt.h"
+#include "r_flash_lp.h"
+#include "r_flash_api.h"
+#include "rm_vee_flash.h"
+#include "r_gpt.h"
 #include "r_timer_api.h"
 #include "r_adc.h"
 #include "r_adc_api.h"
 #include "r_sci_uart.h"
 #include "r_uart_api.h"
 FSP_HEADER
-/** AGT Timer Instance */
-extern const timer_instance_t g_timer0;
+/* Flash on Flash LP Instance. */
+extern const flash_instance_t g_flash0;
 
-/** Access the AGT instance using these structures when calling API functions directly (::p_api is not used). */
-extern agt_instance_ctrl_t g_timer0_ctrl;
-extern const timer_cfg_t g_timer0_cfg;
+/** Access the Flash LP instance using these structures when calling API functions directly (::p_api is not used). */
+extern flash_lp_instance_ctrl_t g_flash0_ctrl;
+extern const flash_cfg_t g_flash0_cfg;
 
-#ifndef bsp_pwm_interrupt_callback
-void bsp_pwm_interrupt_callback(timer_callback_args_t *p_args);
+#ifndef rm_vee_flash_callback
+void rm_vee_flash_callback(flash_callback_args_t *p_args);
+#endif
+extern const rm_vee_instance_t g_vee0;
+extern rm_vee_flash_instance_ctrl_t g_vee0_ctrl;
+extern const rm_vee_cfg_t g_vee0_cfg;
+
+/** Callback used by VEE Instance. */
+#ifndef vee_callback
+void vee_callback(rm_vee_callback_args_t *p_args);
+#endif
+/** Timer on GPT Instance. */
+extern const timer_instance_t g_timer_pwm;
+
+/** Access the GPT instance using these structures when calling API functions directly (::p_api is not used). */
+extern gpt_instance_ctrl_t g_timer_pwm_ctrl;
+extern const timer_cfg_t g_timer_pwm_cfg;
+
+#ifndef NULL
+void NULL(timer_callback_args_t *p_args);
 #endif
 /** ADC on ADC Instance. */
 extern const adc_instance_t g_adc0;

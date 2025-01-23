@@ -5,6 +5,8 @@
 #include "bsp/adc.h"
 #include "bsp/rs232.h"
 #include "bsp/pwm.h"
+#include "bsp/coin_reader.h"
+#include "bsp/power_off.h"
 #include "model/model.h"
 #include "controller/controller.h"
 
@@ -28,6 +30,8 @@ void hal_entry(void) {
     bsp_pwm_init();
     bsp_adc_init();
     bsp_rs232_init();
+    bsp_coin_reader_init();
+    bsp_power_off_init(controller_power_off, &model);
 
     controller_init(&model);
 
@@ -37,6 +41,7 @@ void hal_entry(void) {
         bsp_heartbit_manage();
         bsp_digin_manage();
         bsp_adc_manage();
+        bsp_coin_reader_manage();
 
         __WFI();
     }

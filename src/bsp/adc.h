@@ -10,6 +10,9 @@
 
 #include <stdint.h>
 
+#define BSP_ADC_TEMPERATURE_INPUT  BSP_ADC_TEMP
+#define BSP_ADC_TEMPERATURE_OUTPUT BSP_ADC_TEMP1
+
 typedef enum {
     BSP_ADC_PRESS1 = 0,
     BSP_ADC_TEMP1,

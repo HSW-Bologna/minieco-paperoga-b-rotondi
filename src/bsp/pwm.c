@@ -3,14 +3,23 @@
 #include "pwm.h"
 
 
-static uint16_t period_counter     = 0;
-static uint16_t duty_cycle_1_start = 0;
-static uint16_t duty_cycle_2_start = 0;
+static uint32_t pwm_periph_period;
 
 
 void bsp_pwm_init(void) {
-    R_AGT_Open(&g_timer0_ctrl, &g_timer0_cfg);
-    R_AGT_Start(&g_timer0_ctrl);
+    fsp_err_t    err = FSP_SUCCESS;
+    timer_info_t info;
+
+    /* Initializes the module. */
+    err = R_GPT_Open(&g_timer_pwm_ctrl, &g_timer_pwm_cfg);
+    assert(FSP_SUCCESS == err);
+
+    /* Start the timer. */
+    R_GPT_Start(&g_timer_pwm_ctrl);
+
+    /* Get the current period setting. */
+    R_GPT_InfoGet(&g_timer_pwm_ctrl, &info);
+    pwm_periph_period = info.period_counts;
 }
 
 
@@ -19,25 +28,14 @@ void bsp_pwm_update(bsp_pwm_t pwm, uint8_t percentage) {
         percentage = 100;
     }
 
-    switch (pwm) {
-        case BSP_PWM_1:
-            duty_cycle_1_start = 100 - percentage;
-            break;
+    fsp_err_t    err = FSP_SUCCESS;
+    uint32_t     width_cycles;
+    gpt_io_pin_t io_name = pwm == BSP_PWM_FAN ? GPT_IO_PIN_GTIOCB : GPT_IO_PIN_GTIOCA;
+    // gpt_io_pin_t io_name = GPT_IO_PIN_GTIOCA_AND_GTIOCB;
 
-        case BSP_PWM_2:
-            duty_cycle_2_start = 100 - percentage;
-            break;
-    }
-}
+    width_cycles = (uint32_t)(((uint64_t)pwm_periph_period * (100 - percentage)) / 100);
 
-
-void bsp_pwm_interrupt_callback(timer_callback_args_t *p_args) {
-    (void)p_args;
-
-    period_counter = (period_counter + 1) % 100;
-
-    g_ioport.p_api->pinWrite(g_ioport.p_ctrl, BSP_PIN_PWM1,
-                             duty_cycle_1_start >= period_counter ? BSP_IO_LEVEL_HIGH : BSP_IO_LEVEL_LOW);
-    g_ioport.p_api->pinWrite(g_ioport.p_ctrl, BSP_PIN_PWM2,
-                             duty_cycle_2_start >= period_counter ? BSP_IO_LEVEL_HIGH : BSP_IO_LEVEL_LOW);
+    /* Set the calculated duty cycle. */
+    err = R_GPT_DutyCycleSet(&g_timer_pwm_ctrl, width_cycles, io_name);
+    assert(FSP_SUCCESS == err);
 }

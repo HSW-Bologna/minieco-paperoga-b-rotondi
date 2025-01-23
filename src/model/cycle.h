@@ -9,6 +9,8 @@
 void    cycle_init(mut_model_t *model);
 uint8_t cycle_manage(mut_model_t *model);
 void    cycle_start(mut_model_t *model);
+void    cycle_check(mut_model_t *model);
+void    cycle_cold_start(mut_model_t *model, uint16_t remaining_time);
 
 
 #endif
