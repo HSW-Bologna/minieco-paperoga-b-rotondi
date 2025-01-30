@@ -214,7 +214,6 @@ typedef struct {
             uint16_t           drying_type;
             uint16_t           heating_type;
             uint16_t           gas_ignition_attempts;
-            uint8_t            gas_preemptive_reset;
             uint16_t           fan_with_open_porthole_time;
             uint8_t            porthole_nc_na;
             uint8_t            busy_signal_nc_na;

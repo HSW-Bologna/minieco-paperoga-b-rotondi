@@ -95,9 +95,7 @@ static int stopped_event_manager(cycle_event_code_t event, void *arg) {
 
     switch (event) {
         case CYCLE_EVENT_CODE_COLD_START:
-            if (model->run.parmac.gas_preemptive_reset) {
-                model_reset_burner(model);
-            }
+            model_reset_burner(model);
             return CYCLE_STATE_PAUSED;
 
         case CYCLE_EVENT_CODE_START:
@@ -107,10 +105,7 @@ static int stopped_event_manager(cycle_event_code_t event, void *arg) {
             }
 
             // controller_update_pwoff(model);
-
-            if (model->run.parmac.gas_preemptive_reset) {
-                model_reset_burner(model);
-            }
+            model_reset_burner(model);
 
             if (model->run.parmac.cycle_delay_time > 0) {
                 fix_timer(timer_cycle, model->run.parmac.cycle_delay_time * 1000UL, CYCLE_EVENT_CODE_STEP_DONE);

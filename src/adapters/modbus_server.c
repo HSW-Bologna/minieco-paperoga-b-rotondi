@@ -348,12 +348,11 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                         case MODBUS_HR_FLAGS:
                             result->value = (uint16_t)((model->run.parmac.stop_time_in_pause > 0) << 0 |
                                                        (model->run.parmac.disable_alarms > 0) << 1 |
-                                                       (model->run.parmac.gas_preemptive_reset > 0) << 2 |
-                                                       (model->run.parmac.porthole_nc_na > 0) << 3 |
-                                                       (model->run.parmac.busy_signal_nc_na > 0) << 4 |
-                                                       (model->run.parmac.invert_fan_drum > 0) << 5 |
-                                                       (model->run.parmac.enable_reverse > 0) << 6 |
-                                                       (model->run.parmac.wait_for_temperature > 0) << 7     //|
+                                                       (model->run.parmac.porthole_nc_na > 0) << 2 |
+                                                       (model->run.parmac.busy_signal_nc_na > 0) << 3 |
+                                                       (model->run.parmac.invert_fan_drum > 0) << 4 |
+                                                       (model->run.parmac.enable_reverse > 0) << 5 |
+                                                       (model->run.parmac.wait_for_temperature > 0) << 6     //|
                             );
                             break;
 
@@ -518,9 +517,9 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                         case MODBUS_HR_FLAGS:
                             model->run.parmac.stop_time_in_pause   = (args->value & (1 << 0)) > 0;
                             model->run.parmac.disable_alarms       = (args->value & (1 << 1)) > 0;
-                            model->run.parmac.gas_preemptive_reset = (args->value & (1 << 2)) > 0;
-                            model->run.parmac.porthole_nc_na       = (args->value & (1 << 3)) > 0;
-                            model->run.parmac.busy_signal_nc_na    = (args->value & (1 << 4)) > 0;
+                            model->run.parmac.porthole_nc_na       = (args->value & (1 << 2)) > 0;
+                            model->run.parmac.busy_signal_nc_na    = (args->value & (1 << 3)) > 0;
+                            model->run.parmac.invert_fan_drum      = (args->value & (1 << 4)) > 0;
                             model->run.parmac.enable_reverse       = (args->value & (1 << 5)) > 0;
                             model->run.parmac.wait_for_temperature = (args->value & (1 << 6)) > 0;
                             break;
