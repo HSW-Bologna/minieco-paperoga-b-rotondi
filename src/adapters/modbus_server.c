@@ -24,6 +24,7 @@
 enum {
     MODBUS_IR_DEVICE_MODEL = 0,
     MODBUS_IR_FIRMWARE_VERSION,
+    MODBUS_IR_STATUS,
     MODBUS_IR_INPUT,
     MODBUS_IR_TEMPERATURE_1_ADC,
     MODBUS_IR_TEMPERATURE_1,
@@ -60,6 +61,7 @@ enum {
     MODBUS_HR_GAS_IGNITION_ATTEMPTS,
     MODBUS_HR_FAN_WITH_OPEN_PORTHOLE_TIME,
     MODBUS_HR_CYCLE_DELAY_TIME,
+    MODBUS_HR_CYCLE_RESET_TIME,
     MODBUS_HR_FLAGS,
     MODBUS_HR_DURATION,
     MODBUS_HR_ROTATION_RUNNING_TIME,
@@ -178,6 +180,7 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                         case MODBUS_HR_GAS_IGNITION_ATTEMPTS:
                         case MODBUS_HR_FAN_WITH_OPEN_PORTHOLE_TIME:
                         case MODBUS_HR_CYCLE_DELAY_TIME:
+                        case MODBUS_HR_CYCLE_RESET_TIME:
                         case MODBUS_HR_FLAGS:
                         case MODBUS_HR_ROTATION_RUNNING_TIME:
                         case MODBUS_HR_ROTATION_PAUSE_TIME:
@@ -221,6 +224,10 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             result->value = ((APP_CONFIG_FIRMWARE_VERSION_MAJOR & 0x1F) << 11) |
                                             ((APP_CONFIG_FIRMWARE_VERSION_MINOR & 0x1F) << 6) |
                                             (APP_CONFIG_FIRMWARE_VERSION_PATCH & 0x3F);
+                            break;
+
+                        case MODBUS_IR_STATUS:
+                            result->value = (((model->run.sensors.outputs & (1 << OUTPUT_HEATING)) > 0) << 0);
                             break;
 
                         case MODBUS_IR_INPUT:
@@ -345,14 +352,21 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             result->value = model->run.parmac.cycle_delay_time;
                             break;
 
+                        case MODBUS_HR_CYCLE_RESET_TIME:
+                            result->value = model->run.parmac.cycle_reset_time;
+                            break;
+
                         case MODBUS_HR_FLAGS:
                             result->value = (uint16_t)((model->run.parmac.stop_time_in_pause > 0) << 0 |
                                                        (model->run.parmac.disable_alarms > 0) << 1 |
-                                                       (model->run.parmac.porthole_nc_na > 0) << 2 |
-                                                       (model->run.parmac.busy_signal_nc_na > 0) << 3 |
-                                                       (model->run.parmac.invert_fan_drum > 0) << 4 |
-                                                       (model->run.parmac.enable_reverse > 0) << 5 |
-                                                       (model->run.parmac.wait_for_temperature > 0) << 6     //|
+                                                       (model->run.parmac.emergency_alarm_nc_na > 0) << 2 |
+                                                       (model->run.parmac.inverter_alarm_nc_na > 0) << 3 |
+                                                       (model->run.parmac.filter_alarm_nc_na > 0) << 4 |
+                                                       (model->run.parmac.porthole_nc_na > 0) << 5 |
+                                                       (model->run.parmac.busy_signal_nc_na > 0) << 6 |
+                                                       (model->run.parmac.invert_fan_drum > 0) << 7 |
+                                                       (model->run.parmac.enable_reverse > 0) << 8 |
+                                                       (model->run.parmac.wait_for_temperature > 0) << 9     //|
                             );
                             break;
 
@@ -514,14 +528,21 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             model->run.parmac.cycle_delay_time = args->value;
                             break;
 
+                        case MODBUS_HR_CYCLE_RESET_TIME:
+                            model->run.parmac.cycle_reset_time = args->value;
+                            break;
+
                         case MODBUS_HR_FLAGS:
-                            model->run.parmac.stop_time_in_pause   = (args->value & (1 << 0)) > 0;
-                            model->run.parmac.disable_alarms       = (args->value & (1 << 1)) > 0;
-                            model->run.parmac.porthole_nc_na       = (args->value & (1 << 2)) > 0;
-                            model->run.parmac.busy_signal_nc_na    = (args->value & (1 << 3)) > 0;
-                            model->run.parmac.invert_fan_drum      = (args->value & (1 << 4)) > 0;
-                            model->run.parmac.enable_reverse       = (args->value & (1 << 5)) > 0;
-                            model->run.parmac.wait_for_temperature = (args->value & (1 << 6)) > 0;
+                            model->run.parmac.stop_time_in_pause    = (args->value & (1 << 0)) > 0;
+                            model->run.parmac.disable_alarms        = (args->value & (1 << 1)) > 0;
+                            model->run.parmac.emergency_alarm_nc_na = (args->value & (1 << 2)) > 0;
+                            model->run.parmac.inverter_alarm_nc_na  = (args->value & (1 << 3)) > 0;
+                            model->run.parmac.filter_alarm_nc_na    = (args->value & (1 << 4)) > 0;
+                            model->run.parmac.porthole_nc_na        = (args->value & (1 << 5)) > 0;
+                            model->run.parmac.busy_signal_nc_na     = (args->value & (1 << 6)) > 0;
+                            model->run.parmac.invert_fan_drum       = (args->value & (1 << 7)) > 0;
+                            model->run.parmac.enable_reverse        = (args->value & (1 << 8)) > 0;
+                            model->run.parmac.wait_for_temperature  = (args->value & (1 << 9)) > 0;
                             break;
 
                         case MODBUS_HR_DURATION:

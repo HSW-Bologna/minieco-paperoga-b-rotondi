@@ -19,6 +19,7 @@ static int16_t ptc_temperature_from_adc_value(uint16_t adc);
 static void    set_drum_timestamp(mut_model_t *model);
 static uint8_t get_pwm_drum_percentage(model_t *model);
 static uint8_t get_pwm_fan_percentage(model_t *model);
+static uint8_t is_input_active(model_t *model, input_t input, direction_t direction);
 
 
 void model_init(model_t *model) {
@@ -97,8 +98,9 @@ void model_manage(mut_model_t *model) {
 
 void model_clear_alarms(model_t *model) {
     assert(model != NULL);
-    model->run.alarms       = 0;
-    model->run.burner_alarm = 0;
+    model->run.alarms                        = 0;
+    model->run.burner_alarm                  = 0;
+    model->run.temperature_not_reached_alarm = 0;
     model_fix_alarms(model);
 }
 
@@ -120,22 +122,27 @@ void model_fix_alarms(model_t *model) {
 }
 
 
+uint8_t model_is_inverter_alarm_active(model_t *model) {
+    assert(model != NULL);
+    return is_input_active(model, INPUT_INVERTER_ALARM, model->run.parmac.inverter_alarm_nc_na);
+}
+
+
 uint8_t model_is_emergency_alarm_active(model_t *model) {
     assert(model != NULL);
-    return (model->run.sensors.inputs & (1 << INPUT_EMERGENCY)) == 0;
+    return is_input_active(model, INPUT_EMERGENCY, model->run.parmac.emergency_alarm_nc_na);
 }
 
 
 uint8_t model_is_filter_alarm_active(model_t *model) {
     assert(model != NULL);
-    return (model->run.sensors.inputs & (1 << INPUT_FILTER_FEEDBACK)) == 0;
+    return is_input_active(model, INPUT_FILTER_FEEDBACK, model->run.parmac.filter_alarm_nc_na);
 }
 
 
 uint8_t model_is_porthole_open(model_t *model) {
     assert(model != NULL);
-    uint8_t porthole_level = (model->run.sensors.inputs & (1 << INPUT_PORTHOLE));
-    return model->run.parmac.porthole_nc_na ? porthole_level == 0 : porthole_level == 1;
+    return is_input_active(model, INPUT_PORTHOLE, model->run.parmac.porthole_nc_na);
 }
 
 
@@ -152,7 +159,9 @@ uint16_t model_get_active_alarms(model_t *model) {
         return (uint16_t)(((model_is_porthole_open(model) > 0) << 0) |
                           ((model_is_emergency_alarm_active(model) > 0) << 1) |
                           ((model_is_filter_alarm_active(model) > 0) << 2) | ((air_flow_alarm > 0) << 3) |
-                          ((model->run.burner_alarm > 0) << 4) | ((model_over_safety_temperature(model) > 0) << 5));
+                          ((model->run.burner_alarm > 0) << 4) | ((model_over_safety_temperature(model) > 0) << 5)) |
+               ((model->run.temperature_not_reached_alarm > 0) << 6) |
+               ((model_is_inverter_alarm_active(model) > 0) << 7);
     }
 }
 
@@ -432,7 +441,7 @@ int model_is_step_antifold(model_t *model) {
 
 int model_ciclo_continuo(model_t *model) {
     assert(model != NULL);
-    return model->run.parmac.duration > 0 && model->run.parmac.rotation_pause_time == 0;
+    return model->run.parmac.duration > 0 && model->run.parmac.enable_reverse == 0;
 }
 
 
@@ -705,4 +714,10 @@ static uint8_t get_pwm_fan_percentage(model_t *model) {
     } else {
         return 0;
     }
+}
+
+
+static uint8_t is_input_active(model_t *model, input_t input, direction_t direction) {
+    uint8_t level = (model->run.sensors.inputs & (1 << input));
+    return direction == DIRECTION_NA ? level == 0 : level == 1;
 }

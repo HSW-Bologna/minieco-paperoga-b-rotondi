@@ -16,11 +16,13 @@ static int  active_event_manager(cycle_event_code_t event, void *arg);
 static int  wait_start_event_manager(cycle_event_code_t event, void *arg);
 static int  running_event_manager(cycle_event_code_t event, void *arg);
 static void paused_entry(void *arg);
+static void paused_exit(void *arg);
 static int  paused_event_manager(cycle_event_code_t event, void *arg);
 static void timer_event_callback(stopwatch_timer_t *timer, void *user_ptr);
 static void stop_everything(model_t *model);
 static void start_everything(model_t *model);
 static void fix_timer(stopwatch_timer_t *timer, unsigned long period, int arg);
+static void configure_temperature_timer(model_t *model);
 
 
 static const cycle_node_t managers[] = {
@@ -33,7 +35,7 @@ static const cycle_node_t managers[] = {
     // Running
     [CYCLE_STATE_RUNNING] = STATE_MACHINE_EVENT_MANAGER(running_event_manager),
     // Paused
-    [CYCLE_STATE_PAUSED] = STATE_MACHINE_MANAGER(paused_event_manager, paused_entry, NULL),
+    [CYCLE_STATE_PAUSED] = STATE_MACHINE_MANAGER(paused_event_manager, paused_entry, paused_exit),
 };
 
 
@@ -43,12 +45,15 @@ void cycle_init(mut_model_t *model) {
 
     stopwatch_timer_init(&model->run.cycle.timer_cycle, 0, timer_event_callback, NULL);
     stopwatch_timer_init(&model->run.cycle.timer_rotation, 0, timer_event_callback, NULL);
+    stopwatch_timer_init(&model->run.cycle.timer_reset, 0, timer_event_callback, NULL);
+    stopwatch_timer_init(&model->run.cycle.timer_temperature, 0, timer_event_callback, NULL);
 }
 
 
 uint8_t cycle_manage(mut_model_t *model) {
     stopwatch_timer_manage(&model->run.cycle.timer_cycle, timestamp_get(), model);
     stopwatch_timer_manage(&model->run.cycle.timer_rotation, timestamp_get(), model);
+    stopwatch_timer_manage(&model->run.cycle.timer_reset, timestamp_get(), model);
     return 0;
 }
 
@@ -112,6 +117,7 @@ static int stopped_event_manager(cycle_event_code_t event, void *arg) {
                 stopwatch_timer_resume(timer_cycle, timestamp_get());
                 return CYCLE_STATE_WAIT_START;
             } else {
+                configure_temperature_timer(model);
                 start_everything(model);
 
                 if (!model_is_step_endless(model)) {
@@ -200,6 +206,7 @@ static int wait_start_event_manager(cycle_event_code_t event, void *arg) {
                 stopwatch_timer_resume(timer_cycle, timestamp_get());
             }
 
+            configure_temperature_timer(model);
             start_everything(model);
             return CYCLE_STATE_RUNNING;
         }
@@ -222,16 +229,30 @@ static int wait_start_event_manager(cycle_event_code_t event, void *arg) {
 
 
 static void paused_entry(void *arg) {
-    model_t           *model          = arg;
-    stopwatch_timer_t *timer_cycle    = &model->run.cycle.timer_cycle;
-    stopwatch_timer_t *timer_rotation = &model->run.cycle.timer_rotation;
+    model_t           *model             = arg;
+    stopwatch_timer_t *timer_cycle       = &model->run.cycle.timer_cycle;
+    stopwatch_timer_t *timer_rotation    = &model->run.cycle.timer_rotation;
+    stopwatch_timer_t *timer_reset       = &model->run.cycle.timer_reset;
+    stopwatch_timer_t *timer_temperature = &model->run.cycle.timer_temperature;
     model_drum_stop(model);
 
     heating_off(model);
     if (model->run.parmac.stop_time_in_pause) {
         stopwatch_timer_pause(timer_cycle, timestamp_get());
+
+        if (model->run.parmac.cycle_reset_time > 0) {
+            fix_timer(timer_reset, model->run.parmac.cycle_reset_time * 1000UL, CYCLE_EVENT_CODE_STOP);
+        }
     }
     stopwatch_timer_pause(timer_rotation, timestamp_get());
+    stopwatch_timer_pause(timer_temperature, timestamp_get());
+}
+
+
+static void paused_exit(void *arg) {
+    model_t           *model       = arg;
+    stopwatch_timer_t *timer_reset = &model->run.cycle.timer_reset;
+    stopwatch_timer_pause(timer_reset, timestamp_get());
 }
 
 
@@ -287,6 +308,7 @@ static int active_event_manager(cycle_event_code_t event, void *arg) {
                 break;
             }
 
+            configure_temperature_timer(model);
             start_everything(model);
 
             if (!model_is_step_endless(model)) {
@@ -313,6 +335,13 @@ static int active_event_manager(cycle_event_code_t event, void *arg) {
             }
             break;
 
+        case CYCLE_EVENT_CODE_CHECK_TEMPERATURE:
+            if (model->run.heating.state_machine.node_index != HEATING_STATE_SETPOINT_REACHED) {
+                model->run.temperature_not_reached_alarm = 1;
+                return CYCLE_STATE_PAUSED;
+            }
+            break;
+
         default:
             break;
     }
@@ -329,8 +358,9 @@ static void timer_event_callback(stopwatch_timer_t *timer, void *user_ptr) {
 
 
 static void stop_everything(model_t *model) {
-    stopwatch_timer_t *timer_cycle    = &model->run.cycle.timer_cycle;
-    stopwatch_timer_t *timer_rotation = &model->run.cycle.timer_rotation;
+    stopwatch_timer_t *timer_cycle       = &model->run.cycle.timer_cycle;
+    stopwatch_timer_t *timer_rotation    = &model->run.cycle.timer_rotation;
+    stopwatch_timer_t *timer_temperature = &model->run.cycle.timer_temperature;
 
     model_drum_stop(model);
 
@@ -342,6 +372,9 @@ static void stop_everything(model_t *model) {
     stopwatch_timer_reset(timer_rotation, timestamp_get());
     stopwatch_timer_pause(timer_rotation, timestamp_get());
 
+    stopwatch_timer_reset(timer_temperature, timestamp_get());
+    stopwatch_timer_pause(timer_temperature, timestamp_get());
+
     heating_off(model);
 
     model->run.cycle.num_cycles = 0;
@@ -349,7 +382,8 @@ static void stop_everything(model_t *model) {
 
 
 static void start_everything(model_t *model) {
-    stopwatch_timer_t *timer_rotation = &model->run.cycle.timer_rotation;
+    stopwatch_timer_t *timer_rotation    = &model->run.cycle.timer_rotation;
+    stopwatch_timer_t *timer_temperature = &model->run.cycle.timer_temperature;
 
     if (model_heating_enabled(model)) {
         heating_on(model);
@@ -364,6 +398,19 @@ static void start_everything(model_t *model) {
     if (!model_ciclo_continuo(model)) {
         fix_timer(timer_rotation, model->run.parmac.rotation_running_time * 1000UL, CYCLE_EVENT_CODE_MOTION_PAUSE);
         stopwatch_timer_resume(timer_rotation, timestamp_get());
+    }
+
+    if (model->run.step_type == DRYER_PROGRAM_STEP_TYPE_DRYING) {
+        stopwatch_timer_resume(timer_temperature, timestamp_get());
+    }
+}
+
+
+static void configure_temperature_timer(model_t *model) {
+    if (model->run.step_type == DRYER_PROGRAM_STEP_TYPE_DRYING) {
+        stopwatch_timer_t *timer_temperature = &model->run.cycle.timer_temperature;
+        fix_timer(timer_temperature, model->run.parmac.temperature_alarm_delay_seconds,
+                  CYCLE_EVENT_CODE_CHECK_TEMPERATURE);
     }
 }
 

@@ -22,6 +22,12 @@
 
 
 typedef enum {
+    DIRECTION_NC = 0,
+    DIRECTION_NA = 1,
+} direction_t;
+
+
+typedef enum {
     CYCLE_EVENT_CODE_START,
     CYCLE_EVENT_CODE_COLD_START,
     CYCLE_EVENT_CODE_STOP,
@@ -32,6 +38,7 @@ typedef enum {
     CYCLE_EVENT_CODE_FORWARD,
     CYCLE_EVENT_CODE_BACKWARD,
     CYCLE_EVENT_CODE_CHECK,
+    CYCLE_EVENT_CODE_CHECK_TEMPERATURE,
 } cycle_event_code_t;
 
 
@@ -104,7 +111,8 @@ typedef enum {
     ALARM_CODE_FILTRO,
     ALARM_CODE_AIR_FLOW,
     ALARM_CODE_BURNER,
-    ALARM_CODE_TEMPERATURE,
+    ALARM_CODE_SAFETY_TEMPERATURE,
+    ALARM_CODE_TEMPERATURE_NOT_REACHED,
 } alarm_code_t;
 
 
@@ -163,6 +171,7 @@ typedef struct {
         uint16_t                  burner_reset_attempts;
         burner_state_t            burner_state;
         uint8_t                   burner_alarm;
+        uint8_t                   temperature_not_reached_alarm;
         uint16_t                  program_number;
         uint16_t                  step_number;
         dryer_program_step_type_t step_type;
@@ -216,6 +225,9 @@ typedef struct {
             uint16_t           gas_ignition_attempts;
             uint16_t           fan_with_open_porthole_time;
             uint8_t            porthole_nc_na;
+            uint8_t            emergency_alarm_nc_na;
+            uint8_t            inverter_alarm_nc_na;
+            uint8_t            filter_alarm_nc_na;
             uint8_t            busy_signal_nc_na;
             uint8_t            wait_for_temperature;
             uint8_t            enable_reverse;
@@ -240,6 +252,8 @@ typedef struct {
         struct {
             stopwatch_timer_t     timer_cycle;
             stopwatch_timer_t     timer_rotation;
+            stopwatch_timer_t     timer_reset;
+            stopwatch_timer_t     timer_temperature;
             cycle_state_machine_t state_machine;
             uint16_t              num_cycles;
         } cycle;
@@ -302,6 +316,7 @@ void          model_reset_burner(model_t *model);
 uint8_t       model_is_fan_on(model_t *model);
 uint8_t       model_is_step_endless(model_t *model);
 uint8_t       model_cycles_exceeded(model_t *model);
+uint8_t       model_is_inverter_alarm_active(model_t *model);
 
 
 #endif
