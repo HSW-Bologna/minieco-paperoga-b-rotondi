@@ -83,7 +83,7 @@ typedef enum {
 
 typedef enum {
     CYCLE_STATE_STOPPED = 0,
-    CYCLE_STATE_ACTIVE,
+    CYCLE_STATE_STANDBY,
     CYCLE_STATE_WAIT_START,
     CYCLE_STATE_RUNNING,
     CYCLE_STATE_PAUSED,
@@ -113,6 +113,7 @@ typedef enum {
     ALARM_CODE_BURNER,
     ALARM_CODE_SAFETY_TEMPERATURE,
     ALARM_CODE_TEMPERATURE_NOT_REACHED,
+    ALARM_CODE_INVERTER,
 } alarm_code_t;
 
 
@@ -163,11 +164,13 @@ typedef struct {
     uint16_t flag_asciugatura;
 
     struct {
+        uint8_t                   initialized_by_master;
         uint8_t                   coin_reader_enabled;
         uint16_t                  alarms;
         timestamp_t               porthole_opened_ts;
         timestamp_t               air_flow_stopped_ts;
         timestamp_t               burner_ts;
+        timestamp_t               communication_ts;
         uint16_t                  burner_reset_attempts;
         burner_state_t            burner_state;
         uint8_t                   burner_alarm;
@@ -209,6 +212,7 @@ typedef struct {
             uint16_t           enable_filter_alarm;
             uint8_t            stop_time_in_pause;
             uint16_t           cycle_delay_time;
+            uint16_t           cycle_reset_time;
             uint16_t           duration;
             uint16_t           max_cycles;
             uint16_t           start_delay;
@@ -219,7 +223,6 @@ typedef struct {
             uint16_t           setpoint_humidity;
             uint16_t           temperature_heating_hysteresis;
             uint16_t           temperature_cooling_hysteresis;
-            uint16_t           progressive_heating_time;
             uint16_t           drying_type;
             uint16_t           heating_type;
             uint16_t           gas_ignition_attempts;
@@ -240,6 +243,7 @@ typedef struct {
         } heating;
 
         struct {
+            uint8_t     previously_on;
             timestamp_t timestamp;
         } fan;
 
@@ -256,6 +260,8 @@ typedef struct {
             stopwatch_timer_t     timer_temperature;
             cycle_state_machine_t state_machine;
             uint16_t              num_cycles;
+            uint8_t               completed;
+            timestamp_t           start_ts;
         } cycle;
     } run;
 } model_t;
@@ -317,6 +323,8 @@ uint8_t       model_is_fan_on(model_t *model);
 uint8_t       model_is_step_endless(model_t *model);
 uint8_t       model_cycles_exceeded(model_t *model);
 uint8_t       model_is_inverter_alarm_active(model_t *model);
+uint16_t      model_get_elapsed_seconds(model_t *model);
+void          model_cycle_over(mut_model_t *model);
 
 
 #endif

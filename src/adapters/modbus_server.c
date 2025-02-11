@@ -7,6 +7,7 @@
 #include <string.h>
 #include "services/timestamp.h"
 #include "config/app_config.h"
+#include "model/cycle.h"
 #include "modbus_server.h"
 #include <stdio.h>
 #include <stdint.h>
@@ -42,6 +43,7 @@ enum {
     MODBUS_IR_COIN_LINES_5,
     MODBUS_IR_CYCLE_STATE,
     MODBUS_IR_DEFAULT_TEMPERATURE,
+    MODBUS_IR_ELAPSED_TIME,
     MODBUS_IR_REMAINING_TIME,
     MODBUS_IR_ALARMS,
 };
@@ -71,7 +73,6 @@ enum {
     MODBUS_HR_SETPOINT_HUMIDITY,
     MODBUS_HR_TEMPERATURE_COOLING_HYSTERESIS,
     MODBUS_HR_TEMPERATURE_HEATING_HYSTERESIS,
-    MODBUS_HR_PROGRESSIVE_HEATING_TIME,
     MODBUS_HR_DRYING_TYPE,
     MODBUS_HR_START_DELAY,
     MODBUS_HR_MAX_CYCLES,
@@ -79,6 +80,7 @@ enum {
     MODBUS_HR_STEP_NUMBER,
     MODBUS_HR_STEP_TYPE,
     MODBUS_HR_COMMAND,
+    MODBUS_HR_INCREASE_DURATION,
 };
 
 
@@ -111,6 +113,7 @@ void modbus_server_manage(mut_model_t *model) {
             uint16_t       response_length = modbusSlaveGetResponseLength(&modbus_minion);
             bsp_rs232_write((uint8_t *)response, response_length);
             bsp_rs232_flush();
+            model->run.communication_ts = timestamp_get();
         } else {
             bsp_rs232_flush();
         }
@@ -167,6 +170,7 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                 case MODBUS_HOLDING_REGISTER:
                     switch (args->index) {
                         case MODBUS_HR_COMMAND:
+                        case MODBUS_HR_INCREASE_DURATION:
                         case MODBUS_HR_TEST_MODE:
                         case MODBUS_HR_TEST_OUTPUTS:
                         case MODBUS_HR_TEST_PWM:
@@ -193,7 +197,6 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                         case MODBUS_HR_SETPOINT_HUMIDITY:
                         case MODBUS_HR_TEMPERATURE_COOLING_HYSTERESIS:
                         case MODBUS_HR_TEMPERATURE_HEATING_HYSTERESIS:
-                        case MODBUS_HR_PROGRESSIVE_HEATING_TIME:
                         case MODBUS_HR_PROGRAM_NUMBER:
                         case MODBUS_HR_STEP_NUMBER:
                         case MODBUS_HR_STEP_TYPE:
@@ -227,7 +230,7 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             break;
 
                         case MODBUS_IR_STATUS:
-                            result->value = (((model->run.sensors.outputs & (1 << OUTPUT_HEATING)) > 0) << 0);
+                            result->value = (uint16_t)(((model_get_relay_map(model) & (1 << OUTPUT_HEATING)) > 0) << 0);
                             break;
 
                         case MODBUS_IR_INPUT:
@@ -281,6 +284,10 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
 
                         case MODBUS_IR_DEFAULT_TEMPERATURE:
                             result->value = (uint16_t)model_get_default_temperature(model);
+                            break;
+
+                        case MODBUS_IR_ELAPSED_TIME:
+                            result->value = model_get_elapsed_seconds(model);
                             break;
 
                         case MODBUS_IR_REMAINING_TIME:
@@ -402,10 +409,6 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             result->value = model->run.parmac.temperature_heating_hysteresis;
                             break;
 
-                        case MODBUS_HR_PROGRESSIVE_HEATING_TIME:
-                            result->value = model->run.parmac.progressive_heating_time;
-                            break;
-
                         case MODBUS_HR_PROGRAM_NUMBER:
                             result->value = model->run.program_number;
                             break;
@@ -446,6 +449,9 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
         case MODBUS_REGQ_W: {
             switch (args->type) {
                 case MODBUS_HOLDING_REGISTER: {
+                    // The device is considered initialized on first HR write
+                    model->run.initialized_by_master = 1;
+
                     switch (args->index) {
                         case MODBUS_HR_COMMAND: {
                             switch (args->value) {
@@ -472,6 +478,11 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                                 default:
                                     break;
                             }
+                            break;
+                        }
+
+                        case MODBUS_HR_INCREASE_DURATION: {
+                            cycle_increase_duration(model, args->value);
                             break;
                         }
 
@@ -575,10 +586,6 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
 
                         case MODBUS_HR_TEMPERATURE_HEATING_HYSTERESIS:
                             model->run.parmac.temperature_heating_hysteresis = args->value;
-                            break;
-
-                        case MODBUS_HR_PROGRESSIVE_HEATING_TIME:
-                            model->run.parmac.progressive_heating_time = args->value;
                             break;
 
                         case MODBUS_HR_PROGRAM_NUMBER:

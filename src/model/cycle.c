@@ -12,7 +12,7 @@ STATE_MACHINE_DEFINE(cycle, cycle_event_code_t);
 
 static void stopped_entry(void *arg);
 static int  stopped_event_manager(cycle_event_code_t event, void *arg);
-static int  active_event_manager(cycle_event_code_t event, void *arg);
+static int  standby_event_manager(cycle_event_code_t event, void *arg);
 static int  wait_start_event_manager(cycle_event_code_t event, void *arg);
 static int  running_event_manager(cycle_event_code_t event, void *arg);
 static void paused_entry(void *arg);
@@ -29,7 +29,7 @@ static const cycle_node_t managers[] = {
     // No program loaded, everything off
     [CYCLE_STATE_STOPPED] = STATE_MACHINE_MANAGER(stopped_event_manager, stopped_entry, NULL),
     // In between steps
-    [CYCLE_STATE_ACTIVE] = STATE_MACHINE_MANAGER(active_event_manager, stopped_entry, NULL),
+    [CYCLE_STATE_STANDBY] = STATE_MACHINE_MANAGER(standby_event_manager, stopped_entry, NULL),
     // Delayed start
     [CYCLE_STATE_WAIT_START] = STATE_MACHINE_EVENT_MANAGER(wait_start_event_manager),
     // Running
@@ -88,6 +88,22 @@ void cycle_check(mut_model_t *model) {
 }
 
 
+void cycle_increase_duration(mut_model_t *model, uint16_t seconds) {
+    switch (model->run.cycle.state_machine.node_index) {
+        case CYCLE_STATE_RUNNING:
+        case CYCLE_STATE_PAUSED: {
+            stopwatch_timer_t *timer_cycle = &model->run.cycle.timer_cycle;
+            unsigned long      total       = stopwatch_get_total_time(&timer_cycle->stopwatch);
+            stopwatch_timer_set_period(timer_cycle, total + seconds * 1000UL);
+            break;
+        }
+
+        default:
+            break;
+    }
+}
+
+
 static void stopped_entry(void *arg) {
     model_t *model = arg;
     stop_everything(model);
@@ -111,12 +127,14 @@ static int stopped_event_manager(cycle_event_code_t event, void *arg) {
 
             // controller_update_pwoff(model);
             model_reset_burner(model);
+            model->run.cycle.completed = 0;
 
             if (model->run.parmac.cycle_delay_time > 0) {
                 fix_timer(timer_cycle, model->run.parmac.cycle_delay_time * 1000UL, CYCLE_EVENT_CODE_STEP_DONE);
                 stopwatch_timer_resume(timer_cycle, timestamp_get());
                 return CYCLE_STATE_WAIT_START;
             } else {
+                model->run.cycle.start_ts = timestamp_get();
                 configure_temperature_timer(model);
                 start_everything(model);
 
@@ -125,6 +143,7 @@ static int stopped_event_manager(cycle_event_code_t event, void *arg) {
                     stopwatch_timer_resume(timer_cycle, timestamp_get());
                 }
 
+                model_clear_coins(model);
                 return CYCLE_STATE_RUNNING;
             }
 
@@ -136,24 +155,28 @@ static int stopped_event_manager(cycle_event_code_t event, void *arg) {
 }
 
 
-
 static int running_event_manager(cycle_event_code_t event, void *arg) {
     mut_model_t       *model          = arg;
     stopwatch_timer_t *timer_rotation = &model->run.cycle.timer_rotation;
 
     switch (event) {
         case CYCLE_EVENT_CODE_STOP:
+            model_cycle_over(model);
             return CYCLE_STATE_STOPPED;
 
         case CYCLE_EVENT_CODE_STEP_DONE:
-            return CYCLE_STATE_ACTIVE;
+            return CYCLE_STATE_STANDBY;
 
         case CYCLE_EVENT_CODE_PAUSE:
             return CYCLE_STATE_PAUSED;
 
         case CYCLE_EVENT_CODE_CHECK:
             if (model->run.alarms) {
-                return CYCLE_STATE_PAUSED;
+                if (model_is_porthole_open(model) && model->run.step_type == DRYER_PROGRAM_STEP_TYPE_ANTIFOLD) {
+                    return CYCLE_STATE_STOPPED;
+                } else {
+                    return CYCLE_STATE_PAUSED;
+                }
             }
             break;
 
@@ -163,6 +186,7 @@ static int running_event_manager(cycle_event_code_t event, void *arg) {
             stopwatch_timer_resume(timer_rotation, timestamp_get());
 
             if (model_cycles_exceeded(model)) {
+                model_cycle_over(model);
                 return CYCLE_STATE_STOPPED;
             } else {
                 model->run.cycle.num_cycles++;
@@ -184,6 +208,13 @@ static int running_event_manager(cycle_event_code_t event, void *arg) {
             stopwatch_timer_resume(timer_rotation, timestamp_get());
             break;
 
+        case CYCLE_EVENT_CODE_CHECK_TEMPERATURE:
+            if (model->run.heating.state_machine.node_index != HEATING_STATE_SETPOINT_REACHED) {
+                model->run.temperature_not_reached_alarm = 1;
+                return CYCLE_STATE_PAUSED;
+            }
+            break;
+
         default:
             break;
     }
@@ -198,14 +229,18 @@ static int wait_start_event_manager(cycle_event_code_t event, void *arg) {
 
     switch (event) {
         case CYCLE_EVENT_CODE_STOP:
+            model_cycle_over(model);
             return CYCLE_STATE_STOPPED;
 
         case CYCLE_EVENT_CODE_STEP_DONE: {
+            model->run.cycle.start_ts = timestamp_get();
+
             if (!model_is_step_endless(model)) {
                 fix_timer(timer_cycle, model_get_step_duration_seconds(model), CYCLE_EVENT_CODE_STEP_DONE);
                 stopwatch_timer_resume(timer_cycle, timestamp_get());
             }
 
+            model_clear_coins(model);
             configure_temperature_timer(model);
             start_everything(model);
             return CYCLE_STATE_RUNNING;
@@ -216,6 +251,13 @@ static int wait_start_event_manager(cycle_event_code_t event, void *arg) {
 
         case CYCLE_EVENT_CODE_CHECK:
             if (model->run.alarms) {
+                return CYCLE_STATE_PAUSED;
+            }
+            break;
+
+        case CYCLE_EVENT_CODE_CHECK_TEMPERATURE:
+            if (model->run.heating.state_machine.node_index != HEATING_STATE_SETPOINT_REACHED) {
+                model->run.temperature_not_reached_alarm = 1;
                 return CYCLE_STATE_PAUSED;
             }
             break;
@@ -272,10 +314,11 @@ static int paused_event_manager(cycle_event_code_t event, void *arg) {
             return CYCLE_STATE_RUNNING;
 
         case CYCLE_EVENT_CODE_STOP:
+            model_cycle_over(model);
             return CYCLE_STATE_STOPPED;
 
         case CYCLE_EVENT_CODE_STEP_DONE:
-            return CYCLE_STATE_ACTIVE;
+            return CYCLE_STATE_STANDBY;
 
         default:
             break;
@@ -285,7 +328,7 @@ static int paused_event_manager(cycle_event_code_t event, void *arg) {
 }
 
 
-static int active_event_manager(cycle_event_code_t event, void *arg) {
+static int standby_event_manager(cycle_event_code_t event, void *arg) {
     mut_model_t       *model       = arg;
     stopwatch_timer_t *timer_cycle = &model->run.cycle.timer_cycle;
 
@@ -309,11 +352,15 @@ static int active_event_manager(cycle_event_code_t event, void *arg) {
             }
 
             configure_temperature_timer(model);
-            start_everything(model);
 
             if (!model_is_step_endless(model)) {
                 fix_timer(timer_cycle, model_get_step_duration_seconds(model), CYCLE_EVENT_CODE_STEP_DONE);
                 stopwatch_timer_resume(timer_cycle, timestamp_get());
+            }
+
+            // When we reach the antifold step we consider the cycle to be complete
+            if (model->run.step_type == DRYER_PROGRAM_STEP_TYPE_ANTIFOLD) {
+                model->run.cycle.completed = 1;
             }
 
             if (model->run.parmac.start_delay > 0) {
@@ -322,11 +369,12 @@ static int active_event_manager(cycle_event_code_t event, void *arg) {
                 model_drum_stop(model);
                 return CYCLE_STATE_WAIT_START;
             } else {
+                start_everything(model);
                 return CYCLE_STATE_RUNNING;
             }
 
         case CYCLE_EVENT_CODE_STOP:
-            // controller_update_pwoff(model);
+            model_cycle_over(model);
             return CYCLE_STATE_STOPPED;
 
         case CYCLE_EVENT_CODE_CHECK:

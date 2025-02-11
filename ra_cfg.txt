@@ -180,7 +180,7 @@ FSP Configuration
   Module "Virtual EEPROM on Flash (rm_vee_flash)"
     Parameter Checking: Default (BSP)
     Reference Data Support: Disabled
-    Refresh Buffer Size: 32
+    Refresh Buffer Size: 256
     
   Module "Flash (r_flash_lp)"
     Parameter Checking: Default (BSP)
@@ -317,14 +317,14 @@ FSP Configuration
       Channel: 0
       Trigger: Falling
       Digital Filtering: Disabled
-      Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
+      Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 1
       Callback: power_off_callback
       Pin Interrupt Priority: Priority 0 (highest)
       
     Instance "Virtual EEPROM on Flash (rm_vee_flash)"
       Name: g_vee0
       Record Max ID: 0
-      Number of Segments: 128
+      Number of Segments: 32
       Start Address: BSP_FEATURE_FLASH_DATA_FLASH_START
       Total Size: BSP_DATA_FLASH_SIZE_BYTES
       Reference Data Size: 0

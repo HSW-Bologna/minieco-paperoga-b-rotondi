@@ -13,12 +13,13 @@ STATE_MACHINE_DEFINE(heating, heating_event_code_t);
 static int  off_event_manager(heating_event_code_t event, void *arg);
 static int  on_event_manager(heating_event_code_t event, void *arg);
 static void on_entry(void *arg);
+static void on_exit(void *arg);
 static int  setpoint_reached_event_manager(heating_event_code_t event, void *arg);
 
 
 static const heating_node_t managers[] = {
     [HEATING_STATE_OFF]              = STATE_MACHINE_EVENT_MANAGER(off_event_manager),
-    [HEATING_STATE_ON]               = STATE_MACHINE_MANAGER(on_event_manager, on_entry, NULL),
+    [HEATING_STATE_ON]               = STATE_MACHINE_MANAGER(on_event_manager, on_entry, on_exit),
     [HEATING_STATE_SETPOINT_REACHED] = STATE_MACHINE_EVENT_MANAGER(setpoint_reached_event_manager),
 };
 
@@ -69,6 +70,12 @@ static int off_event_manager(heating_event_code_t event, void *arg) {
 static void on_entry(void *arg) {
     mut_model_t *model           = arg;
     model->run.heating.timestamp = timestamp_get();
+}
+
+
+static void on_exit(void *arg) {
+    mut_model_t *model           = arg;
+    model_add_heating_time_ms(model, timestamp_elapsed(model->run.heating.timestamp));
 }
 
 

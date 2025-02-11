@@ -43,6 +43,14 @@ void hal_entry(void) {
         bsp_adc_manage();
         bsp_coin_reader_manage();
 
+        bsp_io_level_t level = BSP_IO_LEVEL_HIGH;
+        g_ioport.p_api->pinRead(g_ioport.p_ctrl, BSP_PIN_INT0, &level);
+        if (level == BSP_IO_LEVEL_LOW) {
+            __NOP();
+            __NOP();
+            __NOP();
+        }
+
         __WFI();
     }
 

@@ -20,6 +20,7 @@ static void    set_drum_timestamp(mut_model_t *model);
 static uint8_t get_pwm_drum_percentage(model_t *model);
 static uint8_t get_pwm_fan_percentage(model_t *model);
 static uint8_t is_input_active(model_t *model, input_t input, direction_t direction);
+static uint8_t communication_is_missing(model_t *model);
 
 
 void model_init(model_t *model) {
@@ -89,6 +90,14 @@ void model_manage(mut_model_t *model) {
         }
     }
 
+    uint8_t fan_on = model_is_fan_on(model);
+    if (model->run.fan.previously_on && !fan_on) {
+        model_add_ventilation_time_ms(model, timestamp_elapsed(model->run.fan.timestamp));
+    } else if (!model->run.fan.previously_on && fan_on) {
+        model->run.fan.timestamp = timestamp_get();
+    }
+    model->run.fan.previously_on = fan_on;
+
     // Air not active or active and flowing
     if (!model_is_fan_on(model) || (model->run.sensors.inputs & (1 << INPUT_AIR_FLOW)) > 0) {
         model->run.air_flow_stopped_ts = timestamp_get();
@@ -109,10 +118,15 @@ void model_fix_alarms(model_t *model) {
     assert(model != NULL);
     uint8_t porthole_was_open = model_is_porthole_open(model);
 
-    model->run.alarms |= model_get_active_alarms(model);
+    if (model->run.parmac.disable_alarms) {
+        model->run.alarms = 0;
+    } else {
+        model->run.alarms |= model_get_active_alarms(model);
+    }
+
     // The porthole is the only self-clearing alarm
     if (!model_is_porthole_open(model)) {
-        model->run.alarms &= ~((uint16_t)0x01);
+        model->run.alarms &= ~((uint16_t)(1 << ALARM_CODE_OBLO_APERTO));
     }
 
     // The porthole is newly opened
@@ -149,19 +163,21 @@ uint8_t model_is_porthole_open(model_t *model) {
 uint16_t model_get_active_alarms(model_t *model) {
     assert(model != NULL);
 
-    if (model->run.parmac.disable_alarms) {
+    if (model->run.parmac.disable_alarms || !model->run.initialized_by_master) {
         return 0;
     } else {
         uint8_t air_flow_alarm =
             model_is_fan_on(model) &&
             timestamp_is_expired(model->run.air_flow_stopped_ts, model->run.parmac.air_flow_alarm_time * 1000UL);
 
-        return (uint16_t)(((model_is_porthole_open(model) > 0) << 0) |
-                          ((model_is_emergency_alarm_active(model) > 0) << 1) |
-                          ((model_is_filter_alarm_active(model) > 0) << 2) | ((air_flow_alarm > 0) << 3) |
-                          ((model->run.burner_alarm > 0) << 4) | ((model_over_safety_temperature(model) > 0) << 5)) |
-               ((model->run.temperature_not_reached_alarm > 0) << 6) |
-               ((model_is_inverter_alarm_active(model) > 0) << 7);
+        return (uint16_t)(((model_is_porthole_open(model) > 0) << ALARM_CODE_OBLO_APERTO) |
+                          ((model_is_emergency_alarm_active(model) > 0) << ALARM_CODE_EMERGENZA) |
+                          ((model_is_filter_alarm_active(model) > 0) << ALARM_CODE_FILTRO) |
+                          ((air_flow_alarm > 0) << ALARM_CODE_AIR_FLOW) |
+                          ((model->run.burner_alarm > 0) << ALARM_CODE_BURNER) |
+                          ((model_over_safety_temperature(model) > 0) << ALARM_CODE_SAFETY_TEMPERATURE) |
+                          ((model->run.temperature_not_reached_alarm > 0) << ALARM_CODE_TEMPERATURE_NOT_REACHED) |
+                          ((model_is_inverter_alarm_active(model) > 0) << ALARM_CODE_INVERTER));
     }
 }
 
@@ -183,7 +199,7 @@ void model_cycle_stop(mut_model_t *model) {
 
 uint32_t model_get_step_duration_seconds(model_t *model) {
     assert(model != NULL);
-    return model->run.parmac.duration * 60UL * 1000UL;
+    return model->run.parmac.duration * 1000UL;
 }
 
 
@@ -194,7 +210,7 @@ uint8_t model_is_step_endless(model_t *model) {
 
 
 unsigned long model_get_cycle_remaining_time(mut_model_t *model) {
-    if (model->run.cycle.state_machine.node_index == CYCLE_STATE_ACTIVE ||
+    if (model->run.cycle.state_machine.node_index == CYCLE_STATE_STANDBY ||
         model->run.cycle.state_machine.node_index == CYCLE_STATE_STOPPED) {
         return 0;
     } else {
@@ -211,7 +227,9 @@ uint8_t model_is_cycle_on(model_t *model) {
 
 uint16_t model_get_relay_map(model_t *model) {
     assert(model != NULL);
-    if (model->run.test.on) {
+    if (communication_is_missing(model)) {
+        return 0;
+    } else if (model->run.test.on) {
         return model->run.test.outputs;
     } else {
         uint16_t map = 0;
@@ -280,7 +298,9 @@ uint16_t model_get_relay_map(model_t *model) {
 
 uint8_t model_get_pwm_drum_percentage(model_t *model) {
     assert(model != NULL);
-    if (model->run.parmac.invert_fan_drum) {
+    if (communication_is_missing(model)) {
+        return 0;
+    } else if (model->run.parmac.invert_fan_drum) {
         return get_pwm_fan_percentage(model);
     } else {
         return get_pwm_drum_percentage(model);
@@ -290,7 +310,9 @@ uint8_t model_get_pwm_drum_percentage(model_t *model) {
 
 uint8_t model_get_pwm_fan_percentage(model_t *model) {
     assert(model != NULL);
-    if (model->run.parmac.invert_fan_drum) {
+    if (communication_is_missing(model)) {
+        return 0;
+    } else if (model->run.parmac.invert_fan_drum) {
         return get_pwm_drum_percentage(model);
     } else {
         return get_pwm_fan_percentage(model);
@@ -451,6 +473,28 @@ int model_ciclo_fermo(model_t *model) {
 }
 
 
+uint16_t model_get_elapsed_seconds(model_t *model) {
+    assert(model != NULL);
+
+    if (model_is_step_endless(model)) {
+        return 0xFFFF;
+    } else {
+        switch (model->run.cycle.state_machine.node_index) {
+            case CYCLE_STATE_STOPPED:
+            case CYCLE_STATE_STANDBY:
+                return 0;
+            default:
+            case CYCLE_STATE_RUNNING:
+            case CYCLE_STATE_WAIT_START:
+            case CYCLE_STATE_PAUSED:
+                return (uint16_t)(stopwatch_get_elapsed(&model->run.cycle.timer_cycle.stopwatch, timestamp_get()) /
+                                  1000UL);
+        }
+        return 0;
+    }
+}
+
+
 uint16_t model_get_remaining_seconds(model_t *model) {
     assert(model != NULL);
 
@@ -459,7 +503,7 @@ uint16_t model_get_remaining_seconds(model_t *model) {
     } else {
         switch (model->run.cycle.state_machine.node_index) {
             case CYCLE_STATE_STOPPED:
-            case CYCLE_STATE_ACTIVE:
+            case CYCLE_STATE_STANDBY:
                 return 0;
             default:
             case CYCLE_STATE_RUNNING:
@@ -674,7 +718,7 @@ uint8_t model_get_heating_alarm(model_t *model) {
 uint8_t model_is_cycle_active(model_t *model) {
     assert(model != NULL);
     return model->run.cycle.state_machine.node_index == CYCLE_STATE_RUNNING ||
-           model->run.cycle.state_machine.node_index == CYCLE_STATE_ACTIVE;
+           model->run.cycle.state_machine.node_index == CYCLE_STATE_STANDBY;
 }
 
 
@@ -690,6 +734,18 @@ void model_reset_burner(model_t *model) {
 uint8_t model_cycles_exceeded(model_t *model) {
     assert(model != NULL);
     return model->run.parmac.max_cycles > 0 && model->run.cycle.num_cycles >= model->run.parmac.max_cycles;
+}
+
+
+void model_cycle_over(mut_model_t *model) {
+    assert(model != NULL);
+    if (model->run.cycle.completed) {
+        model->statisics.complete_cycles++;
+    } else {
+        model->statisics.partial_cycles++;
+    }
+
+    model->statisics.work_time += timestamp_elapsed(model->run.cycle.start_ts) / 1000UL;
 }
 
 
@@ -719,5 +775,10 @@ static uint8_t get_pwm_fan_percentage(model_t *model) {
 
 static uint8_t is_input_active(model_t *model, input_t input, direction_t direction) {
     uint8_t level = (model->run.sensors.inputs & (1 << input));
-    return direction == DIRECTION_NA ? level == 0 : level == 1;
+    return direction == DIRECTION_NA ? level == 0 : level > 0;
+}
+
+
+static uint8_t communication_is_missing(model_t *model) {
+    return timestamp_is_expired(model->run.communication_ts, 2000);
 }

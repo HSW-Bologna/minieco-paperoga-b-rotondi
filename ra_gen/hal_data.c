@@ -20,7 +20,7 @@ const rm_vee_flash_cfg_t g_vee0_cfg_ext = { .p_flash = &g_flash0 };
 static uint16_t g_vee0_record_offset[0 + 1] = { 0 };
 
 const rm_vee_cfg_t g_vee0_cfg = { .start_addr =
-        BSP_FEATURE_FLASH_DATA_FLASH_START, .num_segments = 128, .total_size =
+        BSP_FEATURE_FLASH_DATA_FLASH_START, .num_segments = 32, .total_size =
         BSP_DATA_FLASH_SIZE_BYTES, .ref_data_size = 0, .record_max_id = 0,
         .rec_offset = &g_vee0_record_offset[0], .p_callback = vee_callback,
         .p_context = NULL, .p_extend = &g_vee0_cfg_ext };

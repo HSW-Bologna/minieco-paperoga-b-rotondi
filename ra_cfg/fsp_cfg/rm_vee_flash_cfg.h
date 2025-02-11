@@ -10,7 +10,7 @@ extern "C" {
 #define RM_VEE_FLASH_CFG_REF_DATA_SUPPORT ((0))
 
 #ifndef RM_VEE_FLASH_REFRESH_BUFFER_SIZE
-#define RM_VEE_FLASH_REFRESH_BUFFER_SIZE        (32)
+#define RM_VEE_FLASH_REFRESH_BUFFER_SIZE        (256)
 #endif
 
 #ifdef __cplusplus

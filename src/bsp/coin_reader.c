@@ -55,7 +55,7 @@ uint16_t bsp_coin_reader_read(bsp_coin_reader_line_t line) {
 
 
 void bsp_coin_reader_clear(void) {
-    for (bsp_coin_reader_line_t line = BSP_COIN_READER_LINE_1; line <= BSP_COIN_READER_LINE_5; line++) {
+    for (bsp_coin_reader_line_t line = BSP_COIN_READER_PAYMENT; line <= BSP_COIN_READER_LINE_5; line++) {
         pulse_clear(&filter, (int)line);
     }
 }

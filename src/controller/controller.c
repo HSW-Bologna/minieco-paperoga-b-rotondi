@@ -14,7 +14,7 @@ void controller_init(mut_model_t *model) {
 
     {
         uint8_t *buffer = NULL;
-        uint16_t len    = 0;
+        uint32_t len    = 0;
         if (bsp_power_off_load(&buffer, &len)) {
             if (len == PWOFF_SERIALIZED_SIZE) {
                 model_pwoff_deserialize(model, buffer);
@@ -59,8 +59,31 @@ void controller_manage(mut_model_t *model) {
 
 
 void controller_power_off(void *arg) {
-    model_t *model                         = arg;
-    uint8_t  buffer[PWOFF_SERIALIZED_SIZE] = {0};
-    model_pwoff_serialize(model, buffer);
-    bsp_power_off_save(buffer, PWOFF_SERIALIZED_SIZE);
+    model_t *model = arg;
+
+    model->statisics.active_time += timestamp_get() / 1000UL;
+    // TODO: sum other times (fan, heating, etc)
+
+    {
+        uint8_t buffer[PWOFF_SERIALIZED_SIZE] = {0};
+        model_pwoff_serialize(model, buffer);
+        bsp_power_off_save(buffer, PWOFF_SERIALIZED_SIZE);
+    }
+    return;
+
+    {
+        extern uint8_t callback_called;
+        while (!callback_called)
+            ;
+    }
+
+    {
+        uint8_t *buffer = NULL;
+        uint32_t len    = 0;
+        if (bsp_power_off_load(&buffer, &len)) {
+            if (len == PWOFF_SERIALIZED_SIZE) {
+                model_pwoff_deserialize(model, buffer);
+            }
+        }
+    }
 }
