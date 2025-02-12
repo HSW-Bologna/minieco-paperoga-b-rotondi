@@ -160,9 +160,6 @@ typedef struct {
 typedef struct {
     statistics_t statisics;
 
-    // Parametri step
-    uint16_t flag_asciugatura;
-
     struct {
         uint8_t                   initialized_by_master;
         uint8_t                   coin_reader_enabled;

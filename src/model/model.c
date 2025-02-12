@@ -10,11 +10,6 @@
 #include "config/app_config.h"
 
 
-#define FLAG_ASCIUGATURA_TIPO_BIT               0
-#define FLAG_ASCIUGATURA_ATTESA_TEMPERATURA_BIT 1
-#define FLAG_ASCIUGATURA_INVERSIONE_BIT         2
-
-
 static int16_t ptc_temperature_from_adc_value(uint16_t adc);
 static void    set_drum_timestamp(mut_model_t *model);
 static uint8_t get_pwm_drum_percentage(model_t *model);
@@ -116,8 +111,6 @@ void model_clear_alarms(model_t *model) {
 
 void model_fix_alarms(model_t *model) {
     assert(model != NULL);
-    uint8_t porthole_was_open = model_is_porthole_open(model);
-
     if (model->run.parmac.disable_alarms) {
         model->run.alarms = 0;
     } else {
@@ -129,10 +122,7 @@ void model_fix_alarms(model_t *model) {
         model->run.alarms &= ~((uint16_t)(1 << ALARM_CODE_OBLO_APERTO));
     }
 
-    // The porthole is newly opened
-    if (model_is_porthole_open(model) && !porthole_was_open) {
-        model->run.porthole_opened_ts = timestamp_get();
-    }
+    cycle_check(model);
 }
 
 
@@ -171,13 +161,13 @@ uint16_t model_get_active_alarms(model_t *model) {
             timestamp_is_expired(model->run.air_flow_stopped_ts, model->run.parmac.air_flow_alarm_time * 1000UL);
 
         return (uint16_t)(((model_is_porthole_open(model) > 0) << ALARM_CODE_OBLO_APERTO) |
-                          ((model_is_emergency_alarm_active(model) > 0) << ALARM_CODE_EMERGENZA) |
-                          ((model_is_filter_alarm_active(model) > 0) << ALARM_CODE_FILTRO) |
-                          ((air_flow_alarm > 0) << ALARM_CODE_AIR_FLOW) |
-                          ((model->run.burner_alarm > 0) << ALARM_CODE_BURNER) |
-                          ((model_over_safety_temperature(model) > 0) << ALARM_CODE_SAFETY_TEMPERATURE) |
+                          ((0 && model_is_emergency_alarm_active(model) > 0) << ALARM_CODE_EMERGENZA) |
+                          ((0 && model_is_filter_alarm_active(model) > 0) << ALARM_CODE_FILTRO) |
+                          ((0 && air_flow_alarm > 0) << ALARM_CODE_AIR_FLOW) |
+                          ((0 && model->run.burner_alarm > 0) << ALARM_CODE_BURNER) |
+                          ((0 && model_over_safety_temperature(model) > 0) << ALARM_CODE_SAFETY_TEMPERATURE) |
                           ((model->run.temperature_not_reached_alarm > 0) << ALARM_CODE_TEMPERATURE_NOT_REACHED) |
-                          ((model_is_inverter_alarm_active(model) > 0) << ALARM_CODE_INVERTER));
+                          ((0 && model_is_inverter_alarm_active(model) > 0) << ALARM_CODE_INVERTER));
     }
 }
 
@@ -338,8 +328,15 @@ void model_update_sensors(mut_model_t *model, uint16_t inputs, uint16_t temperat
     }
 
     if (model->run.sensors.inputs != inputs) {
+        uint8_t porthole_was_open = model_is_porthole_open(model);
+
         model->run.sensors.inputs = inputs;
         update                    = 1;
+
+        // The porthole is newly opened
+        if (model_is_porthole_open(model) && !porthole_was_open) {
+            model->run.porthole_opened_ts = timestamp_get();
+        }
     }
 
     if (model->run.sensors.temperature_probe != temperature_probe) {
@@ -428,24 +425,6 @@ int model_pwoff_deserialize(model_t *model, uint8_t *buff) {
 void model_clear_coins(model_t *model) {
     assert(model != NULL);
     memset(model->run.sensors.coins, 0, sizeof(model->run.sensors.coins));
-}
-
-
-int model_tipo_asciugatura(model_t *model) {
-    assert(model != NULL);
-    return (model->flag_asciugatura & (1 << FLAG_ASCIUGATURA_TIPO_BIT)) > 0;
-}
-
-
-int model_attesa_temperatura_asciugatura(model_t *model) {
-    assert(model != NULL);
-    return (model->flag_asciugatura & (1 << FLAG_ASCIUGATURA_ATTESA_TEMPERATURA_BIT)) > 0;
-}
-
-
-int model_inversione_asciugatura(model_t *model) {
-    assert(model != NULL);
-    return (model->flag_asciugatura & (1 << FLAG_ASCIUGATURA_INVERSIONE_BIT)) > 0;
 }
 
 
@@ -687,23 +666,16 @@ uint8_t model_is_fan_on(model_t *model) {
     else if (model_is_porthole_open(model) &&
              !timestamp_is_expired(model->run.porthole_opened_ts,
                                    model->run.parmac.fan_with_open_porthole_time * 1000UL)) {
+        __NOP();
+        __NOP();
+        __NOP();
         return 1;
     } else {
+        __NOP();
+        __NOP();
+        __NOP();
         return 0;
     }
-}
-
-
-uint8_t model_is_fan_ok(model_t *model) {
-    assert(model != NULL);
-    return (model->run.sensors.inputs & 0x01) > 0;
-}
-
-
-uint8_t model_is_heating_ok(model_t *model) {
-    assert(model != NULL);
-    return model->run.heating.state_machine.node_index != HEATING_STATE_OFF ||
-           ((model->run.sensors.inputs & 0x02) == 0);
 }
 
 
@@ -774,7 +746,7 @@ static uint8_t get_pwm_fan_percentage(model_t *model) {
 
 
 static uint8_t is_input_active(model_t *model, input_t input, direction_t direction) {
-    uint8_t level = (model->run.sensors.inputs & (1 << input));
+    uint8_t level = (uint8_t)((model->run.sensors.inputs & (1 << input)) > 0);
     return direction == DIRECTION_NA ? level == 0 : level > 0;
 }
 

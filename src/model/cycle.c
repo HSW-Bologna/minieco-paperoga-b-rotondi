@@ -45,6 +45,7 @@ void cycle_init(mut_model_t *model) {
 
     stopwatch_timer_init(&model->run.cycle.timer_cycle, 0, timer_event_callback, NULL);
     stopwatch_timer_init(&model->run.cycle.timer_rotation, 0, timer_event_callback, NULL);
+    stopwatch_timer_set_autoreload(&model->run.cycle.timer_rotation, 1);
     stopwatch_timer_init(&model->run.cycle.timer_reset, 0, timer_event_callback, NULL);
     stopwatch_timer_init(&model->run.cycle.timer_temperature, 0, timer_event_callback, NULL);
 }
@@ -54,6 +55,7 @@ uint8_t cycle_manage(mut_model_t *model) {
     stopwatch_timer_manage(&model->run.cycle.timer_cycle, timestamp_get(), model);
     stopwatch_timer_manage(&model->run.cycle.timer_rotation, timestamp_get(), model);
     stopwatch_timer_manage(&model->run.cycle.timer_reset, timestamp_get(), model);
+    stopwatch_timer_manage(&model->run.cycle.timer_temperature, timestamp_get(), model);
     return 0;
 }
 
@@ -120,8 +122,8 @@ static int stopped_event_manager(cycle_event_code_t event, void *arg) {
             return CYCLE_STATE_PAUSED;
 
         case CYCLE_EVENT_CODE_START:
-            // Do not start if there are alarms active
-            if (model->run.alarms) {
+            // Do not start if there are alarms active or in test
+            if (model->run.alarms || model->run.test.on) {
                 break;
             }
 
@@ -209,7 +211,8 @@ static int running_event_manager(cycle_event_code_t event, void *arg) {
             break;
 
         case CYCLE_EVENT_CODE_CHECK_TEMPERATURE:
-            if (model->run.heating.state_machine.node_index != HEATING_STATE_SETPOINT_REACHED) {
+            if (model->run.step_type == DRYER_PROGRAM_STEP_TYPE_DRYING &&
+                model->run.heating.state_machine.node_index != HEATING_STATE_SETPOINT_REACHED) {
                 model->run.temperature_not_reached_alarm = 1;
                 return CYCLE_STATE_PAUSED;
             }
@@ -304,8 +307,8 @@ static int paused_event_manager(cycle_event_code_t event, void *arg) {
 
     switch (event) {
         case CYCLE_EVENT_CODE_START:
-            // Do not start if there are alarms active
-            if (model->run.alarms) {
+            // Do not start if there are alarms active or in test
+            if (model->run.alarms || model->run.test.on) {
                 break;
             }
 
@@ -346,8 +349,8 @@ static int standby_event_manager(cycle_event_code_t event, void *arg) {
             return CYCLE_STATE_PAUSED;
 
         case CYCLE_EVENT_CODE_START:
-            // Do not start if there are alarms active
-            if (model->run.alarms) {
+            // Do not start if there are alarms active or in test
+            if (model->run.alarms || model->run.test.on) {
                 break;
             }
 
@@ -457,7 +460,7 @@ static void start_everything(model_t *model) {
 static void configure_temperature_timer(model_t *model) {
     if (model->run.step_type == DRYER_PROGRAM_STEP_TYPE_DRYING) {
         stopwatch_timer_t *timer_temperature = &model->run.cycle.timer_temperature;
-        fix_timer(timer_temperature, model->run.parmac.temperature_alarm_delay_seconds,
+        fix_timer(timer_temperature, model->run.parmac.temperature_alarm_delay_seconds * 1000UL,
                   CYCLE_EVENT_CODE_CHECK_TEMPERATURE);
     }
 }
@@ -465,7 +468,8 @@ static void configure_temperature_timer(model_t *model) {
 
 static void fix_timer(stopwatch_timer_t *timer, unsigned long period, int arg) {
     stopwatch_timer_set_period(timer, period);
-    stopwatch_timer_set_arg(timer, (void *)(uintptr_t)arg);
+    timer->arg = (void *)(uintptr_t)arg;
+    // stopwatch_timer_set_arg(timer, (void *)(uintptr_t)arg);
     stopwatch_timer_reset(timer, timestamp_get());
     stopwatch_timer_pause(timer, timestamp_get());
 }
