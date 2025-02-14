@@ -63,7 +63,6 @@
         </peripheral>
         <peripheral name="ICU.CM23">
             <slot name="IRQ0.CM23" secure="false"/>
-            <slot name="IRQ2.CM23" secure="false"/>
             <slot name="IRQ4.CM23" secure="false"/>
             <slot name="IRQ5.CM23" secure="false"/>
             <slot name="IRQ6.CM23" secure="false"/>

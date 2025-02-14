@@ -54,9 +54,6 @@ src/bsp/power_off.o: ../src/bsp/power_off.c \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_flash_lp.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_flash_api.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/r_flash_lp_cfg.h \
- /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/rm_vee_flash.h \
- /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/rm_vee_api.h \
- /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/rm_vee_flash_cfg.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_gpt.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_timer_api.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_adc.h \
@@ -67,7 +64,9 @@ src/bsp/power_off.o: ../src/bsp/power_off.c \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_sci_uart.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_uart_api.h \
  /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/r_sci_uart_cfg.h \
- ../src/bsp/power_off.h
+ ../src/bsp/power_off.h \
+ /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/src/services/crc16-ccitt.h \
+ /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/src/services/serializer.h
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_gen/hal_data.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/bsp_api.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/fsp_common_api.h:
@@ -123,9 +122,6 @@ src/bsp/power_off.o: ../src/bsp/power_off.c \
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_flash_lp.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_flash_api.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/r_flash_lp_cfg.h:
-/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/rm_vee_flash.h:
-/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/rm_vee_api.h:
-/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/rm_vee_flash_cfg.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_gpt.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_timer_api.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/instances/r_adc.h:
@@ -137,3 +133,5 @@ src/bsp/power_off.o: ../src/bsp/power_off.c \
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra/fsp/inc/api/r_uart_api.h:
 /home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/ra_cfg/fsp_cfg/r_sci_uart_cfg.h:
 ../src/bsp/power_off.h:
+/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/src/services/crc16-ccitt.h:
+/home/maldus/Projects/Rotondi/minieco-paperoga-b-rotondi/src/services/serializer.h:

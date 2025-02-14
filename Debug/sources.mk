@@ -65,7 +65,6 @@ ra/fsp/src/r_gpt \
 ra/fsp/src/r_icu \
 ra/fsp/src/r_ioport \
 ra/fsp/src/r_sci_uart \
-ra/fsp/src/rm_vee_flash \
 ra_gen \
 src/adapters \
 src/bsp \
