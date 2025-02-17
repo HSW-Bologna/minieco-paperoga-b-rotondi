@@ -427,6 +427,7 @@ static void stop_everything(model_t *model) {
     stopwatch_timer_pause(timer_temperature, timestamp_get());
 
     heating_off(model);
+    model->run.heating.temperature_was_reached = 0;
 
     model->run.cycle.num_cycles = 0;
 }
@@ -472,4 +473,27 @@ static void fix_timer(stopwatch_timer_t *timer, unsigned long period, int arg) {
     // stopwatch_timer_set_arg(timer, (void *)(uintptr_t)arg);
     stopwatch_timer_reset(timer, timestamp_get());
     stopwatch_timer_pause(timer, timestamp_get());
+}
+
+
+static uint8_t should_time_be_running(model_t *model) {
+    switch (model->run.cycle.state_machine.node_index) {
+        case CYCLE_STATE_STOPPED:
+        case CYCLE_STATE_WAIT_START:
+            return 0;
+
+        case CYCLE_STATE_PAUSED:
+            // Depends on parameters
+            return !model->run.parmac.stop_time_in_pause;
+
+        case CYCLE_STATE_RUNNING:
+        case CYCLE_STATE_STANDBY:
+            if (model->run.parmac.wait_for_temperature) {
+                // Only if we already reached the setpoint at least once
+                return model->run.heating.temperature_was_reached;
+            } else {
+                return 1;
+            }
+    }
+    return 0;
 }

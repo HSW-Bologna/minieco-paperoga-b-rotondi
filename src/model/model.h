@@ -237,6 +237,7 @@ typedef struct {
         struct {
             timestamp_t             timestamp;
             heating_state_machine_t state_machine;
+            uint8_t                 temperature_was_reached;
         } heating;
 
         struct {
