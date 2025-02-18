@@ -5,7 +5,6 @@
         BSP_DONT_REMOVE const fsp_vector_t g_vector_table[BSP_ICU_VECTOR_MAX_ENTRIES] BSP_PLACE_IN_SECTION(BSP_SECTION_APPLICATION_VECTORS) =
         {
                         [0] = adc_scan_end_isr, /* ADC0 SCAN END (End of A/D scanning operation) */
-            [2] = fcu_frdyi_isr, /* FCU FRDYI (Flash ready interrupt) */
             [4] = sci_uart_rxi_isr, /* SCI2 RXI (Receive data full) */
             [5] = sci_uart_txi_isr, /* SCI2 TXI (Transmit data empty) */
             [6] = sci_uart_tei_isr, /* SCI2 TEI (Transmit end) */
@@ -16,7 +15,6 @@
         const bsp_interrupt_event_t g_interrupt_event_link_select[BSP_ICU_VECTOR_MAX_ENTRIES] =
         {
             [0] = BSP_PRV_VECT_ENUM(EVENT_ADC0_SCAN_END,GROUP0), /* ADC0 SCAN END (End of A/D scanning operation) */
-            [2] = BSP_PRV_VECT_ENUM(EVENT_FCU_FRDYI,GROUP2), /* FCU FRDYI (Flash ready interrupt) */
             [4] = BSP_PRV_VECT_ENUM(EVENT_SCI2_RXI,GROUP4), /* SCI2 RXI (Receive data full) */
             [5] = BSP_PRV_VECT_ENUM(EVENT_SCI2_TXI,GROUP5), /* SCI2 TXI (Transmit data empty) */
             [6] = BSP_PRV_VECT_ENUM(EVENT_SCI2_TEI,GROUP6), /* SCI2 TEI (Transmit end) */

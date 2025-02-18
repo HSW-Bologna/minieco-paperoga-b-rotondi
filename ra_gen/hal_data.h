@@ -6,7 +6,6 @@
 #include "common_data.h"
 #include "r_flash_lp.h"
 #include "r_flash_api.h"
-#include "rm_vee_flash.h"
 #include "r_gpt.h"
 #include "r_timer_api.h"
 #include "r_adc.h"
@@ -15,22 +14,14 @@
 #include "r_uart_api.h"
 FSP_HEADER
 /* Flash on Flash LP Instance. */
-extern const flash_instance_t g_flash0;
+extern const flash_instance_t g_flash;
 
 /** Access the Flash LP instance using these structures when calling API functions directly (::p_api is not used). */
-extern flash_lp_instance_ctrl_t g_flash0_ctrl;
-extern const flash_cfg_t g_flash0_cfg;
+extern flash_lp_instance_ctrl_t g_flash_ctrl;
+extern const flash_cfg_t g_flash_cfg;
 
-#ifndef rm_vee_flash_callback
-void rm_vee_flash_callback(flash_callback_args_t *p_args);
-#endif
-extern const rm_vee_instance_t g_vee0;
-extern rm_vee_flash_instance_ctrl_t g_vee0_ctrl;
-extern const rm_vee_cfg_t g_vee0_cfg;
-
-/** Callback used by VEE Instance. */
-#ifndef vee_callback
-void vee_callback(rm_vee_callback_args_t *p_args);
+#ifndef NULL
+void NULL(flash_callback_args_t *p_args);
 #endif
 /** Timer on GPT Instance. */
 extern const timer_instance_t g_timer_pwm;

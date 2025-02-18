@@ -24,6 +24,4 @@ Renesas\#\#HAL\ Drivers\#\#all\#\#r_ioport\#\#\#\#5.4.0/all=3455513762,ra/fsp/sr
 Renesas\#\#HAL\ Drivers\#\#all\#\#r_ioport\#\#\#\#5.4.0/libraries=
 Renesas\#\#HAL\ Drivers\#\#all\#\#r_sci_uart\#\#\#\#5.4.0/all=1205055407,ra/fsp/src/r_sci_uart/r_sci_uart.c|20165439,ra/fsp/inc/instances/r_sci_uart.h|2184748992,ra/fsp/inc/api/r_transfer_api.h|1365856538,ra/fsp/inc/api/r_uart_api.h
 Renesas\#\#HAL\ Drivers\#\#all\#\#r_sci_uart\#\#\#\#5.4.0/libraries=
-Renesas\#\#Middleware\#\#all\#\#rm_vee_flash\#\#\#\#5.4.0/all=1122575667,ra/fsp/src/rm_vee_flash/rm_vee_flash.c|2365048009,ra/fsp/inc/instances/rm_vee_flash.h|283453232,ra/fsp/inc/api/rm_vee_api.h
-Renesas\#\#Middleware\#\#all\#\#rm_vee_flash\#\#\#\#5.4.0/libraries=
 eclipse.preferences.version=1

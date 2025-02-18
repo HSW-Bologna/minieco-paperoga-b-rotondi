@@ -1,2 +1,2 @@
-Diagnostics:
-  Suppress: pp_hash_error
+Diagnostics: {Suppress: pp_hash_error}
+CompileFlags: {CompilationDatabase: Debug}
