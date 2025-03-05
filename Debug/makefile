@@ -17,7 +17,6 @@ RM := rm -rf
 -include src/adapters/subdir.mk
 -include src/subdir.mk
 -include ra_gen/subdir.mk
--include ra/fsp/src/rm_vee_flash/subdir.mk
 -include ra/fsp/src/r_sci_uart/subdir.mk
 -include ra/fsp/src/r_ioport/subdir.mk
 -include ra/fsp/src/r_icu/subdir.mk

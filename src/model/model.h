@@ -10,7 +10,7 @@
 #include "state_machine.h"
 
 
-#define PWOFF_SERIALIZED_SIZE 45
+#define PWOFF_SERIALIZED_SIZE 43
 #define COIN_LINES            6
 
 #define HEATING_TYPE_ELECTRIC 0
@@ -32,13 +32,13 @@ typedef enum {
     CYCLE_EVENT_CODE_COLD_START,
     CYCLE_EVENT_CODE_STOP,
     CYCLE_EVENT_CODE_STEP_DONE,
+    CYCLE_EVENT_CODE_WAIT_DONE,
     CYCLE_EVENT_CODE_PAUSE,
     CYCLE_EVENT_CODE_RESUME,
     CYCLE_EVENT_CODE_MOTION_PAUSE,
     CYCLE_EVENT_CODE_FORWARD,
     CYCLE_EVENT_CODE_BACKWARD,
     CYCLE_EVENT_CODE_CHECK,
-    CYCLE_EVENT_CODE_CHECK_TEMPERATURE,
 } cycle_event_code_t;
 
 
@@ -46,6 +46,7 @@ typedef enum {
     RISCALDAMENTO_EVENT_CODE_ON,
     RISCALDAMENTO_EVENT_CODE_OFF,
     RISCALDAMENTO_EVENT_CODE_CHECK,
+    RISCALDAMENTO_EVENT_CODE_TEMPERATURE_TIMEOUT,
 } heating_event_code_t;
 
 
@@ -211,8 +212,6 @@ typedef struct {
             uint16_t           cycle_delay_time;
             uint16_t           cycle_reset_time;
             uint16_t           duration;
-            uint16_t           max_cycles;
-            uint16_t           start_delay;
             uint16_t           rotation_running_time;
             uint16_t           rotation_pause_time;
             uint16_t           speed;
@@ -236,6 +235,7 @@ typedef struct {
 
         struct {
             timestamp_t             timestamp;
+            timestamp_t             timeout_ts;
             heating_state_machine_t state_machine;
             uint8_t                 temperature_was_reached;
         } heating;
@@ -255,9 +255,7 @@ typedef struct {
             stopwatch_timer_t     timer_cycle;
             stopwatch_timer_t     timer_rotation;
             stopwatch_timer_t     timer_reset;
-            stopwatch_timer_t     timer_temperature;
             cycle_state_machine_t state_machine;
-            uint16_t              num_cycles;
             uint8_t               completed;
             timestamp_t           start_ts;
         } cycle;
@@ -319,10 +317,10 @@ uint8_t       model_is_cycle_on(model_t *model);
 void          model_reset_burner(model_t *model);
 uint8_t       model_is_fan_on(model_t *model);
 uint8_t       model_is_step_endless(model_t *model);
-uint8_t       model_cycles_exceeded(model_t *model);
 uint8_t       model_is_inverter_alarm_active(model_t *model);
 uint16_t      model_get_elapsed_seconds(model_t *model);
 void          model_cycle_over(mut_model_t *model);
+void          model_cycle_standby(mut_model_t *model);
 
 
 #endif

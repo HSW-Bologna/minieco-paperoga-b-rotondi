@@ -17,9 +17,10 @@
 
 #define COMMAND_REGISTER_RESUME       1
 #define COMMAND_REGISTER_PAUSE        2
-#define COMMAND_REGISTER_DONE         3
-#define COMMAND_REGISTER_CLEAR_ALARMS 4
-#define COMMAND_REGISTER_CLEAR_COINS  5
+#define COMMAND_REGISTER_STANDBY      3
+#define COMMAND_REGISTER_DONE         4
+#define COMMAND_REGISTER_CLEAR_ALARMS 5
+#define COMMAND_REGISTER_CLEAR_COINS  6
 
 
 enum {
@@ -74,8 +75,6 @@ enum {
     MODBUS_HR_TEMPERATURE_COOLING_HYSTERESIS,
     MODBUS_HR_TEMPERATURE_HEATING_HYSTERESIS,
     MODBUS_HR_DRYING_TYPE,
-    MODBUS_HR_START_DELAY,
-    MODBUS_HR_MAX_CYCLES,
     MODBUS_HR_PROGRAM_NUMBER,
     MODBUS_HR_STEP_NUMBER,
     MODBUS_HR_STEP_TYPE,
@@ -191,8 +190,6 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                         case MODBUS_HR_ROTATION_SPEED:
                         case MODBUS_HR_DURATION:
                         case MODBUS_HR_DRYING_TYPE:
-                        case MODBUS_HR_START_DELAY:
-                        case MODBUS_HR_MAX_CYCLES:
                         case MODBUS_HR_SETPOINT_TEMPERATURE:
                         case MODBUS_HR_SETPOINT_HUMIDITY:
                         case MODBUS_HR_TEMPERATURE_COOLING_HYSTERESIS:
@@ -385,14 +382,6 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             result->value = model->run.parmac.drying_type;
                             break;
 
-                        case MODBUS_HR_START_DELAY:
-                            result->value = model->run.parmac.start_delay;
-                            break;
-
-                        case MODBUS_HR_MAX_CYCLES:
-                            result->value = model->run.parmac.max_cycles;
-                            break;
-
                         case MODBUS_HR_SETPOINT_TEMPERATURE:
                             result->value = model->run.parmac.setpoint_temperature;
                             break;
@@ -461,6 +450,10 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
 
                                 case COMMAND_REGISTER_PAUSE:
                                     model_cycle_pause(model);
+                                    break;
+
+                                case COMMAND_REGISTER_STANDBY:
+                                    model_cycle_standby(model);
                                     break;
 
                                 case COMMAND_REGISTER_DONE:
@@ -564,17 +557,13 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             model->run.parmac.drying_type = args->value;
                             break;
 
-                        case MODBUS_HR_START_DELAY:
-                            model->run.parmac.start_delay = args->value;
+                        case MODBUS_HR_SETPOINT_TEMPERATURE: {
+                            if (model->run.parmac.setpoint_temperature != args->value) {
+                                model->run.parmac.setpoint_temperature     = args->value;
+                                model->run.heating.temperature_was_reached = 0;
+                            }
                             break;
-
-                        case MODBUS_HR_MAX_CYCLES:
-                            model->run.parmac.max_cycles = args->value;
-                            break;
-
-                        case MODBUS_HR_SETPOINT_TEMPERATURE:
-                            model->run.parmac.setpoint_temperature = args->value;
-                            break;
+                        }
 
                         case MODBUS_HR_SETPOINT_HUMIDITY:
                             model->run.parmac.setpoint_humidity = args->value;

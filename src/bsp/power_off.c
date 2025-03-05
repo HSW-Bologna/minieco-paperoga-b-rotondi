@@ -75,7 +75,7 @@ void bsp_power_off_save(uint8_t *data, uint16_t len) {
     memcpy(&buffer[4], data, len);
 
     uint16_t crc = crc16_ccitt(buffer, SUB_BLOCK_SIZE - 2, 0);
-    serialize_uint32_be(&buffer[SUB_BLOCK_SIZE - 2], crc);
+    serialize_uint16_be(&buffer[SUB_BLOCK_SIZE - 2], crc);
 
     uint32_t address = FLASH_DF_BLOCK_0_ADDRESS + ((uint16_t)next_sub_block_index * SUB_BLOCK_SIZE);
     R_FLASH_LP_Write(&g_flash_ctrl, (uint32_t)(uintptr_t)buffer, address, SUB_BLOCK_SIZE);
@@ -87,7 +87,7 @@ uint8_t bsp_power_off_load(uint8_t *data, uint16_t len) {
         return 0;
     } else {
         uint8_t *address =
-            (uint8_t *)(uintptr_t)(FLASH_DF_BLOCK_0_ADDRESS + ((uint16_t)last_sub_block_index * SUB_BLOCK_SIZE));
+            (uint8_t *)(uintptr_t)(FLASH_DF_BLOCK_0_ADDRESS + ((uint16_t)last_sub_block_index * SUB_BLOCK_SIZE) + 4);
         assert(len < SUB_BLOCK_SIZE - 4);
         memcpy(data, address, len);
         return 1;

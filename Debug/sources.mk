@@ -72,5 +72,4 @@ src/controller \
 src \
 src/model \
 src/services \
-ra/fsp/src/rm_vee_flash \
 

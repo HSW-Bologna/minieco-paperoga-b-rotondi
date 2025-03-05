@@ -161,13 +161,13 @@ uint16_t model_get_active_alarms(model_t *model) {
             timestamp_is_expired(model->run.air_flow_stopped_ts, model->run.parmac.air_flow_alarm_time * 1000UL);
 
         return (uint16_t)(((model_is_porthole_open(model) > 0) << ALARM_CODE_OBLO_APERTO) |
-                          ((0 && model_is_emergency_alarm_active(model) > 0) << ALARM_CODE_EMERGENZA) |
-                          ((0 && model_is_filter_alarm_active(model) > 0) << ALARM_CODE_FILTRO) |
-                          ((0 && air_flow_alarm > 0) << ALARM_CODE_AIR_FLOW) |
-                          ((0 && model->run.burner_alarm > 0) << ALARM_CODE_BURNER) |
-                          ((0 && model_over_safety_temperature(model) > 0) << ALARM_CODE_SAFETY_TEMPERATURE) |
+                          ((model_is_emergency_alarm_active(model) > 0) << ALARM_CODE_EMERGENZA) |
+                          ((model_is_filter_alarm_active(model) > 0) << ALARM_CODE_FILTRO) |
+                          ((air_flow_alarm > 0) << ALARM_CODE_AIR_FLOW) |
+                          ((model->run.burner_alarm > 0) << ALARM_CODE_BURNER) |
+                          ((model_over_safety_temperature(model) > 0) << ALARM_CODE_SAFETY_TEMPERATURE) |
                           ((model->run.temperature_not_reached_alarm > 0) << ALARM_CODE_TEMPERATURE_NOT_REACHED) |
-                          ((0 && model_is_inverter_alarm_active(model) > 0) << ALARM_CODE_INVERTER));
+                          ((model_is_inverter_alarm_active(model) > 0) << ALARM_CODE_INVERTER));
     }
 }
 
@@ -179,6 +179,11 @@ void model_cycle_resume(mut_model_t *model) {
 
 void model_cycle_pause(mut_model_t *model) {
     cycle_send_event(&model->run.cycle.state_machine, model, CYCLE_EVENT_CODE_PAUSE);
+}
+
+
+void model_cycle_standby(mut_model_t *model) {
+    cycle_send_event(&model->run.cycle.state_machine, model, CYCLE_EVENT_CODE_STEP_DONE);
 }
 
 
@@ -358,13 +363,12 @@ void model_update_sensors(mut_model_t *model, uint16_t inputs, uint16_t temperat
 size_t model_pwoff_serialize(model_t *model, uint8_t *buff) {
     assert(model != NULL);
     size_t j = 0;
-    size_t i = 2;
+    size_t i = 0;
     for (j = 0; j < COIN_LINES; j++) {
         i += serialize_uint16_be(&buff[i], model->run.sensors.coins[j]);
     }
 
     uint16_t remaining_time = (uint16_t)model_get_cycle_remaining_time(model);
-    uint8_t  active         = model_is_cycle_active(model);
 
     i += serialize_uint16_be(&buff[i], model->statisics.complete_cycles);
     i += serialize_uint16_be(&buff[i], model->statisics.partial_cycles);
@@ -376,10 +380,8 @@ size_t model_pwoff_serialize(model_t *model, uint8_t *buff) {
     i += serialize_uint16_be(&buff[i], remaining_time);
     i += serialize_uint16_be(&buff[i], model->run.program_number);
     i += serialize_uint16_be(&buff[i], model->run.step_number);
-    i += serialize_uint8(&buff[i], active);
+    i += serialize_uint8(&buff[i], model->run.cycle.state_machine.node_index);
 
-    unsigned short crc = crc16_ccitt(&buff[2], (unsigned int)i - 2, 0);
-    serialize_uint16_be(&buff[0], crc);
     assert(i == PWOFF_SERIALIZED_SIZE);
     return i;
 }
@@ -387,34 +389,35 @@ size_t model_pwoff_serialize(model_t *model, uint8_t *buff) {
 
 int model_pwoff_deserialize(model_t *model, uint8_t *buff) {
     assert(model != NULL);
-    size_t   j = 0;
-    size_t   i = 0;
-    uint16_t crc;
-    i += deserialize_uint16_be(&crc, &buff[i]);
-    if (crc != crc16_ccitt(&buff[2], PWOFF_SERIALIZED_SIZE - 2, 0)) {
-        return -1;
-    } else {
-        uint16_t remaining_time = 0;
-        uint8_t  active         = 0;
+    size_t   j              = 0;
+    size_t   i              = 0;
+    uint16_t remaining_time = 0;
+    uint8_t  cycle_state    = 0;
 
-        for (j = 0; j < COIN_LINES; j++) {
-            i += deserialize_uint16_be(&model->run.sensors.coins[j], &buff[i]);
-        }
-        i += deserialize_uint16_be(&model->statisics.complete_cycles, &buff[i]);
-        i += deserialize_uint16_be(&model->statisics.partial_cycles, &buff[i]);
-        i += deserialize_uint32_be(&model->statisics.active_time, &buff[i]);
-        i += deserialize_uint32_be(&model->statisics.work_time, &buff[i]);
-        i += deserialize_uint32_be(&model->statisics.rotation_time, &buff[i]);
-        i += deserialize_uint32_be(&model->statisics.ventilation_time, &buff[i]);
-        i += deserialize_uint32_be(&model->statisics.heating_time, &buff[i]);
-        i += deserialize_uint16_be(&remaining_time, &buff[i]);
-        i += deserialize_uint16_be(&model->run.program_number, &buff[i]);
-        i += deserialize_uint16_be(&model->run.step_number, &buff[i]);
-        i += deserialize_uint8(&active, &buff[i]);
+    for (j = 0; j < COIN_LINES; j++) {
+        i += deserialize_uint16_be(&model->run.sensors.coins[j], &buff[i]);
+    }
+    i += deserialize_uint16_be(&model->statisics.complete_cycles, &buff[i]);
+    i += deserialize_uint16_be(&model->statisics.partial_cycles, &buff[i]);
+    i += deserialize_uint32_be(&model->statisics.active_time, &buff[i]);
+    i += deserialize_uint32_be(&model->statisics.work_time, &buff[i]);
+    i += deserialize_uint32_be(&model->statisics.rotation_time, &buff[i]);
+    i += deserialize_uint32_be(&model->statisics.ventilation_time, &buff[i]);
+    i += deserialize_uint32_be(&model->statisics.heating_time, &buff[i]);
+    i += deserialize_uint16_be(&remaining_time, &buff[i]);
+    i += deserialize_uint16_be(&model->run.program_number, &buff[i]);
+    i += deserialize_uint16_be(&model->run.step_number, &buff[i]);
+    i += deserialize_uint8(&cycle_state, &buff[i]);
 
-        if (active) {
+    switch (cycle_state) {
+        case CYCLE_STATE_STANDBY:
+        case CYCLE_STATE_RUNNING:
+        case CYCLE_EVENT_CODE_PAUSE:
             cycle_cold_start(model, remaining_time);
-        }
+            break;
+
+        default:
+            break;
     }
 
     assert(i == PWOFF_SERIALIZED_SIZE);
@@ -700,12 +703,6 @@ void model_reset_burner(model_t *model) {
         model->run.burner_ts    = timestamp_get();
         model->run.burner_state = BURNER_STATE_RESETTING;
     }
-}
-
-
-uint8_t model_cycles_exceeded(model_t *model) {
-    assert(model != NULL);
-    return model->run.parmac.max_cycles > 0 && model->run.cycle.num_cycles >= model->run.parmac.max_cycles;
 }
 
 
