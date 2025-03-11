@@ -90,6 +90,33 @@ void cycle_check(mut_model_t *model) {
 }
 
 
+void cycle_set_duration(mut_model_t *model, uint16_t seconds) {
+    switch (model->run.cycle.state_machine.node_index) {
+        case CYCLE_STATE_RUNNING:
+        case CYCLE_STATE_PAUSED: {
+            stopwatch_timer_t *timer_cycle = &model->run.cycle.timer_cycle;
+
+            unsigned long milliseconds = seconds * 1000UL;
+            unsigned long remaining    = stopwatch_get_remaining(&timer_cycle->stopwatch, timestamp_get());
+            unsigned long total        = stopwatch_get_total_time(&timer_cycle->stopwatch);
+            if (remaining > milliseconds) {
+                if (total > remaining - milliseconds) {
+                    stopwatch_timer_set_period(timer_cycle, total - (remaining - milliseconds));
+                } else {
+                    stopwatch_timer_set_period(timer_cycle, 0);
+                }
+            } else {
+                stopwatch_timer_set_period(timer_cycle, total + (milliseconds - remaining));
+            }
+            break;
+        }
+
+        default:
+            break;
+    }
+}
+
+
 void cycle_increase_duration(mut_model_t *model, uint16_t seconds) {
     switch (model->run.cycle.state_machine.node_index) {
         case CYCLE_STATE_RUNNING:
@@ -400,6 +427,7 @@ static void stop_everything(model_t *model) {
 
     heating_off(model);
     model->run.heating.temperature_was_reached = 0;
+    model->run.humidity_was_reached            = 0;
 }
 
 
@@ -412,9 +440,9 @@ static void start_everything(model_t *model) {
         heating_off(model);
     }
 
-    if (!model_ciclo_continuo(model)) {
-        model_drum_forward(model);
+    model_drum_forward(model);
 
+    if (!model_ciclo_continuo(model)) {
         fix_timer(timer_rotation, model->run.parmac.rotation_running_time * 1000UL, CYCLE_EVENT_CODE_MOTION_PAUSE);
         stopwatch_timer_resume(timer_rotation, timestamp_get());
     }
@@ -431,9 +459,13 @@ static void fix_timer(stopwatch_timer_t *timer, unsigned long period, int arg) {
 
 
 static uint8_t should_time_be_running(model_t *model) {
-    if (model->run.parmac.wait_for_temperature) {
-        // Only if we already reached the setpoint at least once
-        return model->run.heating.temperature_was_reached;
+    // Wait for humidity
+    if (model_is_time_held_by_humidity(model)) {
+        return 0;
+    }
+    // Wait for temperature
+    else if (model_is_time_held_by_temperature(model)) {
+        return 0;
     } else {
         return 1;
     }

@@ -15,12 +15,13 @@
 #include "bsp/rs232.h"
 
 
-#define COMMAND_REGISTER_RESUME       1
-#define COMMAND_REGISTER_PAUSE        2
-#define COMMAND_REGISTER_STANDBY      3
-#define COMMAND_REGISTER_DONE         4
-#define COMMAND_REGISTER_CLEAR_ALARMS 5
-#define COMMAND_REGISTER_CLEAR_COINS  6
+#define COMMAND_REGISTER_RESUME                 1
+#define COMMAND_REGISTER_PAUSE                  2
+#define COMMAND_REGISTER_STANDBY                3
+#define COMMAND_REGISTER_DONE                   4
+#define COMMAND_REGISTER_CLEAR_ALARMS           5
+#define COMMAND_REGISTER_CLEAR_COINS            6
+#define COMMAND_REGISTER_CLEAR_CYCLE_STATISTICS 7
 
 
 enum {
@@ -47,6 +48,20 @@ enum {
     MODBUS_IR_ELAPSED_TIME,
     MODBUS_IR_REMAINING_TIME,
     MODBUS_IR_ALARMS,
+    MODBUS_IR_STATS_COMPLETE_CYCLES_HIGH,
+    MODBUS_IR_STATS_COMPLETE_CYCLES_LOW,
+    MODBUS_IR_STATS_PARTIAL_CYCLES_HIGH,
+    MODBUS_IR_STATS_PARTIAL_CYCLES_LOW,
+    MODBUS_IR_STATS_ACTIVE_TIME_SECONDS_HIGH,
+    MODBUS_IR_STATS_ACTIVE_TIME_SECONDS_LOW,
+    MODBUS_IR_STATS_WORK_TIME_SECONDS_HIGH,
+    MODBUS_IR_STATS_WORK_TIME_SECONDS_LOW,
+    MODBUS_IR_STATS_ROTATION_TIME_SECONDS_HIGH,
+    MODBUS_IR_STATS_ROTATION_TIME_SECONDS_LOW,
+    MODBUS_IR_STATS_VENTILATION_TIME_SECONDS_HIGH,
+    MODBUS_IR_STATS_VENTILATION_TIME_SECONDS_LOW,
+    MODBUS_IR_STATS_HEATING_TIME_SECONDS_HIGH,
+    MODBUS_IR_STATS_HEATING_TIME_SECONDS_LOW,
 };
 
 
@@ -80,6 +95,7 @@ enum {
     MODBUS_HR_STEP_TYPE,
     MODBUS_HR_COMMAND,
     MODBUS_HR_INCREASE_DURATION,
+    MODBUS_HR_SET_DURATION,
 };
 
 
@@ -170,6 +186,7 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                     switch (args->index) {
                         case MODBUS_HR_COMMAND:
                         case MODBUS_HR_INCREASE_DURATION:
+                        case MODBUS_HR_SET_DURATION:
                         case MODBUS_HR_TEST_MODE:
                         case MODBUS_HR_TEST_OUTPUTS:
                         case MODBUS_HR_TEST_PWM:
@@ -227,7 +244,15 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             break;
 
                         case MODBUS_IR_STATUS:
-                            result->value = (uint16_t)(((model_get_relay_map(model) & (1 << OUTPUT_HEATING)) > 0) << 0);
+                            if (model_is_cycle_active(model)) {
+                                result->value =
+                                    (uint16_t)((((model_get_relay_map(model) & (1 << OUTPUT_HEATING)) > 0) << 0) |
+                                               ((model_is_time_held_by_temperature(model) > 0) << 1) |
+                                               ((model_is_time_held_by_humidity(model) > 0) << 2));
+                            } else {
+                                result->value =
+                                    (uint16_t)(((model_get_relay_map(model) & (1 << OUTPUT_HEATING)) > 0) << 0);
+                            }
                             break;
 
                         case MODBUS_IR_INPUT:
@@ -293,6 +318,66 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
 
                         case MODBUS_IR_ALARMS:
                             result->value = model->run.alarms;
+                            break;
+
+                        case MODBUS_IR_STATS_COMPLETE_CYCLES_HIGH:
+                            result->value = (uint16_t)((model->statistics.complete_cycles >> 16) & 0xFFFF);
+                            break;
+
+                        case MODBUS_IR_STATS_COMPLETE_CYCLES_LOW:
+                            result->value = (uint16_t)(model->statistics.complete_cycles & 0xFFFF);
+                            break;
+
+                        case MODBUS_IR_STATS_PARTIAL_CYCLES_HIGH:
+                            result->value = (uint16_t)((model->statistics.partial_cycles >> 16) & 0xFFFF);
+                            break;
+
+                        case MODBUS_IR_STATS_PARTIAL_CYCLES_LOW:
+                            result->value = (uint16_t)(model->statistics.partial_cycles & 0xFFFF);
+                            break;
+
+                        case MODBUS_IR_STATS_ACTIVE_TIME_SECONDS_HIGH: {
+                            uint32_t current_active_time = model->statistics.active_time + timestamp_get() / 1000UL;
+                            result->value                = (uint16_t)((current_active_time >> 16) & 0xFFFF);
+                            break;
+                        }
+
+                        case MODBUS_IR_STATS_ACTIVE_TIME_SECONDS_LOW: {
+                            uint32_t current_active_time = model->statistics.active_time + timestamp_get() / 1000UL;
+                            result->value                = (uint16_t)(current_active_time & 0xFFFF);
+                            break;
+                        }
+
+                        case MODBUS_IR_STATS_WORK_TIME_SECONDS_HIGH:
+                            result->value = (uint16_t)((model->statistics.work_time >> 16) & 0xFFFF);
+                            break;
+
+                        case MODBUS_IR_STATS_WORK_TIME_SECONDS_LOW:
+                            result->value = (uint16_t)(model->statistics.work_time & 0xFFFF);
+                            break;
+
+                        case MODBUS_IR_STATS_ROTATION_TIME_SECONDS_HIGH:
+                            result->value = (uint16_t)((model->statistics.rotation_time >> 16) & 0xFFFF);
+                            break;
+
+                        case MODBUS_IR_STATS_ROTATION_TIME_SECONDS_LOW:
+                            result->value = (uint16_t)(model->statistics.rotation_time & 0xFFFF);
+                            break;
+
+                        case MODBUS_IR_STATS_VENTILATION_TIME_SECONDS_HIGH:
+                            result->value = (uint16_t)((model->statistics.ventilation_time >> 16) & 0xFFFF);
+                            break;
+
+                        case MODBUS_IR_STATS_VENTILATION_TIME_SECONDS_LOW:
+                            result->value = (uint16_t)(model->statistics.ventilation_time & 0xFFFF);
+                            break;
+
+                        case MODBUS_IR_STATS_HEATING_TIME_SECONDS_HIGH:
+                            result->value = (uint16_t)((model->statistics.heating_time >> 16) & 0xFFFF);
+                            break;
+
+                        case MODBUS_IR_STATS_HEATING_TIME_SECONDS_LOW:
+                            result->value = (uint16_t)(model->statistics.heating_time & 0xFFFF);
                             break;
 
                         default:
@@ -368,9 +453,8 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                                                        (model->run.parmac.filter_alarm_nc_na > 0) << 4 |
                                                        (model->run.parmac.porthole_nc_na > 0) << 5 |
                                                        (model->run.parmac.busy_signal_nc_na > 0) << 6 |
-                                                       (model->run.parmac.invert_fan_drum > 0) << 7 |
-                                                       (model->run.parmac.enable_reverse > 0) << 8 |
-                                                       (model->run.parmac.wait_for_temperature > 0) << 9     //|
+                                                       (model->run.parmac.enable_reverse > 0) << 7 |
+                                                       (model->run.parmac.wait_for_temperature > 0) << 8     //|
                             );
                             break;
 
@@ -379,7 +463,7 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             break;
 
                         case MODBUS_HR_DRYING_TYPE:
-                            result->value = model->run.parmac.drying_type;
+                            result->value = model->run.parmac.wait_for_humidity;
                             break;
 
                         case MODBUS_HR_SETPOINT_TEMPERATURE:
@@ -468,6 +552,11 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                                     model_clear_coins(model);
                                     break;
 
+                                case COMMAND_REGISTER_CLEAR_CYCLE_STATISTICS:
+                                    model->statistics.complete_cycles = 0;
+                                    model->statistics.partial_cycles  = 0;
+                                    break;
+
                                 default:
                                     break;
                             }
@@ -476,6 +565,11 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
 
                         case MODBUS_HR_INCREASE_DURATION: {
                             cycle_increase_duration(model, args->value);
+                            break;
+                        }
+
+                        case MODBUS_HR_SET_DURATION: {
+                            cycle_set_duration(model, args->value);
                             break;
                         }
 
@@ -544,9 +638,8 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             model->run.parmac.filter_alarm_nc_na    = (args->value & (1 << 4)) > 0;
                             model->run.parmac.porthole_nc_na        = (args->value & (1 << 5)) > 0;
                             model->run.parmac.busy_signal_nc_na     = (args->value & (1 << 6)) > 0;
-                            model->run.parmac.invert_fan_drum       = (args->value & (1 << 7)) > 0;
-                            model->run.parmac.enable_reverse        = (args->value & (1 << 8)) > 0;
-                            model->run.parmac.wait_for_temperature  = (args->value & (1 << 9)) > 0;
+                            model->run.parmac.enable_reverse        = (args->value & (1 << 7)) > 0;
+                            model->run.parmac.wait_for_temperature  = (args->value & (1 << 8)) > 0;
                             break;
 
                         case MODBUS_HR_DURATION:
@@ -554,7 +647,7 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             break;
 
                         case MODBUS_HR_DRYING_TYPE:
-                            model->run.parmac.drying_type = args->value;
+                            model->run.parmac.wait_for_humidity = args->value;
                             break;
 
                         case MODBUS_HR_SETPOINT_TEMPERATURE: {

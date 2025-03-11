@@ -58,8 +58,7 @@ void controller_manage(mut_model_t *model) {
 void controller_power_off(void *arg) {
     model_t *model = arg;
 
-    model->statisics.active_time += timestamp_get() / 1000UL;
-    // TODO: sum other times (fan, heating, etc)
+    model->statistics.active_time += timestamp_get() / 1000UL;
 
     {
         uint8_t buffer[PWOFF_SERIALIZED_SIZE] = {0};

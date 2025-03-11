@@ -52,8 +52,8 @@ int temperature_humidity_probe_read(int16_t *temperature, uint16_t *humidity) {
         __NOP();
         return -1;
     } else {
-        *temperature = ((rec_buf[0] << 8) & 0xFF) | rec_buf[1];
-        *humidity    = ((rec_buf[2] << 8) & 0xFF) | rec_buf[3];
+        *temperature = ((rec_buf[0] << 8) & 0xFF00) | rec_buf[1];
+        *humidity    = ((rec_buf[2] << 8) & 0xFF00) | rec_buf[3];
     }
     return 0;
 }

@@ -37,8 +37,19 @@ void model_manage(mut_model_t *model) {
     heating_manage(model);
     cycle_manage(model);
 
+    if (model->run.parmac.temperature_probe == TEMPERATURE_PROBE_SHT) {
+        if (model->run.sensors.humidity_probe / 100 <= model->run.parmac.setpoint_humidity) {
+            if (timestamp_is_expired(model->run.humidity_reached_ts, 10000UL)) {
+                model->run.humidity_was_reached = 1;
+            }
+        } else {
+            model->run.humidity_reached_ts = timestamp_get();
+        }
+    }
+
     // Reset burner state while not running
     if (!model_is_cycle_active(model)) {
+        model->run.humidity_reached_ts   = timestamp_get();
         model->run.burner_ts             = timestamp_get();
         model->run.burner_reset_attempts = 0;
     }
@@ -295,8 +306,6 @@ uint8_t model_get_pwm_drum_percentage(model_t *model) {
     assert(model != NULL);
     if (communication_is_missing(model)) {
         return 0;
-    } else if (model->run.parmac.invert_fan_drum) {
-        return get_pwm_fan_percentage(model);
     } else {
         return get_pwm_drum_percentage(model);
     }
@@ -307,8 +316,6 @@ uint8_t model_get_pwm_fan_percentage(model_t *model) {
     assert(model != NULL);
     if (communication_is_missing(model)) {
         return 0;
-    } else if (model->run.parmac.invert_fan_drum) {
-        return get_pwm_drum_percentage(model);
     } else {
         return get_pwm_fan_percentage(model);
     }
@@ -370,13 +377,13 @@ size_t model_pwoff_serialize(model_t *model, uint8_t *buff) {
 
     uint16_t remaining_time = (uint16_t)model_get_cycle_remaining_time(model);
 
-    i += serialize_uint16_be(&buff[i], model->statisics.complete_cycles);
-    i += serialize_uint16_be(&buff[i], model->statisics.partial_cycles);
-    i += serialize_uint32_be(&buff[i], model->statisics.active_time);
-    i += serialize_uint32_be(&buff[i], model->statisics.work_time);
-    i += serialize_uint32_be(&buff[i], model->statisics.rotation_time);
-    i += serialize_uint32_be(&buff[i], model->statisics.ventilation_time);
-    i += serialize_uint32_be(&buff[i], model->statisics.heating_time);
+    i += serialize_uint16_be(&buff[i], model->statistics.complete_cycles);
+    i += serialize_uint16_be(&buff[i], model->statistics.partial_cycles);
+    i += serialize_uint32_be(&buff[i], model->statistics.active_time);
+    i += serialize_uint32_be(&buff[i], model->statistics.work_time);
+    i += serialize_uint32_be(&buff[i], model->statistics.rotation_time);
+    i += serialize_uint32_be(&buff[i], model->statistics.ventilation_time);
+    i += serialize_uint32_be(&buff[i], model->statistics.heating_time);
     i += serialize_uint16_be(&buff[i], remaining_time);
     i += serialize_uint16_be(&buff[i], model->run.program_number);
     i += serialize_uint16_be(&buff[i], model->run.step_number);
@@ -397,13 +404,13 @@ int model_pwoff_deserialize(model_t *model, uint8_t *buff) {
     for (j = 0; j < COIN_LINES; j++) {
         i += deserialize_uint16_be(&model->run.sensors.coins[j], &buff[i]);
     }
-    i += deserialize_uint16_be(&model->statisics.complete_cycles, &buff[i]);
-    i += deserialize_uint16_be(&model->statisics.partial_cycles, &buff[i]);
-    i += deserialize_uint32_be(&model->statisics.active_time, &buff[i]);
-    i += deserialize_uint32_be(&model->statisics.work_time, &buff[i]);
-    i += deserialize_uint32_be(&model->statisics.rotation_time, &buff[i]);
-    i += deserialize_uint32_be(&model->statisics.ventilation_time, &buff[i]);
-    i += deserialize_uint32_be(&model->statisics.heating_time, &buff[i]);
+    i += deserialize_uint16_be(&model->statistics.complete_cycles, &buff[i]);
+    i += deserialize_uint16_be(&model->statistics.partial_cycles, &buff[i]);
+    i += deserialize_uint32_be(&model->statistics.active_time, &buff[i]);
+    i += deserialize_uint32_be(&model->statistics.work_time, &buff[i]);
+    i += deserialize_uint32_be(&model->statistics.rotation_time, &buff[i]);
+    i += deserialize_uint32_be(&model->statistics.ventilation_time, &buff[i]);
+    i += deserialize_uint32_be(&model->statistics.heating_time, &buff[i]);
     i += deserialize_uint16_be(&remaining_time, &buff[i]);
     i += deserialize_uint16_be(&model->run.program_number, &buff[i]);
     i += deserialize_uint16_be(&model->run.step_number, &buff[i]);
@@ -516,8 +523,8 @@ int16_t model_get_default_temperature(model_t *model) {
             return (int16_t)model->run.sensors.temperature_output;
 
         case TEMPERATURE_PROBE_SHT: {
-            int16_t rounding = (model->run.sensors.temperature_probe % 10) >= 5;
-            return (int16_t)(model->run.sensors.temperature_probe / 10) + rounding;
+            int16_t rounding = (model->run.sensors.temperature_probe % 100) >= 50;
+            return (int16_t)(model->run.sensors.temperature_probe / 100) + rounding;
         }
 
         default:
@@ -526,52 +533,33 @@ int16_t model_get_default_temperature(model_t *model) {
 }
 
 
-
-void model_add_second(model_t *model) {
-    assert(model != NULL);
-    model->statisics.active_time++;
-}
-
-
 void model_add_work_time_ms(model_t *model, unsigned long ms) {
     assert(model != NULL);
-    model->statisics.work_time += ms / 1000UL;
+    model->statistics.work_time += ms / 1000UL;
 }
 
 
 void model_add_rotation_time_ms(model_t *model, unsigned long ms) {
     assert(model != NULL);
-    model->statisics.rotation_time += ms / 1000UL;
+    model->statistics.rotation_time += ms / 1000UL;
 }
 
 
 void model_add_ventilation_time_ms(model_t *model, unsigned long ms) {
     assert(model != NULL);
-    model->statisics.ventilation_time += ms / 1000UL;
+    model->statistics.ventilation_time += ms / 1000UL;
 }
 
 
 void model_add_heating_time_ms(model_t *model, unsigned long ms) {
     assert(model != NULL);
-    model->statisics.heating_time += ms / 1000UL;
+    model->statistics.heating_time += ms / 1000UL;
 }
 
 
 int model_over_safety_temperature(model_t *model) {
     assert(model != NULL);
     return model_get_default_temperature(model) > model->run.parmac.safety_temperature;
-}
-
-
-void model_add_complete_cycle(model_t *model) {
-    assert(model != NULL);
-    model->statisics.complete_cycles++;
-}
-
-
-void model_add_partial_cycle(model_t *model) {
-    assert(model != NULL);
-    model->statisics.partial_cycles++;
 }
 
 
@@ -602,7 +590,6 @@ void model_drum_forward(mut_model_t *model) {
     assert(model != NULL);
     set_drum_timestamp(model);
     model->run.drum.state = DRUM_STATE_FORWARD;
-    model->run.drum.speed = (uint8_t)model->run.parmac.speed;
 }
 
 
@@ -610,7 +597,6 @@ void model_drum_backward(mut_model_t *model) {
     assert(model != NULL);
     set_drum_timestamp(model);
     model->run.drum.state = DRUM_STATE_BACKWARD;
-    model->run.drum.speed = (uint8_t)model->run.parmac.speed;
 }
 
 
@@ -709,12 +695,32 @@ void model_reset_burner(model_t *model) {
 void model_cycle_over(mut_model_t *model) {
     assert(model != NULL);
     if (model->run.cycle.completed) {
-        model->statisics.complete_cycles++;
+        model->statistics.complete_cycles++;
     } else {
-        model->statisics.partial_cycles++;
+        model->statistics.partial_cycles++;
     }
 
-    model->statisics.work_time += timestamp_elapsed(model->run.cycle.start_ts) / 1000UL;
+    model->statistics.work_time += timestamp_elapsed(model->run.cycle.start_ts) / 1000UL;
+}
+
+
+uint8_t model_is_time_held_by_humidity(model_t *model) {
+    if (model->run.parmac.temperature_probe == TEMPERATURE_PROBE_SHT && model->run.parmac.wait_for_humidity) {
+        // Only if we already reached the humidity setpoint at least once
+        return !model->run.humidity_was_reached;
+    } else {
+        return 0;
+    }
+}
+
+
+uint8_t model_is_time_held_by_temperature(model_t *model) {
+    if (model->run.parmac.wait_for_temperature) {
+        // Only if we already reached the setpoint at least once
+        return !model->run.heating.temperature_was_reached;
+    } else {
+        return 0;
+    }
 }
 
 
@@ -725,7 +731,7 @@ static uint8_t get_pwm_drum_percentage(model_t *model) {
     } else if (model->run.drum.state == DRUM_STATE_STOPPED) {
         return 0;
     } else {
-        return model->run.drum.speed;
+        return model->run.parmac.speed;
     }
 }
 

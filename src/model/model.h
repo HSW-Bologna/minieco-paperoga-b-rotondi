@@ -155,11 +155,12 @@ typedef struct {
     uint32_t rotation_time;
     uint32_t ventilation_time;
     uint32_t heating_time;
+    uint32_t coins;
 } statistics_t;
 
 
 typedef struct {
-    statistics_t statisics;
+    statistics_t statistics;
 
     struct {
         uint8_t                   initialized_by_master;
@@ -169,8 +170,10 @@ typedef struct {
         timestamp_t               air_flow_stopped_ts;
         timestamp_t               burner_ts;
         timestamp_t               communication_ts;
+        timestamp_t               humidity_reached_ts;
         uint16_t                  burner_reset_attempts;
         burner_state_t            burner_state;
+        uint8_t                   humidity_was_reached;
         uint8_t                   burner_alarm;
         uint8_t                   temperature_not_reached_alarm;
         uint16_t                  program_number;
@@ -219,7 +222,6 @@ typedef struct {
             uint16_t           setpoint_humidity;
             uint16_t           temperature_heating_hysteresis;
             uint16_t           temperature_cooling_hysteresis;
-            uint16_t           drying_type;
             uint16_t           heating_type;
             uint16_t           gas_ignition_attempts;
             uint16_t           fan_with_open_porthole_time;
@@ -229,8 +231,8 @@ typedef struct {
             uint8_t            filter_alarm_nc_na;
             uint8_t            busy_signal_nc_na;
             uint8_t            wait_for_temperature;
+            uint8_t            wait_for_humidity;
             uint8_t            enable_reverse;
-            uint8_t            invert_fan_drum;
         } parmac;
 
         struct {
@@ -248,7 +250,6 @@ typedef struct {
         struct {
             drum_state_t state;
             timestamp_t  timestamp;
-            uint8_t      speed;
         } drum;
 
         struct {
@@ -283,14 +284,11 @@ int      model_get_setpoint(model_t *model);
 void          model_vaporizzazione_attivata(model_t *model);
 int           model_vaporizzazione_da_attivare(model_t *model);
 void          model_comincia_step(model_t *model);
-void          model_add_second(model_t *model);
 void          model_add_work_time_ms(model_t *model, unsigned long ms);
 void          model_add_rotation_time_ms(model_t *model, unsigned long ms);
 void          model_add_ventilation_time_ms(model_t *model, unsigned long ms);
 void          model_add_heating_time_ms(model_t *model, unsigned long ms);
 int           model_over_safety_temperature(model_t *model);
-void          model_add_complete_cycle(model_t *model);
-void          model_add_partial_cycle(model_t *model);
 uint16_t      model_get_relay_map(model_t *model);
 void          model_update_sensors(mut_model_t *model, uint16_t inputs, uint16_t temperature_input_adc,
                                    uint16_t temperature_output_adc, int16_t temperature_probe, uint16_t humidity_probe);
@@ -321,6 +319,8 @@ uint8_t       model_is_inverter_alarm_active(model_t *model);
 uint16_t      model_get_elapsed_seconds(model_t *model);
 void          model_cycle_over(mut_model_t *model);
 void          model_cycle_standby(mut_model_t *model);
+uint8_t       model_is_time_held_by_temperature(model_t *model);
+uint8_t       model_is_time_held_by_humidity(model_t *model);
 
 
 #endif

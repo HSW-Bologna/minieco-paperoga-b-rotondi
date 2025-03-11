@@ -12,6 +12,7 @@ void    cycle_start(mut_model_t *model);
 void    cycle_check(mut_model_t *model);
 void    cycle_cold_start(mut_model_t *model, uint16_t remaining_time);
 void    cycle_increase_duration(mut_model_t *model, uint16_t seconds);
+void    cycle_set_duration(mut_model_t *model, uint16_t seconds);
 
 
 #endif
