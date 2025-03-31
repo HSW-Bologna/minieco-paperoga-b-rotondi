@@ -327,6 +327,7 @@ static int paused_event_manager(cycle_event_code_t event, void *arg) {
                 break;
             }
 
+            model_reset_burner(model);
             start_everything(model);
 
             // Restart unless we have to wait for temperature

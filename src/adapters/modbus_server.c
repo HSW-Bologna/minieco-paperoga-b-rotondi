@@ -15,6 +15,43 @@
 #include "bsp/rs232.h"
 
 
+#define COMPUTE_BUILD_YEAR                                                                                             \
+    ((__DATE__[7] - '0') * 1000 + (__DATE__[8] - '0') * 100 + (__DATE__[9] - '0') * 10 + (__DATE__[10] - '0'))
+
+
+#define COMPUTE_BUILD_DAY (((__DATE__[4] >= '0') ? (__DATE__[4] - '0') * 10 : 0) + (__DATE__[5] - '0'))
+
+
+#define BUILD_MONTH_IS_JAN (__DATE__[0] == 'J' && __DATE__[1] == 'a' && __DATE__[2] == 'n')
+#define BUILD_MONTH_IS_FEB (__DATE__[0] == 'F')
+#define BUILD_MONTH_IS_MAR (__DATE__[0] == 'M' && __DATE__[1] == 'a' && __DATE__[2] == 'r')
+#define BUILD_MONTH_IS_APR (__DATE__[0] == 'A' && __DATE__[1] == 'p')
+#define BUILD_MONTH_IS_MAY (__DATE__[0] == 'M' && __DATE__[1] == 'a' && __DATE__[2] == 'y')
+#define BUILD_MONTH_IS_JUN (__DATE__[0] == 'J' && __DATE__[1] == 'u' && __DATE__[2] == 'n')
+#define BUILD_MONTH_IS_JUL (__DATE__[0] == 'J' && __DATE__[1] == 'u' && __DATE__[2] == 'l')
+#define BUILD_MONTH_IS_AUG (__DATE__[0] == 'A' && __DATE__[1] == 'u')
+#define BUILD_MONTH_IS_SEP (__DATE__[0] == 'S')
+#define BUILD_MONTH_IS_OCT (__DATE__[0] == 'O')
+#define BUILD_MONTH_IS_NOV (__DATE__[0] == 'N')
+#define BUILD_MONTH_IS_DEC (__DATE__[0] == 'D')
+
+
+#define COMPUTE_BUILD_MONTH                                                                                            \
+    ((BUILD_MONTH_IS_JAN)   ? 1                                                                                        \
+     : (BUILD_MONTH_IS_FEB) ? 2                                                                                        \
+     : (BUILD_MONTH_IS_MAR) ? 3                                                                                        \
+     : (BUILD_MONTH_IS_APR) ? 4                                                                                        \
+     : (BUILD_MONTH_IS_MAY) ? 5                                                                                        \
+     : (BUILD_MONTH_IS_JUN) ? 6                                                                                        \
+     : (BUILD_MONTH_IS_JUL) ? 7                                                                                        \
+     : (BUILD_MONTH_IS_AUG) ? 8                                                                                        \
+     : (BUILD_MONTH_IS_SEP) ? 9                                                                                        \
+     : (BUILD_MONTH_IS_OCT) ? 10                                                                                       \
+     : (BUILD_MONTH_IS_NOV) ? 11                                                                                       \
+     : (BUILD_MONTH_IS_DEC) ? 12                                                                                       \
+                            : /* error default */ 99)
+
+
 #define COMMAND_REGISTER_RESUME                 1
 #define COMMAND_REGISTER_PAUSE                  2
 #define COMMAND_REGISTER_STANDBY                3
@@ -27,8 +64,13 @@
 enum {
     MODBUS_IR_DEVICE_MODEL = 0,
     MODBUS_IR_FIRMWARE_VERSION,
+    MODBUS_IR_BUILD_DAY_MONTH,
+    MODBUS_IR_BUILD_YEAR,
     MODBUS_IR_STATUS,
-    MODBUS_IR_INPUT,
+    MODBUS_IR_INPUTS,
+    MODBUS_IR_OUTPUTS,
+    MODBUS_IR_DRUM_SPEED,
+    MODBUS_IR_FAN_SPEED,
     MODBUS_IR_TEMPERATURE_1_ADC,
     MODBUS_IR_TEMPERATURE_1,
     MODBUS_IR_TEMPERATURE_2_ADC,
@@ -243,6 +285,14 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                                             (APP_CONFIG_FIRMWARE_VERSION_PATCH & 0x3F);
                             break;
 
+                        case MODBUS_IR_BUILD_DAY_MONTH:
+                            result->value = (COMPUTE_BUILD_DAY << 8) | COMPUTE_BUILD_MONTH;
+                            break;
+
+                        case MODBUS_IR_BUILD_YEAR:
+                            result->value = COMPUTE_BUILD_YEAR;
+                            break;
+
                         case MODBUS_IR_STATUS:
                             if (model_is_cycle_active(model)) {
                                 result->value =
@@ -255,8 +305,20 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             }
                             break;
 
-                        case MODBUS_IR_INPUT:
+                        case MODBUS_IR_INPUTS:
                             result->value = model->run.sensors.inputs;
+                            break;
+
+                        case MODBUS_IR_OUTPUTS:
+                            result->value = model_get_relay_map(model);
+                            break;
+
+                        case MODBUS_IR_FAN_SPEED:
+                            result->value = model_get_pwm_fan_percentage(model);
+                            break;
+
+                        case MODBUS_IR_DRUM_SPEED:
+                            result->value = model_get_pwm_drum_percentage(model);
                             break;
 
                         case MODBUS_IR_TEMPERATURE_1_ADC:

@@ -10,6 +10,7 @@
 #include "config/app_config.h"
 
 
+static uint8_t is_payment_present(model_t *model);
 static int16_t ptc_temperature_from_adc_value(uint16_t adc);
 static void    set_drum_timestamp(mut_model_t *model);
 static uint8_t get_pwm_drum_percentage(model_t *model);
@@ -61,12 +62,13 @@ void model_manage(mut_model_t *model) {
                     if (model->run.burner_reset_attempts >= model->run.parmac.gas_ignition_attempts) {
                         model->run.burner_alarm          = 1;
                         model->run.burner_reset_attempts = 0;
+                        model->run.burner_state          = BURNER_STATE_LOCKED;
                     } else {
                         model->run.burner_reset_attempts++;
+                        model->run.burner_state = BURNER_STATE_RESETTING;
                     }
 
-                    model->run.burner_ts    = timestamp_get();
-                    model->run.burner_state = BURNER_STATE_RESETTING;
+                    model->run.burner_ts = timestamp_get();
                 }
             } else {
                 model->run.burner_ts = timestamp_get();
@@ -92,6 +94,10 @@ void model_manage(mut_model_t *model) {
                 model->run.burner_ts    = timestamp_get();
                 model->run.burner_state = BURNER_STATE_OK;
             }
+            break;
+        }
+
+        case BURNER_STATE_LOCKED: {
             break;
         }
     }
@@ -244,18 +250,24 @@ uint16_t model_get_relay_map(model_t *model) {
             uint8_t busy_signal_active = 0;
             switch (model->run.parmac.busy_signal_type) {
                 case BUSY_SIGNAL_TYPE_ALARMS_ACTIVITY:
-                    busy_signal_active = (model->run.alarms > 0) || model_is_cycle_on(model);
+                    busy_signal_active = ((model->run.alarms & (~(1 << ALARM_CODE_OBLO_APERTO))) > 0) ||
+                                         model_is_cycle_on(model) || is_payment_present(model);
                     break;
 
                 case BUSY_SIGNAL_TYPE_ALARMS:
-                    busy_signal_active = model->run.alarms > 0;
+                    busy_signal_active = (model->run.alarms & (~(1 << ALARM_CODE_OBLO_APERTO))) > 0;
                     break;
 
                 case BUSY_SIGNAL_TYPE_ACTIVITY:
-                    busy_signal_active = model_is_cycle_on(model);
+                    if (model_is_porthole_open(model)) {
+                        busy_signal_active = 0;
+                    } else {
+                        busy_signal_active = ((model->run.alarms & (~(1 << ALARM_CODE_OBLO_APERTO))) > 0) ||
+                                             model_is_cycle_on(model) || is_payment_present(model);
+                    }
                     break;
             }
-            if (model->run.parmac.busy_signal_nc_na) {
+            if (!model->run.parmac.busy_signal_nc_na) {
                 busy_signal_active = !busy_signal_active;
             }
             if (busy_signal_active) {
@@ -756,4 +768,14 @@ static uint8_t is_input_active(model_t *model, input_t input, direction_t direct
 
 static uint8_t communication_is_missing(model_t *model) {
     return timestamp_is_expired(model->run.communication_ts, 2000);
+}
+
+
+static uint8_t is_payment_present(model_t *model) {
+    for (uint16_t i = 0; i < COIN_LINES; i++) {
+        if (model->run.sensors.coins[i] > 0) {
+            return 1;
+        }
+    }
+    return 0;
 }

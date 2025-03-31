@@ -61,6 +61,7 @@ typedef enum {
     BURNER_STATE_OK = 0,
     BURNER_STATE_RESETTING,
     BURNER_STATE_DEBOUNCE,
+    BURNER_STATE_LOCKED,
 } burner_state_t;
 
 
