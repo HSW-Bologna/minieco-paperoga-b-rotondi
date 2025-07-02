@@ -37,7 +37,7 @@ static uint8_t crc8_ccitt(const void *data, size_t size) {
 
 int temperature_humidity_probe_read(int16_t *temperature, uint16_t *humidity) {
     int     i;
-    uint8_t rec_buf[5];
+    uint8_t rec_buf[5] = {1, 2, 3, 4, 5};
 
     g_ioport.p_api->pinWrite(g_ioport.p_ctrl, BSP_PIN_CS1, 0);
     R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MICROSECONDS);

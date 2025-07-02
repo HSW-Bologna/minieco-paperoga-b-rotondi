@@ -116,6 +116,8 @@ typedef enum {
     ALARM_CODE_SAFETY_TEMPERATURE,
     ALARM_CODE_TEMPERATURE_NOT_REACHED,
     ALARM_CODE_INVERTER,
+    ALARM_CODE_SAFETY_PRESSURE,
+    ALARM_CODE_TEMPERATURE_HUMIDITY_PROBE,
 } alarm_code_t;
 
 
@@ -179,6 +181,7 @@ typedef struct {
         uint8_t                   temperature_not_reached_alarm;
         uint16_t                  program_number;
         uint16_t                  step_number;
+        uint16_t                  pressure_offset;
         dryer_program_step_type_t step_type;
 
         struct {
@@ -193,7 +196,9 @@ typedef struct {
             int16_t  temperature_input;
             uint16_t temperature_output_adc;
             int16_t  temperature_output;
+            uint16_t pressure_adc;
 
+            uint8_t  temperature_humidity_probe_error;
             int16_t  temperature_probe;
             uint16_t humidity_probe;
 
@@ -234,6 +239,9 @@ typedef struct {
             uint8_t            wait_for_temperature;
             uint8_t            wait_for_humidity;
             uint8_t            enable_reverse;
+            uint8_t            pressostat;
+            uint16_t           air_flow_maximum_pressure;
+            uint16_t           air_flow_safety_pressure;
         } parmac;
 
         struct {
@@ -292,7 +300,8 @@ void          model_add_heating_time_ms(model_t *model, unsigned long ms);
 int           model_over_safety_temperature(model_t *model);
 uint16_t      model_get_relay_map(model_t *model);
 void          model_update_sensors(mut_model_t *model, uint16_t inputs, uint16_t temperature_input_adc,
-                                   uint16_t temperature_output_adc, int16_t temperature_probe, uint16_t humidity_probe);
+                                   uint16_t temperature_output_adc, uint16_t pressure_adc, int16_t temperature_probe,
+                                   uint16_t humidity_probe);
 uint8_t       model_get_pwm_fan_percentage(model_t *model);
 uint8_t       model_get_pwm_drum_percentage(model_t *model);
 unsigned long model_get_cycle_remaining_time(mut_model_t *model);
@@ -322,6 +331,7 @@ void          model_cycle_over(mut_model_t *model);
 void          model_cycle_standby(mut_model_t *model);
 uint8_t       model_is_time_held_by_temperature(model_t *model);
 uint8_t       model_is_time_held_by_humidity(model_t *model);
+uint16_t      model_get_pressure(model_t *model);
 
 
 #endif

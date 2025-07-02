@@ -39,10 +39,17 @@ void controller_manage(mut_model_t *model) {
         if (timestamp_is_expired(ts, 500)) {
             int16_t  temperature_probe = 0;
             uint16_t humidity_probe    = 0;
-            temperature_humidity_probe_read(&temperature_probe, &humidity_probe);
+
+            if (model->run.parmac.temperature_probe == TEMPERATURE_PROBE_SHT) {
+                model->run.sensors.temperature_humidity_probe_error =
+                    (uint8_t)(temperature_humidity_probe_read(&temperature_probe, &humidity_probe) != 0);
+            } else {
+                model->run.sensors.temperature_humidity_probe_error = 0;
+            }
 
             model_update_sensors(model, bsp_digin_get_bitmap(), bsp_adc_get(BSP_ADC_TEMPERATURE_INPUT),
-                                 bsp_adc_get(BSP_ADC_TEMPERATURE_OUTPUT), temperature_probe, humidity_probe);
+                                 bsp_adc_get(BSP_ADC_TEMPERATURE_OUTPUT), bsp_adc_get(BSP_ADC_PRESS1),
+                                 temperature_probe, humidity_probe);
 
             for (uint16_t i = BSP_COIN_READER_PAYMENT; i <= BSP_COIN_READER_LINE_5; i++) {
                 model->run.sensors.coins[i] += bsp_coin_reader_read(i);

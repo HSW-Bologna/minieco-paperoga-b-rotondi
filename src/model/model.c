@@ -110,8 +110,10 @@ void model_manage(mut_model_t *model) {
     }
     model->run.fan.previously_on = fan_on;
 
-    // Air not active or active and flowing
-    if (!model_is_fan_on(model) || (model->run.sensors.inputs & (1 << INPUT_AIR_FLOW)) > 0) {
+    // Air not active or active and flowing (either checked by the mechanical flap or the pressostat)
+    if (!model_is_fan_on(model) ||
+        (!model->run.parmac.pressostat && (model->run.sensors.inputs & (1 << INPUT_AIR_FLOW)) > 0) ||
+        (model->run.parmac.pressostat && model_get_pressure(model) >= model->run.parmac.air_flow_maximum_pressure)) {
         model->run.air_flow_stopped_ts = timestamp_get();
     }
 }
@@ -119,9 +121,10 @@ void model_manage(mut_model_t *model) {
 
 void model_clear_alarms(model_t *model) {
     assert(model != NULL);
-    model->run.alarms                        = 0;
-    model->run.burner_alarm                  = 0;
-    model->run.temperature_not_reached_alarm = 0;
+    model->run.alarms                                   = 0;
+    model->run.burner_alarm                             = 0;
+    model->run.temperature_not_reached_alarm            = 0;
+    model->run.sensors.temperature_humidity_probe_error = 0;
     model_fix_alarms(model);
 }
 
@@ -130,7 +133,13 @@ void model_fix_alarms(model_t *model) {
     assert(model != NULL);
     if (model->run.parmac.disable_alarms) {
         model->run.alarms = 0;
-    } else {
+    }
+    // In test mode alarms are self-resetting
+    else if (model->run.test.on) {
+        model->run.alarms = model_get_active_alarms(model);
+    }
+    // Otherwise they stick
+    else {
         model->run.alarms |= model_get_active_alarms(model);
     }
 
@@ -167,6 +176,17 @@ uint8_t model_is_porthole_open(model_t *model) {
 }
 
 
+uint16_t model_get_pressure(model_t *model) {
+    assert(model != NULL);
+
+    if (model->run.sensors.pressure_adc > model->run.pressure_offset) {
+        return ((model->run.sensors.pressure_adc - model->run.pressure_offset) * 500) / 3686;
+    } else {
+        return 0;
+    }
+}
+
+
 uint16_t model_get_active_alarms(model_t *model) {
     assert(model != NULL);
 
@@ -176,6 +196,8 @@ uint16_t model_get_active_alarms(model_t *model) {
         uint8_t air_flow_alarm =
             model_is_fan_on(model) &&
             timestamp_is_expired(model->run.air_flow_stopped_ts, model->run.parmac.air_flow_alarm_time * 1000UL);
+        uint8_t safety_pressure_alarm =
+            model->run.parmac.pressostat && (model_get_pressure(model) >= model->run.parmac.air_flow_safety_pressure);
 
         return (uint16_t)(((model_is_porthole_open(model) > 0) << ALARM_CODE_OBLO_APERTO) |
                           ((model_is_emergency_alarm_active(model) > 0) << ALARM_CODE_EMERGENZA) |
@@ -184,7 +206,10 @@ uint16_t model_get_active_alarms(model_t *model) {
                           ((model->run.burner_alarm > 0) << ALARM_CODE_BURNER) |
                           ((model_over_safety_temperature(model) > 0) << ALARM_CODE_SAFETY_TEMPERATURE) |
                           ((model->run.temperature_not_reached_alarm > 0) << ALARM_CODE_TEMPERATURE_NOT_REACHED) |
-                          ((model_is_inverter_alarm_active(model) > 0) << ALARM_CODE_INVERTER));
+                          ((model_is_inverter_alarm_active(model) > 0) << ALARM_CODE_INVERTER) |
+                          ((safety_pressure_alarm > 0) << ALARM_CODE_SAFETY_PRESSURE) |
+                          ((model->run.sensors.temperature_humidity_probe_error > 0)
+                           << ALARM_CODE_TEMPERATURE_HUMIDITY_PROBE));
     }
 }
 
@@ -335,7 +360,8 @@ uint8_t model_get_pwm_fan_percentage(model_t *model) {
 
 
 void model_update_sensors(mut_model_t *model, uint16_t inputs, uint16_t temperature_input_adc,
-                          uint16_t temperature_output_adc, int16_t temperature_probe, uint16_t humidity_probe) {
+                          uint16_t temperature_output_adc, uint16_t pressure_adc, int16_t temperature_probe,
+                          uint16_t humidity_probe) {
     assert(model != NULL);
     uint8_t update = 0;
 
@@ -349,6 +375,11 @@ void model_update_sensors(mut_model_t *model, uint16_t inputs, uint16_t temperat
         model->run.sensors.temperature_output_adc = temperature_output_adc;
         model->run.sensors.temperature_output     = ptc_temperature_from_adc_value(temperature_output_adc);
         update                                    = 1;
+    }
+
+    if (model->run.sensors.pressure_adc != pressure_adc) {
+        model->run.sensors.pressure_adc = pressure_adc;
+        update                          = 1;
     }
 
     if (model->run.sensors.inputs != inputs) {
@@ -399,7 +430,7 @@ size_t model_pwoff_serialize(model_t *model, uint8_t *buff) {
     i += serialize_uint16_be(&buff[i], remaining_time);
     i += serialize_uint16_be(&buff[i], model->run.program_number);
     i += serialize_uint16_be(&buff[i], model->run.step_number);
-    i += serialize_uint8(&buff[i], model->run.cycle.state_machine.node_index);
+    i += serialize_uint8(&buff[i], (uint8_t)model->run.cycle.state_machine.node_index);
 
     assert(i == PWOFF_SERIALIZED_SIZE);
     return i;
@@ -743,7 +774,7 @@ static uint8_t get_pwm_drum_percentage(model_t *model) {
     } else if (model->run.drum.state == DRUM_STATE_STOPPED) {
         return 0;
     } else {
-        return model->run.parmac.speed;
+        return (uint8_t)model->run.parmac.speed;
     }
 }
 

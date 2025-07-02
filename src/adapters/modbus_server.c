@@ -112,6 +112,7 @@ enum {
     MODBUS_HR_TEST_OUTPUTS,
     MODBUS_HR_TEST_PWM,
     MODBUS_HR_COIN_READER_INHIBITION,
+    MODBUS_HR_PRESSURE_OFFSET,
     MODBUS_HR_BUSY_SIGNAL_TYPE,
     MODBUS_HR_SAFETY_TEMPERATURE,
     MODBUS_HR_TEMPERATURE_ALARM_DELAY_SECONDS,
@@ -122,6 +123,8 @@ enum {
     MODBUS_HR_FAN_WITH_OPEN_PORTHOLE_TIME,
     MODBUS_HR_CYCLE_DELAY_TIME,
     MODBUS_HR_CYCLE_RESET_TIME,
+    MODBUS_HR_AIR_FLOW_MAXIMUM_PRESSURE,
+    MODBUS_HR_AIR_FLOW_SAFETY_PRESSURE,
     MODBUS_HR_FLAGS,
     MODBUS_HR_DURATION,
     MODBUS_HR_ROTATION_RUNNING_TIME,
@@ -233,6 +236,7 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                         case MODBUS_HR_TEST_OUTPUTS:
                         case MODBUS_HR_TEST_PWM:
                         case MODBUS_HR_COIN_READER_INHIBITION:
+                        case MODBUS_HR_PRESSURE_OFFSET:
                         case MODBUS_HR_BUSY_SIGNAL_TYPE:
                         case MODBUS_HR_SAFETY_TEMPERATURE:
                         case MODBUS_HR_TEMPERATURE_ALARM_DELAY_SECONDS:
@@ -243,6 +247,8 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                         case MODBUS_HR_FAN_WITH_OPEN_PORTHOLE_TIME:
                         case MODBUS_HR_CYCLE_DELAY_TIME:
                         case MODBUS_HR_CYCLE_RESET_TIME:
+                        case MODBUS_HR_AIR_FLOW_MAXIMUM_PRESSURE:
+                        case MODBUS_HR_AIR_FLOW_SAFETY_PRESSURE:
                         case MODBUS_HR_FLAGS:
                         case MODBUS_HR_ROTATION_RUNNING_TIME:
                         case MODBUS_HR_ROTATION_PAUSE_TIME:
@@ -346,11 +352,11 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             break;
 
                         case MODBUS_IR_PRESSURE_ADC:
-                            result->value = 0;
+                            result->value = model->run.sensors.pressure_adc;
                             break;
 
                         case MODBUS_IR_PRESSURE:
-                            result->value = 0;
+                            result->value = model_get_pressure(model);
                             break;
 
                         case MODBUS_IR_PAYMENT:
@@ -467,6 +473,10 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             result->value = model->run.coin_reader_enabled;
                             break;
 
+                        case MODBUS_HR_PRESSURE_OFFSET:
+                            result->value = model->run.pressure_offset;
+                            break;
+
                         case MODBUS_HR_BUSY_SIGNAL_TYPE:
                             result->value = (uint16_t)model->run.parmac.busy_signal_type;
                             break;
@@ -507,6 +517,14 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             result->value = model->run.parmac.cycle_reset_time;
                             break;
 
+                        case MODBUS_HR_AIR_FLOW_MAXIMUM_PRESSURE:
+                            result->value = model->run.parmac.air_flow_maximum_pressure;
+                            break;
+
+                        case MODBUS_HR_AIR_FLOW_SAFETY_PRESSURE:
+                            result->value = model->run.parmac.air_flow_safety_pressure;
+                            break;
+
                         case MODBUS_HR_FLAGS:
                             result->value = (uint16_t)((model->run.parmac.stop_time_in_pause > 0) << 0 |
                                                        (model->run.parmac.disable_alarms > 0) << 1 |
@@ -515,8 +533,9 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                                                        (model->run.parmac.filter_alarm_nc_na > 0) << 4 |
                                                        (model->run.parmac.porthole_nc_na > 0) << 5 |
                                                        (model->run.parmac.busy_signal_nc_na > 0) << 6 |
-                                                       (model->run.parmac.enable_reverse > 0) << 7 |
-                                                       (model->run.parmac.wait_for_temperature > 0) << 8     //|
+                                                       (model->run.parmac.pressostat > 0) << 7 |
+                                                       (model->run.parmac.enable_reverse > 0) << 8 |
+                                                       (model->run.parmac.wait_for_temperature > 0) << 9     //|
                             );
                             break;
 
@@ -652,6 +671,10 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             model->run.coin_reader_enabled = (uint8_t)(args->value > 0);
                             break;
 
+                        case MODBUS_HR_PRESSURE_OFFSET:
+                            model->run.pressure_offset = (uint16_t)args->value;
+                            break;
+
                         case MODBUS_HR_BUSY_SIGNAL_TYPE:
                             model->run.parmac.busy_signal_type = (busy_signal_type_t)args->value;
                             break;
@@ -692,6 +715,14 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             model->run.parmac.cycle_reset_time = args->value;
                             break;
 
+                        case MODBUS_HR_AIR_FLOW_MAXIMUM_PRESSURE:
+                            model->run.parmac.air_flow_maximum_pressure = args->value;
+                            break;
+
+                        case MODBUS_HR_AIR_FLOW_SAFETY_PRESSURE:
+                            model->run.parmac.air_flow_safety_pressure = args->value;
+                            break;
+
                         case MODBUS_HR_FLAGS:
                             model->run.parmac.stop_time_in_pause    = (args->value & (1 << 0)) > 0;
                             model->run.parmac.disable_alarms        = (args->value & (1 << 1)) > 0;
@@ -700,8 +731,9 @@ static ModbusError register_callback(const ModbusSlave *minion, const ModbusRegi
                             model->run.parmac.filter_alarm_nc_na    = (args->value & (1 << 4)) > 0;
                             model->run.parmac.porthole_nc_na        = (args->value & (1 << 5)) > 0;
                             model->run.parmac.busy_signal_nc_na     = (args->value & (1 << 6)) > 0;
-                            model->run.parmac.enable_reverse        = (args->value & (1 << 7)) > 0;
-                            model->run.parmac.wait_for_temperature  = (args->value & (1 << 8)) > 0;
+                            model->run.parmac.pressostat            = (args->value & (1 << 7)) > 0;
+                            model->run.parmac.enable_reverse        = (args->value & (1 << 8)) > 0;
+                            model->run.parmac.wait_for_temperature  = (args->value & (1 << 9)) > 0;
                             break;
 
                         case MODBUS_HR_DURATION:
