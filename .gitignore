@@ -1,4 +1,5 @@
 Debug/
+*.srec
 *.o
 *.elf
 build
