@@ -430,6 +430,9 @@ size_t model_pwoff_serialize(model_t *model, uint8_t *buff) {
     i += serialize_uint16_be(&buff[i], remaining_time);
     i += serialize_uint16_be(&buff[i], model->run.program_number);
     i += serialize_uint16_be(&buff[i], model->run.step_number);
+    i += serialize_uint16_be(&buff[i], model->run.parmac.setpoint_temperature);
+    i += serialize_uint16_be(&buff[i], model->run.parmac.setpoint_humidity);
+    i += serialize_uint16_be(&buff[i], model->run.parmac.speed);
     i += serialize_uint8(&buff[i], (uint8_t)model->run.cycle.state_machine.node_index);
 
     assert(i == PWOFF_SERIALIZED_SIZE);
@@ -457,6 +460,9 @@ int model_pwoff_deserialize(model_t *model, uint8_t *buff) {
     i += deserialize_uint16_be(&remaining_time, &buff[i]);
     i += deserialize_uint16_be(&model->run.program_number, &buff[i]);
     i += deserialize_uint16_be(&model->run.step_number, &buff[i]);
+    i += deserialize_uint16_be(&model->run.parmac.setpoint_temperature, &buff[i]);
+    i += deserialize_uint16_be(&model->run.parmac.setpoint_humidity, &buff[i]);
+    i += deserialize_uint16_be(&model->run.parmac.speed, &buff[i]);
     i += deserialize_uint8(&cycle_state, &buff[i]);
 
     switch (cycle_state) {

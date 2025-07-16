@@ -922,7 +922,7 @@ LOAD /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-t
 LOAD /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libm.a
 END GROUP
 
-.text           0x00000000     0x7274
+.text           0x00000000     0x72d8
                 0x00000000                        __tz_FLASH_S = ABSOLUTE (FLASH_START)
                 0x00000000                        __ROM_Start = .
  *(.fixed_vectors*)
@@ -974,846 +974,847 @@ END GROUP
  .text.wait_start_event_manager
                 0x000008bc       0x8c ./src/model/cycle.o
  .text.stopped_event_manager
-                0x00000948       0x8e ./src/model/cycle.o
+                0x00000948       0x8a ./src/model/cycle.o
  .text.stop_everything
-                0x000009d6       0x66 ./src/model/cycle.o
+                0x000009d2       0x66 ./src/model/cycle.o
  .text.stopped_entry
-                0x00000a3c        0x8 ./src/model/cycle.o
+                0x00000a38        0x8 ./src/model/cycle.o
  .text.cycle_send_event
-                0x00000a44       0x4c ./src/model/cycle.o
-                0x00000a44                cycle_send_event
+                0x00000a40       0x4c ./src/model/cycle.o
+                0x00000a40                cycle_send_event
  .text.timer_event_callback
-                0x00000a90       0x10 ./src/model/cycle.o
+                0x00000a8c       0x10 ./src/model/cycle.o
  .text.cycle_init
-                0x00000aa0       0x56 ./src/model/cycle.o
-                0x00000aa0                cycle_init
+                0x00000a9c       0x56 ./src/model/cycle.o
+                0x00000a9c                cycle_init
  .text.cycle_change_remaining_time
-                0x00000af6       0x44 ./src/model/cycle.o
-                0x00000af6                cycle_change_remaining_time
+                0x00000af2       0x44 ./src/model/cycle.o
+                0x00000af2                cycle_change_remaining_time
  .text.cycle_cold_start
-                0x00000b3a       0x18 ./src/model/cycle.o
-                0x00000b3a                cycle_cold_start
+                0x00000b36       0x18 ./src/model/cycle.o
+                0x00000b36                cycle_cold_start
  .text.cycle_check
-                0x00000b52       0x10 ./src/model/cycle.o
-                0x00000b52                cycle_check
+                0x00000b4e       0x10 ./src/model/cycle.o
+                0x00000b4e                cycle_check
  .text.cycle_manage
-                0x00000b62       0x3e ./src/model/cycle.o
-                0x00000b62                cycle_manage
+                0x00000b5e       0x3e ./src/model/cycle.o
+                0x00000b5e                cycle_manage
  .text.cycle_set_duration
-                0x00000ba0       0x5e ./src/model/cycle.o
-                0x00000ba0                cycle_set_duration
+                0x00000b9c       0x5e ./src/model/cycle.o
+                0x00000b9c                cycle_set_duration
  .text.cycle_increase_duration
-                0x00000bfe       0x2e ./src/model/cycle.o
-                0x00000bfe                cycle_increase_duration
+                0x00000bfa       0x2e ./src/model/cycle.o
+                0x00000bfa                cycle_increase_duration
  .text.setpoint_reached_entry
-                0x00000c2c       0x14 ./src/model/heating.o
+                0x00000c28       0x14 ./src/model/heating.o
  .text.setpoint_reached_event_manager
-                0x00000c40       0x46 ./src/model/heating.o
+                0x00000c3c       0x46 ./src/model/heating.o
  .text.on_event_manager
-                0x00000c86       0x48 ./src/model/heating.o
+                0x00000c82       0x48 ./src/model/heating.o
  .text.off_event_manager
-                0x00000cce       0x3e ./src/model/heating.o
- .text.on_exit  0x00000d0c       0x1c ./src/model/heating.o
+                0x00000cca       0x3e ./src/model/heating.o
+ .text.on_exit  0x00000d08       0x1c ./src/model/heating.o
  .text.on_entry
-                0x00000d28       0x1c ./src/model/heating.o
+                0x00000d24       0x1c ./src/model/heating.o
  .text.heating_send_event
-                0x00000d44       0x4c ./src/model/heating.o
-                0x00000d44                heating_send_event
+                0x00000d40       0x4c ./src/model/heating.o
+                0x00000d40                heating_send_event
  .text.heating_init
-                0x00000d90       0x14 ./src/model/heating.o
-                0x00000d90                heating_init
+                0x00000d8c       0x14 ./src/model/heating.o
+                0x00000d8c                heating_init
  .text.heating_manage
-                0x00000da4       0x3e ./src/model/heating.o
-                0x00000da4                heating_manage
+                0x00000da0       0x3e ./src/model/heating.o
+                0x00000da0                heating_manage
  .text.heating_on
-                0x00000de2        0xe ./src/model/heating.o
-                0x00000de2                heating_on
+                0x00000dde        0xe ./src/model/heating.o
+                0x00000dde                heating_on
  .text.heating_off
-                0x00000df0        0xe ./src/model/heating.o
-                0x00000df0                heating_off
+                0x00000dec        0xe ./src/model/heating.o
+                0x00000dec                heating_off
  .text.ptc_temperature_from_adc_value
-                0x00000dfe       0x2e ./src/model/model.o
+                0x00000dfa       0x2e ./src/model/model.o
  .text.is_input_active
-                0x00000e2c       0x1a ./src/model/model.o
+                0x00000e28       0x1a ./src/model/model.o
  .text.is_payment_present
-                0x00000e46       0x20 ./src/model/model.o
+                0x00000e42       0x20 ./src/model/model.o
  .text.get_pwm_drum_percentage
-                0x00000e66       0x3e ./src/model/model.o
+                0x00000e62       0x3e ./src/model/model.o
  .text.set_drum_timestamp
-                0x00000ea4       0x16 ./src/model/model.o
+                0x00000ea0       0x16 ./src/model/model.o
  .text.communication_is_missing
-                0x00000eba       0x18 ./src/model/model.o
+                0x00000eb6       0x18 ./src/model/model.o
  .text.model_init
-                0x00000ed2       0x48 ./src/model/model.o
-                0x00000ed2                model_init
+                0x00000ece       0x48 ./src/model/model.o
+                0x00000ece                model_init
  .text.model_is_inverter_alarm_active
-                0x00000f1a       0x2e ./src/model/model.o
-                0x00000f1a                model_is_inverter_alarm_active
+                0x00000f16       0x2e ./src/model/model.o
+                0x00000f16                model_is_inverter_alarm_active
  .text.model_is_emergency_alarm_active
-                0x00000f48       0x2e ./src/model/model.o
-                0x00000f48                model_is_emergency_alarm_active
+                0x00000f44       0x2e ./src/model/model.o
+                0x00000f44                model_is_emergency_alarm_active
  .text.model_is_filter_alarm_active
-                0x00000f76       0x2e ./src/model/model.o
-                0x00000f76                model_is_filter_alarm_active
+                0x00000f72       0x2e ./src/model/model.o
+                0x00000f72                model_is_filter_alarm_active
  .text.model_is_porthole_open
-                0x00000fa4       0x2e ./src/model/model.o
-                0x00000fa4                model_is_porthole_open
+                0x00000fa0       0x2e ./src/model/model.o
+                0x00000fa0                model_is_porthole_open
  .text.model_get_pressure
-                0x00000fd2       0x48 ./src/model/model.o
-                0x00000fd2                model_get_pressure
+                0x00000fce       0x48 ./src/model/model.o
+                0x00000fce                model_get_pressure
  .text.model_cycle_resume
-                0x0000101a       0x10 ./src/model/model.o
-                0x0000101a                model_cycle_resume
+                0x00001016       0x10 ./src/model/model.o
+                0x00001016                model_cycle_resume
  .text.model_cycle_pause
-                0x0000102a       0x10 ./src/model/model.o
-                0x0000102a                model_cycle_pause
+                0x00001026       0x10 ./src/model/model.o
+                0x00001026                model_cycle_pause
  .text.model_cycle_standby
-                0x0000103a       0x10 ./src/model/model.o
-                0x0000103a                model_cycle_standby
+                0x00001036       0x10 ./src/model/model.o
+                0x00001036                model_cycle_standby
  .text.model_cycle_stop
-                0x0000104a       0x10 ./src/model/model.o
-                0x0000104a                model_cycle_stop
+                0x00001046       0x10 ./src/model/model.o
+                0x00001046                model_cycle_stop
  .text.model_get_step_duration_seconds
-                0x0000105a       0x32 ./src/model/model.o
-                0x0000105a                model_get_step_duration_seconds
+                0x00001056       0x32 ./src/model/model.o
+                0x00001056                model_get_step_duration_seconds
  .text.model_is_step_endless
-                0x0000108c       0x38 ./src/model/model.o
-                0x0000108c                model_is_step_endless
+                0x00001088       0x38 ./src/model/model.o
+                0x00001088                model_is_step_endless
  .text.model_get_cycle_remaining_time
-                0x000010c4       0x2a ./src/model/model.o
-                0x000010c4                model_get_cycle_remaining_time
+                0x000010c0       0x2a ./src/model/model.o
+                0x000010c0                model_get_cycle_remaining_time
  .text.model_is_cycle_on
-                0x000010ee       0x32 ./src/model/model.o
-                0x000010ee                model_is_cycle_on
+                0x000010ea       0x32 ./src/model/model.o
+                0x000010ea                model_is_cycle_on
  .text.model_get_pwm_drum_percentage
-                0x00001120       0x38 ./src/model/model.o
-                0x00001120                model_get_pwm_drum_percentage
+                0x0000111c       0x38 ./src/model/model.o
+                0x0000111c                model_get_pwm_drum_percentage
  .text.model_update_sensors
-                0x00001158       0xe8 ./src/model/model.o
-                0x00001158                model_update_sensors
+                0x00001154       0xe8 ./src/model/model.o
+                0x00001154                model_update_sensors
  .text.model_pwoff_serialize
-                0x00001240      0x130 ./src/model/model.o
-                0x00001240                model_pwoff_serialize
+                0x0000123c      0x160 ./src/model/model.o
+                0x0000123c                model_pwoff_serialize
  .text.model_pwoff_deserialize
-                0x00001370      0x15e ./src/model/model.o
-                0x00001370                model_pwoff_deserialize
+                0x0000139c      0x194 ./src/model/model.o
+                0x0000139c                model_pwoff_deserialize
  .text.model_clear_coins
-                0x000014ce       0x30 ./src/model/model.o
-                0x000014ce                model_clear_coins
+                0x00001530       0x30 ./src/model/model.o
+                0x00001530                model_clear_coins
  .text.model_heating_enabled
-                0x000014fe       0x2e ./src/model/model.o
-                0x000014fe                model_heating_enabled
+                0x00001560       0x2e ./src/model/model.o
+                0x00001560                model_heating_enabled
  .text.model_ciclo_continuo
-                0x0000152c       0x3c ./src/model/model.o
-                0x0000152c                model_ciclo_continuo
+                0x0000158e       0x3c ./src/model/model.o
+                0x0000158e                model_ciclo_continuo
  .text.model_get_elapsed_seconds
-                0x00001568       0x5a ./src/model/model.o
-                0x00001568                model_get_elapsed_seconds
+                0x000015ca       0x5a ./src/model/model.o
+                0x000015ca                model_get_elapsed_seconds
  .text.model_get_remaining_seconds
-                0x000015c2       0x5a ./src/model/model.o
-                0x000015c2                model_get_remaining_seconds
+                0x00001624       0x5a ./src/model/model.o
+                0x00001624                model_get_remaining_seconds
  .text.model_get_setpoint
-                0x0000161c       0x2a ./src/model/model.o
-                0x0000161c                model_get_setpoint
+                0x0000167e       0x2a ./src/model/model.o
+                0x0000167e                model_get_setpoint
  .text.model_get_default_temperature
-                0x00001646       0x6c ./src/model/model.o
-                0x00001646                model_get_default_temperature
+                0x000016a8       0x6c ./src/model/model.o
+                0x000016a8                model_get_default_temperature
  .text.model_add_work_time_ms
-                0x000016b2       0x34 ./src/model/model.o
-                0x000016b2                model_add_work_time_ms
+                0x00001714       0x34 ./src/model/model.o
+                0x00001714                model_add_work_time_ms
  .text.model_add_rotation_time_ms
-                0x000016e6       0x34 ./src/model/model.o
-                0x000016e6                model_add_rotation_time_ms
+                0x00001748       0x34 ./src/model/model.o
+                0x00001748                model_add_rotation_time_ms
  .text.model_add_ventilation_time_ms
-                0x0000171a       0x34 ./src/model/model.o
-                0x0000171a                model_add_ventilation_time_ms
+                0x0000177c       0x34 ./src/model/model.o
+                0x0000177c                model_add_ventilation_time_ms
  .text.model_add_heating_time_ms
-                0x0000174e       0x34 ./src/model/model.o
-                0x0000174e                model_add_heating_time_ms
+                0x000017b0       0x34 ./src/model/model.o
+                0x000017b0                model_add_heating_time_ms
  .text.model_over_safety_temperature
-                0x00001782       0x3a ./src/model/model.o
-                0x00001782                model_over_safety_temperature
+                0x000017e4       0x3a ./src/model/model.o
+                0x000017e4                model_over_safety_temperature
  .text.model_drum_forward
-                0x000017bc       0x32 ./src/model/model.o
-                0x000017bc                model_drum_forward
+                0x0000181e       0x32 ./src/model/model.o
+                0x0000181e                model_drum_forward
  .text.model_drum_backward
-                0x000017ee       0x32 ./src/model/model.o
-                0x000017ee                model_drum_backward
+                0x00001850       0x32 ./src/model/model.o
+                0x00001850                model_drum_backward
  .text.model_drum_stop
-                0x00001820       0x4e ./src/model/model.o
-                0x00001820                model_drum_stop
+                0x00001882       0x4e ./src/model/model.o
+                0x00001882                model_drum_stop
  .text.model_is_drum_running_forward
-                0x0000186e       0x32 ./src/model/model.o
-                0x0000186e                model_is_drum_running_forward
+                0x000018d0       0x32 ./src/model/model.o
+                0x000018d0                model_is_drum_running_forward
  .text.model_is_cycle_active
-                0x000018a0       0x40 ./src/model/model.o
-                0x000018a0                model_is_cycle_active
+                0x00001902       0x40 ./src/model/model.o
+                0x00001902                model_is_cycle_active
  .text.model_is_fan_on
-                0x000018e0       0x6a ./src/model/model.o
-                0x000018e0                model_is_fan_on
+                0x00001942       0x6a ./src/model/model.o
+                0x00001942                model_is_fan_on
  .text.model_get_active_alarms
-                0x0000194a      0x10c ./src/model/model.o
-                0x0000194a                model_get_active_alarms
+                0x000019ac      0x10c ./src/model/model.o
+                0x000019ac                model_get_active_alarms
  .text.model_fix_alarms
-                0x00001a56       0x60 ./src/model/model.o
-                0x00001a56                model_fix_alarms
+                0x00001ab8       0x60 ./src/model/model.o
+                0x00001ab8                model_fix_alarms
  .text.model_clear_alarms
-                0x00001ab6       0x3a ./src/model/model.o
-                0x00001ab6                model_clear_alarms
+                0x00001b18       0x3a ./src/model/model.o
+                0x00001b18                model_clear_alarms
  .text.model_get_relay_map
-                0x00001af0      0x114 ./src/model/model.o
-                0x00001af0                model_get_relay_map
+                0x00001b52      0x114 ./src/model/model.o
+                0x00001b52                model_get_relay_map
  .text.get_pwm_fan_percentage
-                0x00001c04       0x3c ./src/model/model.o
+                0x00001c66       0x3c ./src/model/model.o
  .text.model_get_pwm_fan_percentage
-                0x00001c40       0x38 ./src/model/model.o
-                0x00001c40                model_get_pwm_fan_percentage
+                0x00001ca2       0x38 ./src/model/model.o
+                0x00001ca2                model_get_pwm_fan_percentage
  .text.model_manage
-                0x00001c78      0x1bc ./src/model/model.o
-                0x00001c78                model_manage
+                0x00001cda      0x1bc ./src/model/model.o
+                0x00001cda                model_manage
  .text.model_reset_burner
-                0x00001e34       0x3e ./src/model/model.o
-                0x00001e34                model_reset_burner
+                0x00001e96       0x3e ./src/model/model.o
+                0x00001e96                model_reset_burner
  .text.model_cycle_over
-                0x00001e72       0x5e ./src/model/model.o
-                0x00001e72                model_cycle_over
+                0x00001ed4       0x5e ./src/model/model.o
+                0x00001ed4                model_cycle_over
  .text.model_is_time_held_by_humidity
-                0x00001ed0       0x20 ./src/model/model.o
-                0x00001ed0                model_is_time_held_by_humidity
+                0x00001f32       0x20 ./src/model/model.o
+                0x00001f32                model_is_time_held_by_humidity
  .text.model_is_time_held_by_temperature
-                0x00001ef0       0x14 ./src/model/model.o
-                0x00001ef0                model_is_time_held_by_temperature
+                0x00001f52       0x14 ./src/model/model.o
+                0x00001f52                model_is_time_held_by_temperature
  .text.controller_init
-                0x00001f04       0x36 ./src/controller/controller.o
-                0x00001f04                controller_init
+                0x00001f66       0x36 ./src/controller/controller.o
+                0x00001f66                controller_init
  .text.controller_manage
-                0x00001f3a       0xda ./src/controller/controller.o
-                0x00001f3a                controller_manage
+                0x00001f9c       0xda ./src/controller/controller.o
+                0x00001f9c                controller_manage
  .text.controller_power_off
-                0x00002014       0x36 ./src/controller/controller.o
-                0x00002014                controller_power_off
+                0x00002076       0x36 ./src/controller/controller.o
+                0x00002076                controller_power_off
  .text.update_coin_reader_inhibit
-                0x0000204a        0xa ./src/controller/observer.o
+                0x000020ac        0xa ./src/controller/observer.o
  .text.update_alarms
-                0x00002054       0x18 ./src/controller/observer.o
+                0x000020b6       0x18 ./src/controller/observer.o
  .text.update_pwm
-                0x0000206c       0x1c ./src/controller/observer.o
+                0x000020ce       0x1c ./src/controller/observer.o
  .text.refresh_relays
-                0x00002088       0x22 ./src/controller/observer.o
+                0x000020ea       0x22 ./src/controller/observer.o
  .text.update_relays
-                0x000020aa       0x12 ./src/controller/observer.o
+                0x0000210c       0x12 ./src/controller/observer.o
  .text.observer_manage
-                0x000020bc       0x3a ./src/controller/observer.o
-                0x000020bc                observer_manage
+                0x0000211e       0x3a ./src/controller/observer.o
+                0x0000211e                observer_manage
  .text.observer_init
-                0x000020f6       0xaa ./src/controller/observer.o
-                0x000020f6                observer_init
+                0x00002158       0xaa ./src/controller/observer.o
+                0x00002158                observer_init
  .text.bsp_adc_init
-                0x000021a0       0x7e ./src/bsp/adc.o
-                0x000021a0                bsp_adc_init
+                0x00002202       0x7e ./src/bsp/adc.o
+                0x00002202                bsp_adc_init
  .text.bsp_adc_manage
-                0x0000221e       0xa2 ./src/bsp/adc.o
-                0x0000221e                bsp_adc_manage
+                0x00002280       0xa2 ./src/bsp/adc.o
+                0x00002280                bsp_adc_manage
  .text.bsp_adc_get
-                0x000022c0       0x38 ./src/bsp/adc.o
-                0x000022c0                bsp_adc_get
+                0x00002322       0x38 ./src/bsp/adc.o
+                0x00002322                bsp_adc_get
  .text.bsp_adc_callback
-                0x000022f8        0x2 ./src/bsp/adc.o
-                0x000022f8                bsp_adc_callback
+                0x0000235a        0x2 ./src/bsp/adc.o
+                0x0000235a                bsp_adc_callback
  .text.bsp_coin_reader_enable
-                0x000022fa       0x2e ./src/bsp/coin_reader.o
-                0x000022fa                bsp_coin_reader_enable
+                0x0000235c       0x2e ./src/bsp/coin_reader.o
+                0x0000235c                bsp_coin_reader_enable
  .text.bsp_coin_reader_init
-                0x00002328       0x1a ./src/bsp/coin_reader.o
-                0x00002328                bsp_coin_reader_init
+                0x0000238a       0x1a ./src/bsp/coin_reader.o
+                0x0000238a                bsp_coin_reader_init
  .text.bsp_coin_reader_manage
-                0x00002342       0x86 ./src/bsp/coin_reader.o
-                0x00002342                bsp_coin_reader_manage
+                0x000023a4       0x86 ./src/bsp/coin_reader.o
+                0x000023a4                bsp_coin_reader_manage
  .text.bsp_coin_reader_read
-                0x000023c8       0x1c ./src/bsp/coin_reader.o
-                0x000023c8                bsp_coin_reader_read
+                0x0000242a       0x1c ./src/bsp/coin_reader.o
+                0x0000242a                bsp_coin_reader_read
  .text.bsp_coin_reader_clear
-                0x000023e4       0x20 ./src/bsp/coin_reader.o
-                0x000023e4                bsp_coin_reader_clear
+                0x00002446       0x20 ./src/bsp/coin_reader.o
+                0x00002446                bsp_coin_reader_clear
  .text.bsp_digin_init
-                0x00002404       0x10 ./src/bsp/digin.o
-                0x00002404                bsp_digin_init
+                0x00002466       0x10 ./src/bsp/digin.o
+                0x00002466                bsp_digin_init
  .text.bsp_digin_is_ready
-                0x00002414       0x14 ./src/bsp/digin.o
-                0x00002414                bsp_digin_is_ready
+                0x00002476       0x14 ./src/bsp/digin.o
+                0x00002476                bsp_digin_is_ready
  .text.bsp_digin_manage
-                0x00002428       0xa6 ./src/bsp/digin.o
-                0x00002428                bsp_digin_manage
+                0x0000248a       0xa6 ./src/bsp/digin.o
+                0x0000248a                bsp_digin_manage
  .text.bsp_digin_get_bitmap
-                0x000024ce        0xc ./src/bsp/digin.o
-                0x000024ce                bsp_digin_get_bitmap
+                0x00002530        0xc ./src/bsp/digin.o
+                0x00002530                bsp_digin_get_bitmap
  .text.bsp_heartbit_manage
-                0x000024da       0xac ./src/bsp/heartbit.o
-                0x000024da                bsp_heartbit_manage
+                0x0000253c       0xac ./src/bsp/heartbit.o
+                0x0000253c                bsp_heartbit_manage
  .text.erase_block
-                0x00002586       0x3e ./src/bsp/power_off.o
+                0x000025e8       0x3e ./src/bsp/power_off.o
  .text.find_last_sub_block_index
-                0x000025c4       0x82 ./src/bsp/power_off.o
+                0x00002626       0x82 ./src/bsp/power_off.o
  .text.power_off_callback
-                0x00002646       0x1c ./src/bsp/power_off.o
-                0x00002646                power_off_callback
+                0x000026a8       0x1c ./src/bsp/power_off.o
+                0x000026a8                power_off_callback
  .text.bsp_power_off_init
-                0x00002662      0x10e ./src/bsp/power_off.o
-                0x00002662                bsp_power_off_init
+                0x000026c4      0x10e ./src/bsp/power_off.o
+                0x000026c4                bsp_power_off_init
  .text.bsp_power_off_save
-                0x00002770       0x9a ./src/bsp/power_off.o
-                0x00002770                bsp_power_off_save
+                0x000027d2       0x9a ./src/bsp/power_off.o
+                0x000027d2                bsp_power_off_save
  .text.bsp_power_off_load
-                0x0000280a       0x4e ./src/bsp/power_off.o
-                0x0000280a                bsp_power_off_load
+                0x0000286c       0x4e ./src/bsp/power_off.o
+                0x0000286c                bsp_power_off_load
  .text.bsp_pwm_init
-                0x00002858       0x5e ./src/bsp/pwm.o
-                0x00002858                bsp_pwm_init
+                0x000028ba       0x5e ./src/bsp/pwm.o
+                0x000028ba                bsp_pwm_init
  .text.bsp_pwm_update
-                0x000028b6       0x5e ./src/bsp/pwm.o
-                0x000028b6                bsp_pwm_update
+                0x00002918       0x5e ./src/bsp/pwm.o
+                0x00002918                bsp_pwm_update
  .text.bsp_relay_update
-                0x00002914       0x3a ./src/bsp/relay.o
-                0x00002914                bsp_relay_update
+                0x00002976       0x3a ./src/bsp/relay.o
+                0x00002976                bsp_relay_update
  .text.bsp_rs232_init
-                0x0000294e       0x16 ./src/bsp/rs232.o
-                0x0000294e                bsp_rs232_init
+                0x000029b0       0x16 ./src/bsp/rs232.o
+                0x000029b0                bsp_rs232_init
  .text.bsp_rs232_write
-                0x00002964       0x1a ./src/bsp/rs232.o
-                0x00002964                bsp_rs232_write
+                0x000029c6       0x1a ./src/bsp/rs232.o
+                0x000029c6                bsp_rs232_write
  .text.bsp_rs232_read
-                0x0000297e       0x26 ./src/bsp/rs232.o
-                0x0000297e                bsp_rs232_read
+                0x000029e0       0x26 ./src/bsp/rs232.o
+                0x000029e0                bsp_rs232_read
  .text.bsp_rs232_flush
-                0x000029a4        0xe ./src/bsp/rs232.o
-                0x000029a4                bsp_rs232_flush
+                0x00002a06        0xe ./src/bsp/rs232.o
+                0x00002a06                bsp_rs232_flush
  .text.rs232_callback
-                0x000029b2       0x50 ./src/bsp/rs232.o
-                0x000029b2                rs232_callback
+                0x00002a14       0x50 ./src/bsp/rs232.o
+                0x00002a14                rs232_callback
  .text.bsp_rs232_timed_out
-                0x00002a02       0x1c ./src/bsp/rs232.o
-                0x00002a02                bsp_rs232_timed_out
+                0x00002a64       0x1c ./src/bsp/rs232.o
+                0x00002a64                bsp_rs232_timed_out
  .text.spi_master_exchange
-                0x00002a1e       0xb2 ./src/bsp/spi.o
-                0x00002a1e                spi_master_exchange
+                0x00002a80       0xb2 ./src/bsp/spi.o
+                0x00002a80                spi_master_exchange
  .text.SysTick_Config
-                0x00002ad0       0x3a ./src/bsp/system.o
+                0x00002b32       0x3a ./src/bsp/system.o
  .text.SysTick_Handler
-                0x00002b0a       0x10 ./src/bsp/system.o
-                0x00002b0a                SysTick_Handler
+                0x00002b6c       0x10 ./src/bsp/system.o
+                0x00002b6c                SysTick_Handler
  .text.bsp_system_init
-                0x00002b1a       0x2a ./src/bsp/system.o
-                0x00002b1a                bsp_system_init
+                0x00002b7c       0x2a ./src/bsp/system.o
+                0x00002b7c                bsp_system_init
  .text.bsp_system_get_millis
-                0x00002b44        0xc ./src/bsp/system.o
-                0x00002b44                bsp_system_get_millis
+                0x00002ba6        0xc ./src/bsp/system.o
+                0x00002ba6                bsp_system_get_millis
  .text.crc8_ccitt
-                0x00002b50       0x1e ./src/bsp/temperature_humidity_probe.o
+                0x00002bb2       0x1e ./src/bsp/temperature_humidity_probe.o
  .text.temperature_humidity_probe_read
-                0x00002b6e       0xa6 ./src/bsp/temperature_humidity_probe.o
-                0x00002b6e                temperature_humidity_probe_read
+                0x00002bd0       0xa6 ./src/bsp/temperature_humidity_probe.o
+                0x00002bd0                temperature_humidity_probe_read
  .text.modbusMaskWrite
-                0x00002c14       0x2c ./src/adapters/modbus_server.o
+                0x00002c76       0x2c ./src/adapters/modbus_server.o
  .text.modbusIsOk
-                0x00002c40       0x18 ./src/adapters/modbus_server.o
+                0x00002ca2       0x18 ./src/adapters/modbus_server.o
  .text.static_allocator
-                0x00002c58       0x28 ./src/adapters/modbus_server.o
+                0x00002cba       0x28 ./src/adapters/modbus_server.o
  .text.exception_callback
-                0x00002c80        0x4 ./src/adapters/modbus_server.o
+                0x00002ce2        0x4 ./src/adapters/modbus_server.o
+ *fill*         0x00002ce6        0x2 ff
  .text.register_callback
-                0x00002c84      0x548 ./src/adapters/modbus_server.o
+                0x00002ce8      0x548 ./src/adapters/modbus_server.o
  .text.modbusBufferInit
-                0x000031cc       0x12 ./src/adapters/modbus_server.o
-                0x000031cc                modbusBufferInit
+                0x00003230       0x12 ./src/adapters/modbus_server.o
+                0x00003230                modbusBufferInit
  .text.modbusBufferAllocateADU
-                0x000031de       0x32 ./src/adapters/modbus_server.o
-                0x000031de                modbusBufferAllocateADU
+                0x00003242       0x32 ./src/adapters/modbus_server.o
+                0x00003242                modbusBufferAllocateADU
  .text.modbusBufferFree
-                0x00003210        0xc ./src/adapters/modbus_server.o
-                0x00003210                modbusBufferFree
+                0x00003274        0xc ./src/adapters/modbus_server.o
+                0x00003274                modbusBufferFree
  .text.modbusCRC
-                0x0000321c       0x38 ./src/adapters/modbus_server.o
-                0x0000321c                modbusCRC
+                0x00003280       0x38 ./src/adapters/modbus_server.o
+                0x00003280                modbusCRC
  .text.modbusSlaveInit
-                0x00003254       0x1e ./src/adapters/modbus_server.o
-                0x00003254                modbusSlaveInit
+                0x000032b8       0x1e ./src/adapters/modbus_server.o
+                0x000032b8                modbusSlaveInit
  .text.modbusBuildException
-                0x00003272       0x32 ./src/adapters/modbus_server.o
-                0x00003272                modbusBuildException
+                0x000032d6       0x32 ./src/adapters/modbus_server.o
+                0x000032d6                modbusBuildException
  .text.modbusParseRequest01020304
-                0x000032a4      0x180 ./src/adapters/modbus_server.o
-                0x000032a4                modbusParseRequest01020304
+                0x00003308      0x180 ./src/adapters/modbus_server.o
+                0x00003308                modbusParseRequest01020304
  .text.modbusParseRequest1516
-                0x00003424      0x1b6 ./src/adapters/modbus_server.o
-                0x00003424                modbusParseRequest1516
+                0x00003488      0x1b6 ./src/adapters/modbus_server.o
+                0x00003488                modbusParseRequest1516
  .text.modbusParseRequest
-                0x000035da       0x32 ./src/adapters/modbus_server.o
-                0x000035da                modbusParseRequest
+                0x0000363e       0x32 ./src/adapters/modbus_server.o
+                0x0000363e                modbusParseRequest
  .text.modbusParseRequestRTU
-                0x0000360c       0xd4 ./src/adapters/modbus_server.o
-                0x0000360c                modbusParseRequestRTU
+                0x00003670       0xd4 ./src/adapters/modbus_server.o
+                0x00003670                modbusParseRequestRTU
  .text.modbus_server_init
-                0x000036e0       0x5e ./src/adapters/modbus_server.o
-                0x000036e0                modbus_server_init
+                0x00003744       0x5e ./src/adapters/modbus_server.o
+                0x00003744                modbus_server_init
  .text.modbus_server_manage
-                0x0000373e       0x66 ./src/adapters/modbus_server.o
-                0x0000373e                modbus_server_manage
+                0x000037a2       0x66 ./src/adapters/modbus_server.o
+                0x000037a2                modbus_server_manage
  .text.hal_entry
-                0x000037a4       0x86 ./src/hal_entry.o
-                0x000037a4                hal_entry
+                0x00003808       0x86 ./src/hal_entry.o
+                0x00003808                hal_entry
  .text.R_BSP_WarmStart
-                0x0000382a       0x2e ./src/hal_entry.o
-                0x0000382a                R_BSP_WarmStart
- .text.main     0x00003858        0xa ./ra_gen/main.o
-                0x00003858                main
+                0x0000388e       0x2e ./src/hal_entry.o
+                0x0000388e                R_BSP_WarmStart
+ .text.main     0x000038bc        0xa ./ra_gen/main.o
+                0x000038bc                main
  .text.R_SCI_UART_Read
-                0x00003862        0x8 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
-                0x00003862                R_SCI_UART_Read
- *fill*         0x0000386a        0x2 ff
+                0x000038c6        0x8 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x000038c6                R_SCI_UART_Read
+ *fill*         0x000038ce        0x2 ff
  .text.R_SCI_UART_Write
-                0x0000386c       0x50 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
-                0x0000386c                R_SCI_UART_Write
+                0x000038d0       0x50 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x000038d0                R_SCI_UART_Write
  .text.R_SCI_UART_CallbackSet
-                0x000038bc        0xa ./ra/fsp/src/r_sci_uart/r_sci_uart.o
-                0x000038bc                R_SCI_UART_CallbackSet
+                0x00003920        0xa ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x00003920                R_SCI_UART_CallbackSet
  .text.R_SCI_UART_InfoGet
-                0x000038c6        0xc ./ra/fsp/src/r_sci_uart/r_sci_uart.o
-                0x000038c6                R_SCI_UART_InfoGet
+                0x0000392a        0xc ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x0000392a                R_SCI_UART_InfoGet
  .text.R_SCI_UART_Abort
-                0x000038d2       0x28 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
-                0x000038d2                R_SCI_UART_Abort
+                0x00003936       0x28 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x00003936                R_SCI_UART_Abort
  .text.R_SCI_UART_ReadStop
-                0x000038fa        0xc ./ra/fsp/src/r_sci_uart/r_sci_uart.o
-                0x000038fa                R_SCI_UART_ReadStop
+                0x0000395e        0xc ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x0000395e                R_SCI_UART_ReadStop
  .text.r_sci_uart_baud_set
-                0x00003906       0x2a ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x0000396a       0x2a ./ra/fsp/src/r_sci_uart/r_sci_uart.o
  .text.r_sci_uart_config_set
-                0x00003930       0x98 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x00003994       0x98 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
  .text.R_SCI_UART_BaudSet
-                0x000039c8       0x24 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
-                0x000039c8                R_SCI_UART_BaudSet
+                0x00003a2c       0x24 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x00003a2c                R_SCI_UART_BaudSet
  .text.r_sci_uart_call_callback
-                0x000039ec       0x4c ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x00003a50       0x4c ./ra/fsp/src/r_sci_uart/r_sci_uart.o
  .text.R_SCI_UART_Close
-                0x00003a38       0x60 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
-                0x00003a38                R_SCI_UART_Close
+                0x00003a9c       0x60 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x00003a9c                R_SCI_UART_Close
  .text.r_sci_irq_cfg
-                0x00003a98       0x20 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x00003afc       0x20 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
  .text.r_sci_irqs_cfg
-                0x00003ab8       0x36 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x00003b1c       0x36 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
  .text.R_SCI_UART_Open
-                0x00003aee      0x100 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
-                0x00003aee                R_SCI_UART_Open
- *fill*         0x00003bee        0x2 ff
+                0x00003b52      0x100 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x00003b52                R_SCI_UART_Open
+ *fill*         0x00003c52        0x2 ff
  .text.sci_uart_txi_isr
-                0x00003bf0       0x8c ./ra/fsp/src/r_sci_uart/r_sci_uart.o
-                0x00003bf0                sci_uart_txi_isr
+                0x00003c54       0x8c ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x00003c54                sci_uart_txi_isr
  .text.sci_uart_rxi_isr
-                0x00003c7c       0x8c ./ra/fsp/src/r_sci_uart/r_sci_uart.o
-                0x00003c7c                sci_uart_rxi_isr
+                0x00003ce0       0x8c ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x00003ce0                sci_uart_rxi_isr
  .text.sci_uart_tei_isr
-                0x00003d08       0x38 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
-                0x00003d08                sci_uart_tei_isr
+                0x00003d6c       0x38 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x00003d6c                sci_uart_tei_isr
  .text.sci_uart_eri_isr
-                0x00003d40       0x66 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
-                0x00003d40                sci_uart_eri_isr
+                0x00003da4       0x66 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x00003da4                sci_uart_eri_isr
  .text.R_BSP_PinAccessEnable
-                0x00003da6       0x3a ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00003e0a       0x3a ./ra/fsp/src/r_ioport/r_ioport.o
  .text.R_BSP_PinAccessDisable
-                0x00003de0       0x46 ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00003e44       0x46 ./ra/fsp/src/r_ioport/r_ioport.o
  .text.R_IOPORT_Close
-                0x00003e26        0x8 ./ra/fsp/src/r_ioport/r_ioport.o
-                0x00003e26                R_IOPORT_Close
+                0x00003e8a        0x8 ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00003e8a                R_IOPORT_Close
  .text.R_IOPORT_PinRead
-                0x00003e2e       0x22 ./ra/fsp/src/r_ioport/r_ioport.o
-                0x00003e2e                R_IOPORT_PinRead
+                0x00003e92       0x22 ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00003e92                R_IOPORT_PinRead
  .text.R_IOPORT_PortRead
-                0x00003e50       0x16 ./ra/fsp/src/r_ioport/r_ioport.o
-                0x00003e50                R_IOPORT_PortRead
+                0x00003eb4       0x16 ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00003eb4                R_IOPORT_PortRead
  .text.R_IOPORT_PortWrite
-                0x00003e66       0x22 ./ra/fsp/src/r_ioport/r_ioport.o
-                0x00003e66                R_IOPORT_PortWrite
+                0x00003eca       0x22 ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00003eca                R_IOPORT_PortWrite
  .text.R_IOPORT_PinWrite
-                0x00003e88       0x2c ./ra/fsp/src/r_ioport/r_ioport.o
-                0x00003e88                R_IOPORT_PinWrite
+                0x00003eec       0x2c ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00003eec                R_IOPORT_PinWrite
  .text.R_IOPORT_PortDirectionSet
-                0x00003eb4       0x24 ./ra/fsp/src/r_ioport/r_ioport.o
-                0x00003eb4                R_IOPORT_PortDirectionSet
+                0x00003f18       0x24 ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00003f18                R_IOPORT_PortDirectionSet
  .text.R_IOPORT_PortEventInputRead
-                0x00003ed8       0x18 ./ra/fsp/src/r_ioport/r_ioport.o
-                0x00003ed8                R_IOPORT_PortEventInputRead
+                0x00003f3c       0x18 ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00003f3c                R_IOPORT_PortEventInputRead
  .text.R_IOPORT_PinEventInputRead
-                0x00003ef0       0x30 ./ra/fsp/src/r_ioport/r_ioport.o
-                0x00003ef0                R_IOPORT_PinEventInputRead
+                0x00003f54       0x30 ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00003f54                R_IOPORT_PinEventInputRead
  .text.R_IOPORT_PortEventOutputWrite
-                0x00003f20       0x22 ./ra/fsp/src/r_ioport/r_ioport.o
-                0x00003f20                R_IOPORT_PortEventOutputWrite
+                0x00003f84       0x22 ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00003f84                R_IOPORT_PortEventOutputWrite
  .text.r_ioport_hw_pin_event_output_data_write
-                0x00003f42       0x2a ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00003fa6       0x2a ./ra/fsp/src/r_ioport/r_ioport.o
  .text.R_IOPORT_PinEventOutputWrite
-                0x00003f6c       0x12 ./ra/fsp/src/r_ioport/r_ioport.o
-                0x00003f6c                R_IOPORT_PinEventOutputWrite
- *fill*         0x00003f7e        0x2 ff
+                0x00003fd0       0x12 ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00003fd0                R_IOPORT_PinEventOutputWrite
+ *fill*         0x00003fe2        0x2 ff
  .text.r_ioport_pfs_write
-                0x00003f80       0x44 ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00003fe4       0x44 ./ra/fsp/src/r_ioport/r_ioport.o
  .text.r_ioport_pins_config
-                0x00003fc4       0x2a ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00004028       0x2a ./ra/fsp/src/r_ioport/r_ioport.o
  .text.R_IOPORT_Open
-                0x00003fee       0x16 ./ra/fsp/src/r_ioport/r_ioport.o
-                0x00003fee                R_IOPORT_Open
+                0x00004052       0x16 ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00004052                R_IOPORT_Open
  .text.R_IOPORT_PinsCfg
-                0x00004004        0xc ./ra/fsp/src/r_ioport/r_ioport.o
-                0x00004004                R_IOPORT_PinsCfg
+                0x00004068        0xc ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00004068                R_IOPORT_PinsCfg
  .text.R_IOPORT_PinCfg
-                0x00004010       0x1a ./ra/fsp/src/r_ioport/r_ioport.o
-                0x00004010                R_IOPORT_PinCfg
+                0x00004074       0x1a ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00004074                R_IOPORT_PinCfg
  .text.R_ICU_ExternalIrqOpen
-                0x0000402a       0x68 ./ra/fsp/src/r_icu/r_icu.o
-                0x0000402a                R_ICU_ExternalIrqOpen
+                0x0000408e       0x68 ./ra/fsp/src/r_icu/r_icu.o
+                0x0000408e                R_ICU_ExternalIrqOpen
  .text.R_ICU_ExternalIrqEnable
-                0x00004092        0xe ./ra/fsp/src/r_icu/r_icu.o
-                0x00004092                R_ICU_ExternalIrqEnable
+                0x000040f6        0xe ./ra/fsp/src/r_icu/r_icu.o
+                0x000040f6                R_ICU_ExternalIrqEnable
  .text.r_icu_isr
-                0x000040a0       0x60 ./ra/fsp/src/r_icu/r_icu.o
-                0x000040a0                r_icu_isr
+                0x00004104       0x60 ./ra/fsp/src/r_icu/r_icu.o
+                0x00004104                r_icu_isr
  .text.R_GPT_Start
-                0x00004100        0xa ./ra/fsp/src/r_gpt/r_gpt.o
-                0x00004100                R_GPT_Start
+                0x00004164        0xa ./ra/fsp/src/r_gpt/r_gpt.o
+                0x00004164                R_GPT_Start
  .text.gpt_common_open
-                0x0000410a       0x2e ./ra/fsp/src/r_gpt/r_gpt.o
+                0x0000416e       0x2e ./ra/fsp/src/r_gpt/r_gpt.o
  .text.gpt_hardware_events_disable
-                0x00004138       0x1c ./ra/fsp/src/r_gpt/r_gpt.o
+                0x0000419c       0x1c ./ra/fsp/src/r_gpt/r_gpt.o
  .text.gpt_calculate_duty_cycle
-                0x00004154       0x64 ./ra/fsp/src/r_gpt/r_gpt.o
+                0x000041b8       0x64 ./ra/fsp/src/r_gpt/r_gpt.o
  .text.R_GPT_DutyCycleSet
-                0x000041b8       0xbc ./ra/fsp/src/r_gpt/r_gpt.o
-                0x000041b8                R_GPT_DutyCycleSet
+                0x0000421c       0xbc ./ra/fsp/src/r_gpt/r_gpt.o
+                0x0000421c                R_GPT_DutyCycleSet
  .text.gpt_clock_frequency_get
-                0x00004274       0x34 ./ra/fsp/src/r_gpt/r_gpt.o
+                0x000042d8       0x34 ./ra/fsp/src/r_gpt/r_gpt.o
  .text.R_GPT_InfoGet
-                0x000042a8       0x1a ./ra/fsp/src/r_gpt/r_gpt.o
-                0x000042a8                R_GPT_InfoGet
+                0x0000430c       0x1a ./ra/fsp/src/r_gpt/r_gpt.o
+                0x0000430c                R_GPT_InfoGet
  .text.gpt_gtior_calculate
-                0x000042c2       0x2a ./ra/fsp/src/r_gpt/r_gpt.o
+                0x00004326       0x2a ./ra/fsp/src/r_gpt/r_gpt.o
  .text.r_gpt_init_compare_match_channel
-                0x000042ec       0x26 ./ra/fsp/src/r_gpt/r_gpt.o
+                0x00004350       0x26 ./ra/fsp/src/r_gpt/r_gpt.o
  .text.r_gpt_enable_irq
-                0x00004312        0xe ./ra/fsp/src/r_gpt/r_gpt.o
+                0x00004376        0xe ./ra/fsp/src/r_gpt/r_gpt.o
  .text.gpt_hardware_initialize
-                0x00004320      0x1ac ./ra/fsp/src/r_gpt/r_gpt.o
+                0x00004384      0x1ac ./ra/fsp/src/r_gpt/r_gpt.o
  .text.R_GPT_Open
-                0x000044cc       0x28 ./ra/fsp/src/r_gpt/r_gpt.o
-                0x000044cc                R_GPT_Open
+                0x00004530       0x28 ./ra/fsp/src/r_gpt/r_gpt.o
+                0x00004530                R_GPT_Open
  .text.r_flash_lp_init
-                0x000044f4       0xb4 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x00004558       0xb4 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
  .text.r_flash_lp_df_write_operation
-                0x000045a8       0x30 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x0000460c       0x30 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
  .text.r_flash_lp_process_command
-                0x000045d8       0x3a ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x0000463c       0x3a ./ra/fsp/src/r_flash_lp/r_flash_lp.o
  .text.r_flash_lp_delay_us
-                0x00004612       0x10 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x00004676       0x10 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
  .text.r_flash_lp_setup
-                0x00004622       0xa4 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x00004686       0xa4 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
  .text.r_flash_lp_write_fpmcr
-                0x000046c6       0x2a ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x0000472a       0x2a ./ra/fsp/src/r_flash_lp/r_flash_lp.o
  .text.r_flash_lp_df_enter_pe_mode
-                0x000046f0       0x30 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x00004754       0x30 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
  .text.r_flash_lp_pe_mode_exit
-                0x00004720       0x58 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x00004784       0x58 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
  .text.r_flash_lp_reset
-                0x00004778       0x3e ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x000047dc       0x3e ./ra/fsp/src/r_flash_lp/r_flash_lp.o
  .text.r_flash_lp_command_finish
-                0x000047b6       0x6a ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x0000481a       0x6a ./ra/fsp/src/r_flash_lp/r_flash_lp.o
  .text.r_flash_lp_wait_for_ready
-                0x00004820       0x40 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x00004884       0x40 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
  .text.r_flash_lp_df_write_monitor
-                0x00004860       0x30 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x000048c4       0x30 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
  .text.r_flash_lp_df_write
-                0x00004890       0x40 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x000048f4       0x40 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
  .text.R_FLASH_LP_Write
-                0x000048d0        0xe ./ra/fsp/src/r_flash_lp/r_flash_lp.o
-                0x000048d0                R_FLASH_LP_Write
+                0x00004934        0xe ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x00004934                R_FLASH_LP_Write
  .text.r_flash_lp_df_erase
-                0x000048de       0x4c ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x00004942       0x4c ./ra/fsp/src/r_flash_lp/r_flash_lp.o
  .text.R_FLASH_LP_Erase
-                0x0000492a       0x16 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
-                0x0000492a                R_FLASH_LP_Erase
+                0x0000498e       0x16 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x0000498e                R_FLASH_LP_Erase
  .text.r_flash_lp_set_fisr
-                0x00004940       0x54 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x000049a4       0x54 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
  .text.R_FLASH_LP_Open
-                0x00004994       0x2a ./ra/fsp/src/r_flash_lp/r_flash_lp.o
-                0x00004994                R_FLASH_LP_Open
+                0x000049f8       0x2a ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x000049f8                R_FLASH_LP_Open
  .text.R_ADC_ScanStart
-                0x000049be        0xa ./ra/fsp/src/r_adc/r_adc.o
-                0x000049be                R_ADC_ScanStart
+                0x00004a22        0xa ./ra/fsp/src/r_adc/r_adc.o
+                0x00004a22                R_ADC_ScanStart
  .text.R_ADC_Read
-                0x000049c8        0xe ./ra/fsp/src/r_adc/r_adc.o
-                0x000049c8                R_ADC_Read
+                0x00004a2c        0xe ./ra/fsp/src/r_adc/r_adc.o
+                0x00004a2c                R_ADC_Read
  .text.r_adc_sensor_sample_state_calculation
-                0x000049d6       0x48 ./ra/fsp/src/r_adc/r_adc.o
+                0x00004a3a       0x48 ./ra/fsp/src/r_adc/r_adc.o
  .text.r_adc_sensor_cfg
-                0x00004a1e       0x6c ./ra/fsp/src/r_adc/r_adc.o
+                0x00004a82       0x6c ./ra/fsp/src/r_adc/r_adc.o
  .text.r_adc_call_callback
-                0x00004a8a       0x3a ./ra/fsp/src/r_adc/r_adc.o
+                0x00004aee       0x3a ./ra/fsp/src/r_adc/r_adc.o
  .text.r_adc_open_sub
-                0x00004ac4       0xfc ./ra/fsp/src/r_adc/r_adc.o
+                0x00004b28       0xfc ./ra/fsp/src/r_adc/r_adc.o
  .text.r_adc_irq_enable
-                0x00004bc0        0xe ./ra/fsp/src/r_adc/r_adc.o
+                0x00004c24        0xe ./ra/fsp/src/r_adc/r_adc.o
  .text.R_ADC_Open
-                0x00004bce       0x6a ./ra/fsp/src/r_adc/r_adc.o
-                0x00004bce                R_ADC_Open
+                0x00004c32       0x6a ./ra/fsp/src/r_adc/r_adc.o
+                0x00004c32                R_ADC_Open
  .text.r_adc_scan_cfg
-                0x00004c38      0x188 ./ra/fsp/src/r_adc/r_adc.o
+                0x00004c9c      0x188 ./ra/fsp/src/r_adc/r_adc.o
  .text.R_ADC_ScanCfg
-                0x00004dc0       0x12 ./ra/fsp/src/r_adc/r_adc.o
-                0x00004dc0                R_ADC_ScanCfg
+                0x00004e24       0x12 ./ra/fsp/src/r_adc/r_adc.o
+                0x00004e24                R_ADC_ScanCfg
  .text.r_adc_scan_end_common_isr
-                0x00004dd2       0x52 ./ra/fsp/src/r_adc/r_adc.o
+                0x00004e36       0x52 ./ra/fsp/src/r_adc/r_adc.o
  .text.adc_scan_end_isr
-                0x00004e24        0xa ./ra/fsp/src/r_adc/r_adc.o
-                0x00004e24                adc_scan_end_isr
+                0x00004e88        0xa ./ra/fsp/src/r_adc/r_adc.o
+                0x00004e88                adc_scan_end_isr
  .text.bsp_prv_operating_mode_opccr_set
-                0x00004e2e       0x5c ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
+                0x00004e92       0x5c ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
  .text.bsp_prv_sosc_init
-                0x00004e8a       0x12 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
+                0x00004eee       0x12 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
  .text.SystemCoreClockUpdate
-                0x00004e9c       0x2e ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
-                0x00004e9c                SystemCoreClockUpdate
+                0x00004f00       0x2e ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
+                0x00004f00                SystemCoreClockUpdate
  .text.bsp_clock_freq_var_init
-                0x00004eca       0x38 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
+                0x00004f2e       0x38 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
  .text.bsp_prv_clock_set_hard_reset
-                0x00004f02       0x20 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
- *fill*         0x00004f22        0x2 ff
+                0x00004f66       0x20 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
+ *fill*         0x00004f86        0x2 ff
  .text.bsp_clock_init
-                0x00004f24       0x80 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
-                0x00004f24                bsp_clock_init
+                0x00004f88       0x80 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
+                0x00004f88                bsp_clock_init
  .text.R_BSP_Init_RTC
-                0x00004fa4       0x10 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
-                0x00004fa4                R_BSP_Init_RTC
+                0x00005008       0x10 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
+                0x00005008                R_BSP_Init_RTC
  .text.bsp_init_internal
-                0x00004fb4        0x2 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
-                0x00004fb4                bsp_init
-                0x00004fb4                bsp_init_internal
+                0x00005018        0x2 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
+                0x00005018                bsp_init
+                0x00005018                bsp_init_internal
  .text.__assert_func
-                0x00004fb6        0x4 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
-                0x00004fb6                __assert_func
+                0x0000501a        0x4 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
+                0x0000501a                __assert_func
  .text.bsp_prv_software_delay_loop
-                0x00004fba        0x8 ./ra/fsp/src/bsp/mcu/all/bsp_delay.o
-                0x00004fba                bsp_prv_software_delay_loop
+                0x0000501e        0x8 ./ra/fsp/src/bsp/mcu/all/bsp_delay.o
+                0x0000501e                bsp_prv_software_delay_loop
  .text.R_BSP_SoftwareDelay
-                0x00004fc2       0x56 ./ra/fsp/src/bsp/mcu/all/bsp_delay.o
-                0x00004fc2                R_BSP_SoftwareDelay
+                0x00005026       0x56 ./ra/fsp/src/bsp/mcu/all/bsp_delay.o
+                0x00005026                R_BSP_SoftwareDelay
  .text.bsp_group_irq_call
-                0x00005018       0x14 ./ra/fsp/src/bsp/mcu/all/bsp_group_irq.o
+                0x0000507c       0x14 ./ra/fsp/src/bsp/mcu/all/bsp_group_irq.o
  .text.NMI_Handler
-                0x0000502c       0x44 ./ra/fsp/src/bsp/mcu/all/bsp_group_irq.o
-                0x0000502c                NMI_Handler
+                0x00005090       0x44 ./ra/fsp/src/bsp/mcu/all/bsp_group_irq.o
+                0x00005090                NMI_Handler
  .text.R_BSP_IrqStatusClear
-                0x00005070       0x1c ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
-                0x00005070                R_BSP_IrqStatusClear
+                0x000050d4       0x1c ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
+                0x000050d4                R_BSP_IrqStatusClear
  .text.R_BSP_IrqClearPending
-                0x0000508c       0x26 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
-                0x0000508c                R_BSP_IrqClearPending
+                0x000050f0       0x26 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
+                0x000050f0                R_BSP_IrqClearPending
  .text.R_BSP_IrqCfg
-                0x000050b2       0x44 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
-                0x000050b2                R_BSP_IrqCfg
+                0x00005116       0x44 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
+                0x00005116                R_BSP_IrqCfg
  .text.R_BSP_IrqEnableNoClear
-                0x000050f6       0x18 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
-                0x000050f6                R_BSP_IrqEnableNoClear
+                0x0000515a       0x18 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
+                0x0000515a                R_BSP_IrqEnableNoClear
  .text.R_BSP_IrqEnable
-                0x0000510e       0x10 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
-                0x0000510e                R_BSP_IrqEnable
+                0x00005172       0x10 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
+                0x00005172                R_BSP_IrqEnable
  .text.R_BSP_IrqDisable
-                0x0000511e       0x22 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
-                0x0000511e                R_BSP_IrqDisable
+                0x00005182       0x22 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
+                0x00005182                R_BSP_IrqDisable
  .text.R_BSP_IrqCfgEnable
-                0x00005140       0x10 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
-                0x00005140                R_BSP_IrqCfgEnable
+                0x000051a4       0x10 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
+                0x000051a4                R_BSP_IrqCfgEnable
  .text.bsp_irq_cfg
-                0x00005150       0x2c ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
-                0x00005150                bsp_irq_cfg
+                0x000051b4       0x2c ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
+                0x000051b4                bsp_irq_cfg
  .text.R_BSP_RegisterProtectEnable
-                0x0000517c       0x70 ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
-                0x0000517c                R_BSP_RegisterProtectEnable
+                0x000051e0       0x70 ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
+                0x000051e0                R_BSP_RegisterProtectEnable
  .text.R_BSP_RegisterProtectDisable
-                0x000051ec       0x5c ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
-                0x000051ec                R_BSP_RegisterProtectDisable
- .text._sbrk    0x00005248       0x5c ./ra/fsp/src/bsp/mcu/all/bsp_sbrk.o
-                0x00005248                _sbrk
+                0x00005250       0x5c ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
+                0x00005250                R_BSP_RegisterProtectDisable
+ .text._sbrk    0x000052ac       0x5c ./ra/fsp/src/bsp/mcu/all/bsp_sbrk.o
+                0x000052ac                _sbrk
  .text.Default_Handler
-                0x000052a4        0x4 ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.o
-                0x000052a4                DebugMon_Handler
-                0x000052a4                HardFault_Handler
-                0x000052a4                PendSV_Handler
-                0x000052a4                UsageFault_Handler
-                0x000052a4                SecureFault_Handler
-                0x000052a4                Default_Handler
-                0x000052a4                MemManage_Handler
-                0x000052a4                SVC_Handler
-                0x000052a4                BusFault_Handler
+                0x00005308        0x4 ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.o
+                0x00005308                DebugMon_Handler
+                0x00005308                HardFault_Handler
+                0x00005308                PendSV_Handler
+                0x00005308                UsageFault_Handler
+                0x00005308                SecureFault_Handler
+                0x00005308                Default_Handler
+                0x00005308                MemManage_Handler
+                0x00005308                SVC_Handler
+                0x00005308                BusFault_Handler
  .text.Reset_Handler
-                0x000052a8        0xc ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.o
-                0x000052a8                Reset_Handler
+                0x0000530c        0xc ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.o
+                0x0000530c                Reset_Handler
  .text.bsp_reset_trng_circuit
-                0x000052b4       0x7c ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.o
+                0x00005318       0x7c ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.o
  .text.SystemInit
-                0x00005330       0xdc ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.o
-                0x00005330                SystemInit
+                0x00005394       0xdc ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.o
+                0x00005394                SystemInit
  .text.add_callback
-                0x0000540c       0x76 ./libs/c-watcher/src/watcher.o
- .text.add_arg  0x00005482       0x76 ./libs/c-watcher/src/watcher.o
+                0x00005470       0x76 ./libs/c-watcher/src/watcher.o
+ .text.add_arg  0x000054e6       0x76 ./libs/c-watcher/src/watcher.o
  .text.debouncer_callback
-                0x000054f8       0x12 ./libs/c-watcher/src/watcher.o
+                0x0000555c       0x12 ./libs/c-watcher/src/watcher.o
  .text.is_debounced
-                0x0000550a       0x20 ./libs/c-watcher/src/watcher.o
+                0x0000556e       0x20 ./libs/c-watcher/src/watcher.o
  .text.trigger_debouncer_entry
-                0x0000552a       0x3a ./libs/c-watcher/src/watcher.o
+                0x0000558e       0x3a ./libs/c-watcher/src/watcher.o
  .text.add_entry_static
-                0x00005564      0x25e ./libs/c-watcher/src/watcher.o
+                0x000055c8      0x25e ./libs/c-watcher/src/watcher.o
  .text.watcher_init
-                0x000057c2       0x36 ./libs/c-watcher/src/watcher.o
-                0x000057c2                watcher_init
+                0x00005826       0x36 ./libs/c-watcher/src/watcher.o
+                0x00005826                watcher_init
  .text.watcher_add_entry
-                0x000057f8       0x3c ./libs/c-watcher/src/watcher.o
-                0x000057f8                watcher_add_entry
+                0x0000585c       0x3c ./libs/c-watcher/src/watcher.o
+                0x0000585c                watcher_add_entry
  .text.watcher_trigger_entry
-                0x00005834       0x92 ./libs/c-watcher/src/watcher.o
-                0x00005834                watcher_trigger_entry
+                0x00005898       0x92 ./libs/c-watcher/src/watcher.o
+                0x00005898                watcher_trigger_entry
  .text.watcher_watch
-                0x000058c6       0xe2 ./libs/c-watcher/src/watcher.o
-                0x000058c6                watcher_watch
+                0x0000592a       0xe2 ./libs/c-watcher/src/watcher.o
+                0x0000592a                watcher_watch
  .text.stopwatch_init
-                0x000059a8        0xe ./libs/c-stopwatch/src/stopwatch.o
-                0x000059a8                stopwatch_init
+                0x00005a0c        0xe ./libs/c-stopwatch/src/stopwatch.o
+                0x00005a0c                stopwatch_init
  .text.stopwatch_resume
-                0x000059b6        0xc ./libs/c-stopwatch/src/stopwatch.o
-                0x000059b6                stopwatch_resume
+                0x00005a1a        0xc ./libs/c-stopwatch/src/stopwatch.o
+                0x00005a1a                stopwatch_resume
  .text.stopwatch_pause
-                0x000059c2       0x1a ./libs/c-stopwatch/src/stopwatch.o
-                0x000059c2                stopwatch_pause
+                0x00005a26       0x1a ./libs/c-stopwatch/src/stopwatch.o
+                0x00005a26                stopwatch_pause
  .text.stopwatch_reset
-                0x000059dc        0x8 ./libs/c-stopwatch/src/stopwatch.o
-                0x000059dc                stopwatch_reset
+                0x00005a40        0x8 ./libs/c-stopwatch/src/stopwatch.o
+                0x00005a40                stopwatch_reset
  .text.stopwatch_set
-                0x000059e4        0x4 ./libs/c-stopwatch/src/stopwatch.o
-                0x000059e4                stopwatch_set
+                0x00005a48        0x4 ./libs/c-stopwatch/src/stopwatch.o
+                0x00005a48                stopwatch_set
  .text.stopwatch_is_paused
-                0x000059e8        0x4 ./libs/c-stopwatch/src/stopwatch.o
-                0x000059e8                stopwatch_is_paused
+                0x00005a4c        0x4 ./libs/c-stopwatch/src/stopwatch.o
+                0x00005a4c                stopwatch_is_paused
  .text.stopwatch_get_elapsed
-                0x000059ec       0x18 ./libs/c-stopwatch/src/stopwatch.o
-                0x000059ec                stopwatch_get_elapsed
+                0x00005a50       0x18 ./libs/c-stopwatch/src/stopwatch.o
+                0x00005a50                stopwatch_get_elapsed
  .text.stopwatch_get_remaining
-                0x00005a04       0x16 ./libs/c-stopwatch/src/stopwatch.o
-                0x00005a04                stopwatch_get_remaining
+                0x00005a68       0x16 ./libs/c-stopwatch/src/stopwatch.o
+                0x00005a68                stopwatch_get_remaining
  .text.stopwatch_get_total_time
-                0x00005a1a        0x4 ./libs/c-stopwatch/src/stopwatch.o
-                0x00005a1a                stopwatch_get_total_time
+                0x00005a7e        0x4 ./libs/c-stopwatch/src/stopwatch.o
+                0x00005a7e                stopwatch_get_total_time
  .text.stopwatch_is_done
-                0x00005a1e       0x2e ./libs/c-stopwatch/src/stopwatch.o
-                0x00005a1e                stopwatch_is_done
+                0x00005a82       0x2e ./libs/c-stopwatch/src/stopwatch.o
+                0x00005a82                stopwatch_is_done
  .text.stopwatch_timer_init
-                0x00005a4c       0x28 ./libs/c-stopwatch/src/stopwatch_timer.o
-                0x00005a4c                stopwatch_timer_init
+                0x00005ab0       0x28 ./libs/c-stopwatch/src/stopwatch_timer.o
+                0x00005ab0                stopwatch_timer_init
  .text.stopwatch_timer_set_period
-                0x00005a74        0x8 ./libs/c-stopwatch/src/stopwatch_timer.o
-                0x00005a74                stopwatch_timer_set_period
+                0x00005ad8        0x8 ./libs/c-stopwatch/src/stopwatch_timer.o
+                0x00005ad8                stopwatch_timer_set_period
  .text.stopwatch_timer_set_autoreload
-                0x00005a7c       0x12 ./libs/c-stopwatch/src/stopwatch_timer.o
-                0x00005a7c                stopwatch_timer_set_autoreload
+                0x00005ae0       0x12 ./libs/c-stopwatch/src/stopwatch_timer.o
+                0x00005ae0                stopwatch_timer_set_autoreload
  .text.stopwatch_timer_resume
-                0x00005a8e        0x8 ./libs/c-stopwatch/src/stopwatch_timer.o
-                0x00005a8e                stopwatch_timer_resume
+                0x00005af2        0x8 ./libs/c-stopwatch/src/stopwatch_timer.o
+                0x00005af2                stopwatch_timer_resume
  .text.stopwatch_timer_reset
-                0x00005a96       0x10 ./libs/c-stopwatch/src/stopwatch_timer.o
-                0x00005a96                stopwatch_timer_reset
+                0x00005afa       0x10 ./libs/c-stopwatch/src/stopwatch_timer.o
+                0x00005afa                stopwatch_timer_reset
  .text.stopwatch_timer_pause
-                0x00005aa6        0x8 ./libs/c-stopwatch/src/stopwatch_timer.o
-                0x00005aa6                stopwatch_timer_pause
+                0x00005b0a        0x8 ./libs/c-stopwatch/src/stopwatch_timer.o
+                0x00005b0a                stopwatch_timer_pause
  .text.stopwatch_timer_manage
-                0x00005aae       0x52 ./libs/c-stopwatch/src/stopwatch_timer.o
-                0x00005aae                stopwatch_timer_manage
+                0x00005b12       0x52 ./libs/c-stopwatch/src/stopwatch_timer.o
+                0x00005b12                stopwatch_timer_manage
  .text.debounce_filter_init
-                0x00005b00       0x1a ./libs/c-debounce/src/debounce.o
-                0x00005b00                debounce_filter_init
+                0x00005b64       0x1a ./libs/c-debounce/src/debounce.o
+                0x00005b64                debounce_filter_init
  .text.debounce_filter_single
-                0x00005b1a       0x68 ./libs/c-debounce/src/debounce.o
-                0x00005b1a                debounce_filter_single
+                0x00005b7e       0x68 ./libs/c-debounce/src/debounce.o
+                0x00005b7e                debounce_filter_single
  .text.debounce_filter
-                0x00005b82       0x34 ./libs/c-debounce/src/debounce.o
-                0x00005b82                debounce_filter
+                0x00005be6       0x34 ./libs/c-debounce/src/debounce.o
+                0x00005be6                debounce_filter
  .text.pulse_filter_init
-                0x00005bb6       0x1e ./libs/c-debounce/src/pulsecounter.o
-                0x00005bb6                pulse_filter_init
+                0x00005c1a       0x1e ./libs/c-debounce/src/pulsecounter.o
+                0x00005c1a                pulse_filter_init
  .text.pulse_filter
-                0x00005bd4       0xb6 ./libs/c-debounce/src/pulsecounter.o
-                0x00005bd4                pulse_filter
- *fill*         0x00005c8a        0x2 ff
- .text          0x00005c8c       0x3c /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/libgcc.a(_clzsi2.o)
-                0x00005c8c                __clzsi2
- .text          0x00005cc8       0x40 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/libgcc.a(_aeabi_uldivmod.o)
-                0x00005cc8                __aeabi_uldivmod
+                0x00005c38       0xb6 ./libs/c-debounce/src/pulsecounter.o
+                0x00005c38                pulse_filter
+ *fill*         0x00005cee        0x2 ff
+ .text          0x00005cf0       0x3c /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/libgcc.a(_clzsi2.o)
+                0x00005cf0                __clzsi2
+ .text          0x00005d2c       0x40 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/libgcc.a(_aeabi_uldivmod.o)
+                0x00005d2c                __aeabi_uldivmod
  .text.__muldi3
-                0x00005d08       0x5c /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/libgcc.a(_muldi3.o)
-                0x00005d08                __aeabi_lmul
-                0x00005d08                __muldi3
+                0x00005d6c       0x5c /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/libgcc.a(_muldi3.o)
+                0x00005d6c                __aeabi_lmul
+                0x00005d6c                __muldi3
  .text.__udivmoddi4
-                0x00005d64      0x390 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/libgcc.a(_udivmoddi4.o)
-                0x00005d64                __udivmoddi4
- .text          0x000060f4        0x4 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/libgcc.a(_dvmd_tls.o)
-                0x000060f4                __aeabi_ldiv0
-                0x000060f4                __aeabi_idiv0
- .text.memcpy   0x000060f8       0x12 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-memcpy-stub.o)
-                0x000060f8                memcpy
- *fill*         0x0000610a        0x2 ff
- .text.free     0x0000610c       0x14 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-malloc.o)
-                0x0000610c                free
+                0x00005dc8      0x390 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/libgcc.a(_udivmoddi4.o)
+                0x00005dc8                __udivmoddi4
+ .text          0x00006158        0x4 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/libgcc.a(_dvmd_tls.o)
+                0x00006158                __aeabi_ldiv0
+                0x00006158                __aeabi_idiv0
+ .text.memcpy   0x0000615c       0x12 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-memcpy-stub.o)
+                0x0000615c                memcpy
+ *fill*         0x0000616e        0x2 ff
+ .text.free     0x00006170       0x14 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-malloc.o)
+                0x00006170                free
  .text.sbrk_aligned
-                0x00006120       0x44 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-mallocr.o)
+                0x00006184       0x44 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-mallocr.o)
  .text._malloc_r
-                0x00006164      0x100 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-mallocr.o)
-                0x00006164                _malloc_r
+                0x000061c8      0x100 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-mallocr.o)
+                0x000061c8                _malloc_r
  .text.__malloc_lock
-                0x00006264       0x10 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-mlock.o)
-                0x00006264                __malloc_lock
+                0x000062c8       0x10 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-mlock.o)
+                0x000062c8                __malloc_lock
  .text.__malloc_unlock
-                0x00006274       0x10 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-mlock.o)
-                0x00006274                __malloc_unlock
- .text.realloc  0x00006284       0x14 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-realloc.o)
-                0x00006284                realloc
- .text._sbrk_r  0x00006298       0x20 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-sbrkr.o)
-                0x00006298                _sbrk_r
- .text.__errno  0x000062b8        0xc /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-errno.o)
-                0x000062b8                __errno
- .text.memcmp   0x000062c4       0x1c /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-memcmp.o)
-                0x000062c4                memcmp
- .text.memset   0x000062e0       0x10 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-memset.o)
-                0x000062e0                memset
+                0x000062d8       0x10 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-mlock.o)
+                0x000062d8                __malloc_unlock
+ .text.realloc  0x000062e8       0x14 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-realloc.o)
+                0x000062e8                realloc
+ .text._sbrk_r  0x000062fc       0x20 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-sbrkr.o)
+                0x000062fc                _sbrk_r
+ .text.__errno  0x0000631c        0xc /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-errno.o)
+                0x0000631c                __errno
+ .text.memcmp   0x00006328       0x1c /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-memcmp.o)
+                0x00006328                memcmp
+ .text.memset   0x00006344       0x10 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-memset.o)
+                0x00006344                memset
  .text._realloc_r
-                0x000062f0       0x5a /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-reallocr.o)
-                0x000062f0                _realloc_r
- *fill*         0x0000634a        0x2 ff
- .text._free_r  0x0000634c       0x90 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-freer.o)
-                0x0000634c                _free_r
+                0x00006354       0x5a /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-reallocr.o)
+                0x00006354                _realloc_r
+ *fill*         0x000063ae        0x2 ff
+ .text._free_r  0x000063b0       0x90 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-freer.o)
+                0x000063b0                _free_r
  .text.__retarget_lock_acquire_recursive
-                0x000063dc        0x2 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-lock.o)
-                0x000063dc                __retarget_lock_acquire_recursive
+                0x00006440        0x2 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-lock.o)
+                0x00006440                __retarget_lock_acquire_recursive
  .text.__retarget_lock_release_recursive
-                0x000063de        0x2 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-lock.o)
-                0x000063de                __retarget_lock_release_recursive
+                0x00006442        0x2 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-lock.o)
+                0x00006442                __retarget_lock_release_recursive
  .text._malloc_usable_size_r
-                0x000063e0       0x10 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-msizer.o)
-                0x000063e0                _malloc_usable_size_r
+                0x00006444       0x10 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.base/nofp/libg_nano.a(libc_a-msizer.o)
+                0x00006444                _malloc_usable_size_r
  *(.version)
- .version       0x000063f0       0x50 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
+ .version       0x00006454       0x50 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
  *(.init)
- .init          0x00006440        0x4 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/crti.o
-                0x00006440                _init
- .init          0x00006444        0x8 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/crtn.o
+ .init          0x000064a4        0x4 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/crti.o
+                0x000064a4                _init
+ .init          0x000064a8        0x8 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/crtn.o
  *(.fini)
- .fini          0x0000644c        0x4 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/crti.o
-                0x0000644c                _fini
- .fini          0x00006450        0x8 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/crtn.o
+ .fini          0x000064b0        0x4 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/crti.o
+                0x000064b0                _fini
+ .fini          0x000064b4        0x8 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/crtn.o
  *crtbegin.o(.ctors)
  *crtbegin?.o(.ctors)
  *(EXCLUDE_FILE(*crtend.o *crtend?.o) .ctors)
@@ -1826,284 +1827,284 @@ END GROUP
  *(.dtors)
  *(.rodata*)
  .rodata.crc16_ccitt_table
-                0x00006458      0x200 ./src/services/crc16-ccitt.o
+                0x000064bc      0x200 ./src/services/crc16-ccitt.o
  .rodata.running_event_manager
-                0x00006658       0x2c ./src/model/cycle.o
+                0x000066bc       0x2c ./src/model/cycle.o
  .rodata.wait_start_event_manager
-                0x00006684       0x2c ./src/model/cycle.o
+                0x000066e8       0x2c ./src/model/cycle.o
  .rodata.managers
-                0x000066b0       0x3c ./src/model/cycle.o
+                0x00006714       0x3c ./src/model/cycle.o
  .rodata.managers
-                0x000066ec       0x24 ./src/model/heating.o
+                0x00006750       0x24 ./src/model/heating.o
  .rodata.get_pwm_drum_percentage.str1.4
-                0x00006710      0x120 ./src/model/model.o
+                0x00006774      0x120 ./src/model/model.o
                                  0x25 (size before relaxing)
  .rodata.model_pwoff_serialize.str1.4
-                0x00006830       0x1b ./src/model/model.o
+                0x00006894       0x1b ./src/model/model.o
  .rodata.__func__.0
-                0x00006830       0x11 ./src/model/model.o
- *fill*         0x00006841        0x3 ff
+                0x00006894       0x11 ./src/model/model.o
+ *fill*         0x000068a5        0x3 ff
  .rodata.__func__.1
-                0x00006844       0x13 ./src/model/model.o
- *fill*         0x00006857        0x1 ff
+                0x000068a8       0x13 ./src/model/model.o
+ *fill*         0x000068bb        0x1 ff
  .rodata.__func__.2
-                0x00006858       0x16 ./src/model/model.o
- *fill*         0x0000686e        0x2 ff
+                0x000068bc       0x16 ./src/model/model.o
+ *fill*         0x000068d2        0x2 ff
  .rodata.__func__.4
-                0x00006870       0x1e ./src/model/model.o
- *fill*         0x0000688e        0x2 ff
+                0x000068d4       0x1e ./src/model/model.o
+ *fill*         0x000068f2        0x2 ff
  .rodata.__func__.5
-                0x00006890       0x10 ./src/model/model.o
+                0x000068f4       0x10 ./src/model/model.o
  .rodata.__func__.6
-                0x000068a0       0x14 ./src/model/model.o
+                0x00006904       0x14 ./src/model/model.o
  .rodata.__func__.7
-                0x000068b4       0x13 ./src/model/model.o
- *fill*         0x000068c7        0x1 ff
+                0x00006918       0x13 ./src/model/model.o
+ *fill*         0x0000692b        0x1 ff
  .rodata.__func__.8
-                0x000068c8       0x1e ./src/model/model.o
- *fill*         0x000068e6        0x2 ff
+                0x0000692c       0x1e ./src/model/model.o
+ *fill*         0x0000694a        0x2 ff
  .rodata.__func__.9
-                0x000068e8       0x1a ./src/model/model.o
- *fill*         0x00006902        0x2 ff
+                0x0000694c       0x1a ./src/model/model.o
+ *fill*         0x00006966        0x2 ff
  .rodata.__func__.10
-                0x00006904       0x1e ./src/model/model.o
- *fill*         0x00006922        0x2 ff
+                0x00006968       0x1e ./src/model/model.o
+ *fill*         0x00006986        0x2 ff
  .rodata.__func__.11
-                0x00006924       0x1b ./src/model/model.o
- *fill*         0x0000693f        0x1 ff
+                0x00006988       0x1b ./src/model/model.o
+ *fill*         0x000069a3        0x1 ff
  .rodata.__func__.12
-                0x00006940       0x17 ./src/model/model.o
- *fill*         0x00006957        0x1 ff
+                0x000069a4       0x17 ./src/model/model.o
+ *fill*         0x000069bb        0x1 ff
  .rodata.__func__.13
-                0x00006958       0x1e ./src/model/model.o
- *fill*         0x00006976        0x2 ff
+                0x000069bc       0x1e ./src/model/model.o
+ *fill*         0x000069da        0x2 ff
  .rodata.__func__.14
-                0x00006978       0x13 ./src/model/model.o
- *fill*         0x0000698b        0x1 ff
+                0x000069dc       0x13 ./src/model/model.o
+ *fill*         0x000069ef        0x1 ff
  .rodata.__func__.15
-                0x0000698c       0x1c ./src/model/model.o
+                0x000069f0       0x1c ./src/model/model.o
  .rodata.__func__.16
-                0x000069a8       0x1a ./src/model/model.o
- *fill*         0x000069c2        0x2 ff
+                0x00006a0c       0x1a ./src/model/model.o
+ *fill*         0x00006a26        0x2 ff
  .rodata.__func__.18
-                0x000069c4       0x15 ./src/model/model.o
- *fill*         0x000069d9        0x3 ff
+                0x00006a28       0x15 ./src/model/model.o
+ *fill*         0x00006a3d        0x3 ff
  .rodata.__func__.20
-                0x000069dc       0x16 ./src/model/model.o
- *fill*         0x000069f2        0x2 ff
+                0x00006a40       0x16 ./src/model/model.o
+ *fill*         0x00006a56        0x2 ff
  .rodata.__func__.21
-                0x000069f4       0x12 ./src/model/model.o
- *fill*         0x00006a06        0x2 ff
+                0x00006a58       0x12 ./src/model/model.o
+ *fill*         0x00006a6a        0x2 ff
  .rodata.__func__.22
-                0x00006a08       0x18 ./src/model/model.o
+                0x00006a6c       0x18 ./src/model/model.o
  .rodata.__func__.23
-                0x00006a20       0x16 ./src/model/model.o
- *fill*         0x00006a36        0x2 ff
+                0x00006a84       0x16 ./src/model/model.o
+ *fill*         0x00006a9a        0x2 ff
  .rodata.__func__.24
-                0x00006a38       0x15 ./src/model/model.o
- *fill*         0x00006a4d        0x3 ff
+                0x00006a9c       0x15 ./src/model/model.o
+ *fill*         0x00006ab1        0x3 ff
  .rodata.__func__.25
-                0x00006a50       0x17 ./src/model/model.o
- *fill*         0x00006a67        0x1 ff
+                0x00006ab4       0x17 ./src/model/model.o
+ *fill*         0x00006acb        0x1 ff
  .rodata.__func__.26
-                0x00006a68       0x1d ./src/model/model.o
- *fill*         0x00006a85        0x3 ff
+                0x00006acc       0x1d ./src/model/model.o
+ *fill*         0x00006ae9        0x3 ff
  .rodata.__func__.27
-                0x00006a88       0x18 ./src/model/model.o
+                0x00006aec       0x18 ./src/model/model.o
  .rodata.__func__.28
-                0x00006aa0       0x1e ./src/model/model.o
- *fill*         0x00006abe        0x2 ff
+                0x00006b04       0x1e ./src/model/model.o
+ *fill*         0x00006b22        0x2 ff
  .rodata.__func__.29
-                0x00006ac0       0x14 ./src/model/model.o
+                0x00006b24       0x14 ./src/model/model.o
  .rodata.__func__.30
-                0x00006ad4       0x12 ./src/model/model.o
- *fill*         0x00006ae6        0x2 ff
+                0x00006b38       0x12 ./src/model/model.o
+ *fill*         0x00006b4a        0x2 ff
  .rodata.__func__.31
-                0x00006ae8       0x16 ./src/model/model.o
- *fill*         0x00006afe        0x2 ff
+                0x00006b4c       0x16 ./src/model/model.o
+ *fill*         0x00006b62        0x2 ff
  .rodata.__func__.32
-                0x00006b00       0x20 ./src/model/model.o
+                0x00006b64       0x20 ./src/model/model.o
  .rodata.__func__.33
-                0x00006b20       0x18 ./src/model/model.o
+                0x00006b84       0x18 ./src/model/model.o
  .rodata.__func__.34
-                0x00006b38       0x13 ./src/model/model.o
- *fill*         0x00006b4b        0x1 ff
+                0x00006b9c       0x13 ./src/model/model.o
+ *fill*         0x00006baf        0x1 ff
  .rodata.__func__.35
-                0x00006b4c       0x17 ./src/model/model.o
- *fill*         0x00006b63        0x1 ff
+                0x00006bb0       0x17 ./src/model/model.o
+ *fill*         0x00006bc7        0x1 ff
  .rodata.__func__.36
-                0x00006b64       0x1d ./src/model/model.o
- *fill*         0x00006b81        0x3 ff
+                0x00006bc8       0x1d ./src/model/model.o
+ *fill*         0x00006be5        0x3 ff
  .rodata.__func__.37
-                0x00006b84       0x20 ./src/model/model.o
+                0x00006be8       0x20 ./src/model/model.o
  .rodata.__func__.38
-                0x00006ba4       0x1f ./src/model/model.o
- *fill*         0x00006bc3        0x1 ff
+                0x00006c08       0x1f ./src/model/model.o
+ *fill*         0x00006c27        0x1 ff
  .rodata.__func__.39
-                0x00006bc4       0x11 ./src/model/model.o
- *fill*         0x00006bd5        0x3 ff
+                0x00006c28       0x11 ./src/model/model.o
+ *fill*         0x00006c39        0x3 ff
  .rodata.__func__.40
-                0x00006bd8       0x13 ./src/model/model.o
- *fill*         0x00006beb        0x1 ff
+                0x00006c3c       0x13 ./src/model/model.o
+ *fill*         0x00006c4f        0x1 ff
  .rodata.__func__.41
-                0x00006bec        0xd ./src/model/model.o
- *fill*         0x00006bf9        0x3 ff
+                0x00006c50        0xd ./src/model/model.o
+ *fill*         0x00006c5d        0x3 ff
  .rodata.__func__.42
-                0x00006bfc        0xb ./src/model/model.o
+                0x00006c60        0xb ./src/model/model.o
  .rodata.bsp_adc_init.str1.4
-                0x00006c07       0x25 ./src/bsp/adc.o
- *fill*         0x00006c07        0x1 ff
- .rodata.__func__.1
-                0x00006c08        0xd ./src/bsp/adc.o
- *fill*         0x00006c15        0x3 ff
- .rodata        0x00006c18       0x10 ./src/bsp/adc.o
- .rodata        0x00006c28        0xc ./src/bsp/coin_reader.o
- .rodata        0x00006c34       0x10 ./src/bsp/digin.o
- .rodata.erase_block.str1.4
-                0x00006c44       0x2b ./src/bsp/power_off.o
- .rodata.bsp_power_off_save.str1.4
-                0x00006c44       0x19 ./src/bsp/power_off.o
- .rodata.__func__.0
-                0x00006c44       0x13 ./src/bsp/power_off.o
- *fill*         0x00006c57        0x1 ff
- .rodata.__func__.1
-                0x00006c58       0x13 ./src/bsp/power_off.o
+                0x00006c6b       0x25 ./src/bsp/adc.o
  *fill*         0x00006c6b        0x1 ff
- .rodata.__func__.2
-                0x00006c6c        0xc ./src/bsp/power_off.o
- .rodata.__func__.3
-                0x00006c78       0x13 ./src/bsp/power_off.o
- .rodata.bsp_pwm_init.str1.4
-                0x00006c8b       0x25 ./src/bsp/pwm.o
- *fill*         0x00006c8b        0x1 ff
+ .rodata.__func__.1
+                0x00006c6c        0xd ./src/bsp/adc.o
+ *fill*         0x00006c79        0x3 ff
+ .rodata        0x00006c7c       0x10 ./src/bsp/adc.o
+ .rodata        0x00006c8c        0xc ./src/bsp/coin_reader.o
+ .rodata        0x00006c98       0x10 ./src/bsp/digin.o
+ .rodata.erase_block.str1.4
+                0x00006ca8       0x2b ./src/bsp/power_off.o
+ .rodata.bsp_power_off_save.str1.4
+                0x00006ca8       0x19 ./src/bsp/power_off.o
  .rodata.__func__.0
-                0x00006c8c        0xf ./src/bsp/pwm.o
- *fill*         0x00006c9b        0x1 ff
+                0x00006ca8       0x13 ./src/bsp/power_off.o
+ *fill*         0x00006cbb        0x1 ff
  .rodata.__func__.1
-                0x00006c9c        0xd ./src/bsp/pwm.o
- *fill*         0x00006ca9        0x3 ff
- .rodata        0x00006cac        0xe ./src/bsp/relay.o
+                0x00006cbc       0x13 ./src/bsp/power_off.o
+ *fill*         0x00006ccf        0x1 ff
+ .rodata.__func__.2
+                0x00006cd0        0xc ./src/bsp/power_off.o
+ .rodata.__func__.3
+                0x00006cdc       0x13 ./src/bsp/power_off.o
+ .rodata.bsp_pwm_init.str1.4
+                0x00006cef       0x25 ./src/bsp/pwm.o
+ *fill*         0x00006cef        0x1 ff
+ .rodata.__func__.0
+                0x00006cf0        0xf ./src/bsp/pwm.o
+ *fill*         0x00006cff        0x1 ff
+ .rodata.__func__.1
+                0x00006d00        0xd ./src/bsp/pwm.o
+ *fill*         0x00006d0d        0x3 ff
+ .rodata        0x00006d10        0xe ./src/bsp/relay.o
  .rodata.temperature_humidity_probe_read.str1.4
-                0x00006cba        0x6 ./src/bsp/temperature_humidity_probe.o
- *fill*         0x00006cba        0x2 ff
+                0x00006d1e        0x6 ./src/bsp/temperature_humidity_probe.o
+ *fill*         0x00006d1e        0x2 ff
  .rodata.CRC_TABLE
-                0x00006cbc      0x100 ./src/bsp/temperature_humidity_probe.o
+                0x00006d20      0x100 ./src/bsp/temperature_humidity_probe.o
  .rodata.register_callback
-                0x00006dbc      0x1c4 ./src/adapters/modbus_server.o
+                0x00006e20      0x1c4 ./src/adapters/modbus_server.o
  .rodata.modbus_server_init.str1.4
-                0x00006f80       0x50 ./src/adapters/modbus_server.o
+                0x00006fe4       0x50 ./src/adapters/modbus_server.o
  .rodata.__func__.1
-                0x00006f80       0x13 ./src/adapters/modbus_server.o
- *fill*         0x00006f93        0x1 ff
+                0x00006fe4       0x13 ./src/adapters/modbus_server.o
+ *fill*         0x00006ff7        0x1 ff
  .rodata.g_ioport
-                0x00006f94        0xc ./ra_gen/common_data.o
-                0x00006f94                g_ioport
+                0x00006ff8        0xc ./ra_gen/common_data.o
+                0x00006ff8                g_ioport
  .rodata.g_external_irq0_cfg
-                0x00006fa0       0x14 ./ra_gen/common_data.o
-                0x00006fa0                g_external_irq0_cfg
+                0x00007004       0x14 ./ra_gen/common_data.o
+                0x00007004                g_external_irq0_cfg
  .rodata.g_uart0
-                0x00006fb4        0xc ./ra_gen/hal_data.o
-                0x00006fb4                g_uart0
+                0x00007018        0xc ./ra_gen/hal_data.o
+                0x00007018                g_uart0
  .rodata.g_uart0_cfg
-                0x00006fc0       0x20 ./ra_gen/hal_data.o
-                0x00006fc0                g_uart0_cfg
+                0x00007024       0x20 ./ra_gen/hal_data.o
+                0x00007024                g_uart0_cfg
  .rodata.g_uart0_cfg_extend
-                0x00006fe0       0x14 ./ra_gen/hal_data.o
-                0x00006fe0                g_uart0_cfg_extend
+                0x00007044       0x14 ./ra_gen/hal_data.o
+                0x00007044                g_uart0_cfg_extend
  .rodata.g_adc0_channel_cfg
-                0x00006ff4       0x14 ./ra_gen/hal_data.o
-                0x00006ff4                g_adc0_channel_cfg
+                0x00007058       0x14 ./ra_gen/hal_data.o
+                0x00007058                g_adc0_channel_cfg
  .rodata.g_adc0_cfg
-                0x00007008       0x18 ./ra_gen/hal_data.o
-                0x00007008                g_adc0_cfg
+                0x0000706c       0x18 ./ra_gen/hal_data.o
+                0x0000706c                g_adc0_cfg
  .rodata.g_adc0_cfg_extend
-                0x00007020        0xb ./ra_gen/hal_data.o
-                0x00007020                g_adc0_cfg_extend
- *fill*         0x0000702b        0x1 ff
+                0x00007084        0xb ./ra_gen/hal_data.o
+                0x00007084                g_adc0_cfg_extend
+ *fill*         0x0000708f        0x1 ff
  .rodata.g_timer_pwm_cfg
-                0x0000702c       0x20 ./ra_gen/hal_data.o
-                0x0000702c                g_timer_pwm_cfg
+                0x00007090       0x20 ./ra_gen/hal_data.o
+                0x00007090                g_timer_pwm_cfg
  .rodata.g_timer_pwm_extend
-                0x0000704c       0x3c ./ra_gen/hal_data.o
-                0x0000704c                g_timer_pwm_extend
+                0x000070b0       0x3c ./ra_gen/hal_data.o
+                0x000070b0                g_timer_pwm_extend
  .rodata.g_flash_cfg
-                0x00007088       0x14 ./ra_gen/hal_data.o
-                0x00007088                g_flash_cfg
+                0x000070ec       0x14 ./ra_gen/hal_data.o
+                0x000070ec                g_flash_cfg
  .rodata.g_bsp_pin_cfg
-                0x0000709c        0xc ./ra_gen/pin_data.o
-                0x0000709c                g_bsp_pin_cfg
+                0x00007100        0xc ./ra_gen/pin_data.o
+                0x00007100                g_bsp_pin_cfg
  .rodata.g_bsp_pin_cfg_data
-                0x000070a8      0x148 ./ra_gen/pin_data.o
-                0x000070a8                g_bsp_pin_cfg_data
+                0x0000710c      0x148 ./ra_gen/pin_data.o
+                0x0000710c                g_bsp_pin_cfg_data
  .rodata.g_interrupt_event_link_select
-                0x000071f0       0x20 ./ra_gen/vector_data.o
-                0x000071f0                g_interrupt_event_link_select
+                0x00007254       0x20 ./ra_gen/vector_data.o
+                0x00007254                g_interrupt_event_link_select
  .rodata.g_uart_on_sci
-                0x00007210       0x24 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
-                0x00007210                g_uart_on_sci
+                0x00007274       0x24 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x00007274                g_uart_on_sci
  .rodata.g_ioport_on_ioport
-                0x00007234       0x34 ./ra/fsp/src/r_ioport/r_ioport.o
-                0x00007234                g_ioport_on_ioport
+                0x00007298       0x34 ./ra/fsp/src/r_ioport/r_ioport.o
+                0x00007298                g_ioport_on_ioport
  .rodata.g_prcr_masks
-                0x00007268        0x8 ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
-                0x00007270                        __usb_dev_descriptor_start_fs = .
+                0x000072cc        0x8 ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
+                0x000072d4                        __usb_dev_descriptor_start_fs = .
  *(.usb_device_desc_fs*)
-                0x00007270                        __usb_cfg_descriptor_start_fs = .
+                0x000072d4                        __usb_cfg_descriptor_start_fs = .
  *(.usb_config_desc_fs*)
-                0x00007270                        __usb_interface_descriptor_start_fs = .
+                0x000072d4                        __usb_interface_descriptor_start_fs = .
  *(.usb_interface_desc_fs*)
-                0x00007270                        __usb_descriptor_end_fs = .
-                0x00007270                        __usb_dev_descriptor_start_hs = .
+                0x000072d4                        __usb_descriptor_end_fs = .
+                0x000072d4                        __usb_dev_descriptor_start_hs = .
  *(.usb_device_desc_hs*)
-                0x00007270                        __usb_cfg_descriptor_start_hs = .
+                0x000072d4                        __usb_cfg_descriptor_start_hs = .
  *(.usb_config_desc_hs*)
-                0x00007270                        __usb_interface_descriptor_start_hs = .
+                0x000072d4                        __usb_interface_descriptor_start_hs = .
  *(.usb_interface_desc_hs*)
-                0x00007270                        __usb_descriptor_end_hs = .
+                0x000072d4                        __usb_descriptor_end_hs = .
  *(.eh_frame*)
- .eh_frame      0x00007270        0x0 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/crtbegin.o
- .eh_frame      0x00007270        0x4 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/crtend.o
-                0x00007274                        __ROM_End = .
+ .eh_frame      0x000072d4        0x0 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/crtbegin.o
+ .eh_frame      0x000072d4        0x4 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/crtend.o
+                0x000072d8                        __ROM_End = .
                 0x000000c0                        __Vectors_Size = (__Vectors_End - __Vectors)
 
-.glue_7         0x00007274        0x0
- .glue_7        0x00007274        0x0 linker stubs
+.glue_7         0x000072d8        0x0
+ .glue_7        0x000072d8        0x0 linker stubs
 
-.glue_7t        0x00007274        0x0
- .glue_7t       0x00007274        0x0 linker stubs
+.glue_7t        0x000072d8        0x0
+ .glue_7t       0x000072d8        0x0 linker stubs
 
-.vfp11_veneer   0x00007274        0x0
- .vfp11_veneer  0x00007274        0x0 linker stubs
+.vfp11_veneer   0x000072d8        0x0
+ .vfp11_veneer  0x000072d8        0x0 linker stubs
 
-.v4_bx          0x00007274        0x0
- .v4_bx         0x00007274        0x0 linker stubs
+.v4_bx          0x000072d8        0x0
+ .v4_bx         0x000072d8        0x0 linker stubs
 
-.iplt           0x00007274        0x0
- .iplt          0x00007274        0x0 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/crtbegin.o
-                0x00007274                        . = .
-                0x00007274                        __itcm_data_pre_location = .
+.iplt           0x000072d8        0x0
+ .iplt          0x000072d8        0x0 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/crtbegin.o
+                0x000072d8                        . = .
+                0x000072d8                        __itcm_data_pre_location = .
 
-.itcm_data      0x00000000        0x0 load address 0x00007280
+.itcm_data      0x00000000        0x0 load address 0x000072e0
                 0x00000000                        __tz_ITCM_S = ABSOLUTE (ITCM_START)
                 0x00000000                        __itcm_data_start = .
  *(.itcm_data*)
                 0x00000000                        . = ALIGN (0x8)
                 0x00000000                        __itcm_data_end = .
                 0x00000000                        __tz_ITCM_N = DEFINED (ITCM_NS_START)?ABSOLUTE (ITCM_NS_START):ALIGN (__itcm_data_end, 0x2000)
-                0x00007280                        __itcm_data_init_start = LOADADDR (.itcm_data)
-                0x00007280                        __itcm_data_init_end = (LOADADDR (.itcm_data) + SIZEOF (.itcm_data))
+                0x000072e0                        __itcm_data_init_start = LOADADDR (.itcm_data)
+                0x000072e0                        __itcm_data_init_end = (LOADADDR (.itcm_data) + SIZEOF (.itcm_data))
                 0x00000001                        ASSERT (((ORIGIN (ITCM) % 0x8) == 0x0), ITCM memory region origin must be aligned to 8 bytes.)
                 0x00000001                        ASSERT (((LENGTH (ITCM) % 0x8) == 0x0), ITCM memory region length must be a multiple of 8 bytes.)
                 0x00000001                        ASSERT (((LOADADDR (.itcm_data) % 0x10) == 0x0), .itcm_data section must be aligned to 16 bytes.)
                 0x00000001                        ASSERT (((SIZEOF (.itcm_data) % 0x8) == 0x0), .itcm_data section size must be a multiple of 8 bytes.)
-                0x00007274                        . = (SIZEOF (.itcm_data) > 0x0)?__itcm_data_init_end:__itcm_data_pre_location
-                0x00007274                        __exidx_start = .
+                0x000072d8                        . = (SIZEOF (.itcm_data) > 0x0)?__itcm_data_init_end:__itcm_data_pre_location
+                0x000072d8                        __exidx_start = .
 
 /DISCARD/
  *(.ARM.extab* .gnu.linkonce.armextab.*)
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x00007274                        __exidx_end = .
-                0x00007274                        __etext = .
+                0x000072d8                        __exidx_end = .
+                0x000072d8                        __etext = .
                 0x20000000                        __tz_RAM_S = ORIGIN (RAM)
 
 .fsp_dtc_vector_table
@@ -2111,7 +2112,7 @@ END GROUP
                 0x20000000                        . = ORIGIN (RAM)
  *(.fsp_dtc_vector_table)
 
-.data           0x20000000       0x7c load address 0x00007274
+.data           0x20000000       0x7c load address 0x000072d8
                 0x20000000                        __data_start__ = .
                 0x20000000                        . = ALIGN (0x4)
                 0x20000000                        __Code_In_RAM_Start = .
@@ -2153,18 +2154,18 @@ END GROUP
                 0x2000007c                        __data_end__ = .
 
 .tm_clone_table
-                0x2000007c        0x0 load address 0x000072f0
+                0x2000007c        0x0 load address 0x00007354
  .tm_clone_table
                 0x2000007c        0x0 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/crtbegin.o
  .tm_clone_table
                 0x2000007c        0x0 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/crtend.o
 
-.igot.plt       0x2000007c        0x0 load address 0x000072f0
+.igot.plt       0x2000007c        0x0 load address 0x00007354
  .igot.plt      0x2000007c        0x0 /home/maldus/Local/renesas/e2_studio/toolchains/gcc_arm/13_2-Rel1/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.base/nofp/crtbegin.o
                 0x2000007c                        . = .
-                0x000072f0                        __dtcm_data_pre_location = (LOADADDR (.data) + SIZEOF (.data))
+                0x00007354                        __dtcm_data_pre_location = (LOADADDR (.data) + SIZEOF (.data))
 
-.dtcm_data      0x00000000        0x0 load address 0x000072f0
+.dtcm_data      0x00000000        0x0 load address 0x00007360
                 0x00000000                        __tz_DTCM_S = ABSOLUTE (DTCM_START)
                 0x00000000                        __dtcm_data_start = .
  *(.dtcm_data*)
@@ -2178,8 +2179,8 @@ END GROUP
                 0x00000000                        . = ALIGN (0x8)
                 0x00000000                        __dtcm_bss_end = .
                 0x00000000                        __tz_DTCM_N = DEFINED (DTCM_NS_START)?ABSOLUTE (DTCM_NS_START):ALIGN (__dtcm_bss_end, 0x2000)
-                0x000072f0                        __dtcm_data_init_start = LOADADDR (.dtcm_data)
-                0x000072f0                        __dtcm_data_init_end = (LOADADDR (.dtcm_data) + SIZEOF (.dtcm_data))
+                0x00007360                        __dtcm_data_init_start = LOADADDR (.dtcm_data)
+                0x00007360                        __dtcm_data_init_end = (LOADADDR (.dtcm_data) + SIZEOF (.dtcm_data))
                 0x00000001                        ASSERT (((ORIGIN (DTCM) % 0x8) == 0x0), DTCM memory region origin must be aligned to 8 bytes.)
                 0x00000001                        ASSERT (((LENGTH (DTCM) % 0x8) == 0x0), DTCM memory region length must be a multiple of 8 bytes.)
                 0x00000001                        ASSERT ((LOADADDR (.dtcm_bss) == ADDR (.dtcm_bss)), .dtcm_bss has (VMA != LMA) but should be NOLOAD (VMA == LMA).)
@@ -2188,8 +2189,8 @@ END GROUP
                 0x00000001                        ASSERT (((LOADADDR (.dtcm_bss) % 0x8) == 0x0), .dtcm_bss section must be aligned to 8 bytes.)
                 0x00000001                        ASSERT (((SIZEOF (.dtcm_bss) % 0x8) == 0x0), .dtcm_bss section size must be a multiple of 8 bytes.)
                 0x00000001                        ASSERT ((__dtcm_bss_start == __dtcm_data_end), .dtcm_bss section is not adjacent to .dtcm_data section.)
-                0x000072f0                        . = (SIZEOF (.dtcm_data) > 0x0)?__dtcm_data_init_end:__dtcm_data_pre_location
-                0x000072f0                        sgstubs_pre_location = .
+                0x00007354                        . = (SIZEOF (.dtcm_data) > 0x0)?__dtcm_data_init_end:__dtcm_data_pre_location
+                0x00007354                        sgstubs_pre_location = .
                 0x00007400                        SGSTUBS_LOC = (DEFINED (PROJECT_SECURE) && DEFINED (FLASH_NSC_START))?ABSOLUTE (FLASH_NSC_START):ALIGN (0x400)
 
 .gnu.sgstubs    0x00007400        0x0
@@ -2208,10 +2209,10 @@ END GROUP
  *(.code_in_qspi*)
                 0x60000000                        __qspi_flash_end__ = .
                 0x00000000                        __qspi_flash_code_size__ = (__qspi_flash_end__ - __qspi_flash_start__)
-                0x000072f0                        __qspi_flash_code_addr__ = sgstubs_pre_location
+                0x00007354                        __qspi_flash_code_addr__ = sgstubs_pre_location
 
 .qspi_non_retentive
-                0x60000000        0x0 load address 0x000072f0
+                0x60000000        0x0 load address 0x00007354
                 0x60000000                        __qspi_non_retentive_start__ = .
  *(.qspi_non_retentive*)
                 0x60000000                        __qspi_non_retentive_end__ = .
@@ -2244,10 +2245,10 @@ END GROUP
  *(.code_in_ospi_device_0*)
                 0x80020000                        __ospi_device_0_end__ = .
                 0x00000000                        __ospi_device_0_code_size__ = (__ospi_device_0_end__ - __ospi_device_0_start__)
-                0x000072f0                        __ospi_device_0_code_addr__ = (sgstubs_pre_location + SIZEOF (.qspi_non_retentive))
+                0x00007354                        __ospi_device_0_code_addr__ = (sgstubs_pre_location + SIZEOF (.qspi_non_retentive))
 
 .ospi_device_0_non_retentive
-                0x80020000        0x0 load address 0x000072f0
+                0x80020000        0x0 load address 0x00007354
                 0x80020000                        __ospi_device_0_non_retentive_start__ = .
  *(.ospi_device_0_non_retentive*)
                 0x80020000                        __ospi_device_0_non_retentive_end__ = .
@@ -2264,10 +2265,10 @@ END GROUP
  *(.code_in_ospi_device_1*)
                 0x80030000                        __ospi_device_1_end__ = .
                 0x00000000                        __ospi_device_1_code_size__ = (__ospi_device_1_end__ - __ospi_device_1_start__)
-                0x000072f0                        __ospi_device_1_code_addr__ = (sgstubs_pre_location + (SIZEOF (.qspi_non_retentive) + SIZEOF (.ospi_device_0_non_retentive)))
+                0x00007354                        __ospi_device_1_code_addr__ = (sgstubs_pre_location + (SIZEOF (.qspi_non_retentive) + SIZEOF (.ospi_device_0_non_retentive)))
 
 .ospi_device_1_non_retentive
-                0x80030000        0x0 load address 0x000072f0
+                0x80030000        0x0 load address 0x00007354
                 0x80030000                        __ospi_device_1_non_retentive_start__ = .
  *(.ospi_device_1_non_retentive*)
                 0x80030000                        __ospi_device_1_non_retentive_end__ = .
@@ -2683,11 +2684,11 @@ LOAD linker stubs
 .comment        0x00000000       0x6a
  .comment       0x00000000       0x6a ./src/services/crc16-ccitt.o
                                  0x27 (size before relaxing)
- .comment       0x0000006a       0x27 ./src/model/cycle.o
- .comment       0x0000006a       0x27 ./src/model/heating.o
+ .comment       0x0000006a       0x45 ./src/model/cycle.o
+ .comment       0x0000006a       0x45 ./src/model/heating.o
  .comment       0x0000006a       0x45 ./src/model/model.o
  .comment       0x0000006a       0x45 ./src/controller/controller.o
- .comment       0x0000006a       0x27 ./src/controller/observer.o
+ .comment       0x0000006a       0x45 ./src/controller/observer.o
  .comment       0x0000006a       0x27 ./src/bsp/adc.o
  .comment       0x0000006a       0x27 ./src/bsp/coin_reader.o
  .comment       0x0000006a       0x27 ./src/bsp/digin.o
@@ -2700,7 +2701,7 @@ LOAD linker stubs
  .comment       0x0000006a       0x27 ./src/bsp/system.o
  .comment       0x0000006a       0x27 ./src/bsp/temperature_humidity_probe.o
  .comment       0x0000006a       0x45 ./src/adapters/modbus_server.o
- .comment       0x0000006a       0x27 ./src/hal_entry.o
+ .comment       0x0000006a       0x45 ./src/hal_entry.o
  .comment       0x0000006a       0x27 ./ra_gen/common_data.o
  .comment       0x0000006a       0x27 ./ra_gen/hal_data.o
  .comment       0x0000006a       0x27 ./ra_gen/main.o
@@ -2729,53 +2730,53 @@ LOAD linker stubs
  .comment       0x0000006a       0x27 ./libs/c-debounce/src/debounce.o
  .comment       0x0000006a       0x27 ./libs/c-debounce/src/pulsecounter.o
 
-.debug_info     0x00000000    0x63240
+.debug_info     0x00000000    0x634d1
  .debug_info    0x00000000       0xf2 ./src/services/crc16-ccitt.o
- .debug_info    0x000000f2     0x20d9 ./src/model/cycle.o
- .debug_info    0x000021cb      0xfc8 ./src/model/heating.o
- .debug_info    0x00003193     0x3632 ./src/model/model.o
- .debug_info    0x000067c5      0xf78 ./src/controller/controller.o
- .debug_info    0x0000773d     0x1296 ./src/controller/observer.o
- .debug_info    0x000089d3     0x3785 ./src/bsp/adc.o
- .debug_info    0x0000c158     0x15f6 ./src/bsp/coin_reader.o
- .debug_info    0x0000d74e     0x154d ./src/bsp/digin.o
- .debug_info    0x0000ec9b     0x1320 ./src/bsp/heartbit.o
- .debug_info    0x0000ffbb     0x1419 ./src/bsp/power_off.o
- .debug_info    0x000113d4     0x32c0 ./src/bsp/pwm.o
- .debug_info    0x00014694     0x122d ./src/bsp/relay.o
- .debug_info    0x000158c1     0x1453 ./src/bsp/rs232.o
- .debug_info    0x00016d14     0x1316 ./src/bsp/spi.o
- .debug_info    0x0001802a      0x3fb ./src/bsp/system.o
- .debug_info    0x00018425     0x13a7 ./src/bsp/temperature_humidity_probe.o
- .debug_info    0x000197cc     0x3b7f ./src/adapters/modbus_server.o
- .debug_info    0x0001d34b     0x2ab1 ./src/hal_entry.o
- .debug_info    0x0001fdfc     0x15ab ./ra_gen/common_data.o
- .debug_info    0x000213a7     0xa0f0 ./ra_gen/hal_data.o
- .debug_info    0x0002b497       0xb1 ./ra_gen/main.o
- .debug_info    0x0002b548      0xa09 ./ra_gen/pin_data.o
- .debug_info    0x0002bf51      0xa6e ./ra_gen/vector_data.o
- .debug_info    0x0002c9bf     0x86df ./ra/fsp/src/r_sci_uart/r_sci_uart.o
- .debug_info    0x0003509e     0x2b19 ./ra/fsp/src/r_ioport/r_ioport.o
- .debug_info    0x00037bb7     0x19ef ./ra/fsp/src/r_icu/r_icu.o
- .debug_info    0x000395a6     0x956f ./ra/fsp/src/r_gpt/r_gpt.o
- .debug_info    0x00042b15     0x61ad ./ra/fsp/src/r_flash_lp/r_flash_lp.o
- .debug_info    0x00048cc2     0x9857 ./ra/fsp/src/r_adc/r_adc.o
- .debug_info    0x00052519     0x5b01 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
- .debug_info    0x0005801a      0x923 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
- .debug_info    0x0005893d      0x1d7 ./ra/fsp/src/bsp/mcu/all/bsp_delay.o
- .debug_info    0x00058b14     0x1303 ./ra/fsp/src/bsp/mcu/all/bsp_group_irq.o
- .debug_info    0x00059e17       0xa6 ./ra/fsp/src/bsp/mcu/all/bsp_io.o
- .debug_info    0x00059ebd     0x18be ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
- .debug_info    0x0005b77b     0x38e8 ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
- .debug_info    0x0005f063       0xd5 ./ra/fsp/src/bsp/mcu/all/bsp_rom_registers.o
- .debug_info    0x0005f138      0x136 ./ra/fsp/src/bsp/mcu/all/bsp_sbrk.o
- .debug_info    0x0005f26e      0x170 ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.o
- .debug_info    0x0005f3de     0x1fb3 ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.o
- .debug_info    0x00061391     0x106e ./libs/c-watcher/src/watcher.o
- .debug_info    0x000623ff      0x48e ./libs/c-stopwatch/src/stopwatch.o
- .debug_info    0x0006288d      0x567 ./libs/c-stopwatch/src/stopwatch_timer.o
- .debug_info    0x00062df4      0x242 ./libs/c-debounce/src/debounce.o
- .debug_info    0x00063036      0x20a ./libs/c-debounce/src/pulsecounter.o
+ .debug_info    0x000000f2     0x216b ./src/model/cycle.o
+ .debug_info    0x0000225d     0x1029 ./src/model/heating.o
+ .debug_info    0x00003286     0x376a ./src/model/model.o
+ .debug_info    0x000069f0      0xf78 ./src/controller/controller.o
+ .debug_info    0x00007968     0x12cc ./src/controller/observer.o
+ .debug_info    0x00008c34     0x3785 ./src/bsp/adc.o
+ .debug_info    0x0000c3b9     0x15f6 ./src/bsp/coin_reader.o
+ .debug_info    0x0000d9af     0x154d ./src/bsp/digin.o
+ .debug_info    0x0000eefc     0x1320 ./src/bsp/heartbit.o
+ .debug_info    0x0001021c     0x1419 ./src/bsp/power_off.o
+ .debug_info    0x00011635     0x32c0 ./src/bsp/pwm.o
+ .debug_info    0x000148f5     0x122d ./src/bsp/relay.o
+ .debug_info    0x00015b22     0x1453 ./src/bsp/rs232.o
+ .debug_info    0x00016f75     0x1316 ./src/bsp/spi.o
+ .debug_info    0x0001828b      0x3fb ./src/bsp/system.o
+ .debug_info    0x00018686     0x13a7 ./src/bsp/temperature_humidity_probe.o
+ .debug_info    0x00019a2d     0x3b7f ./src/adapters/modbus_server.o
+ .debug_info    0x0001d5ac     0x2ae1 ./src/hal_entry.o
+ .debug_info    0x0002008d     0x15ab ./ra_gen/common_data.o
+ .debug_info    0x00021638     0xa0f0 ./ra_gen/hal_data.o
+ .debug_info    0x0002b728       0xb1 ./ra_gen/main.o
+ .debug_info    0x0002b7d9      0xa09 ./ra_gen/pin_data.o
+ .debug_info    0x0002c1e2      0xa6e ./ra_gen/vector_data.o
+ .debug_info    0x0002cc50     0x86df ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+ .debug_info    0x0003532f     0x2b19 ./ra/fsp/src/r_ioport/r_ioport.o
+ .debug_info    0x00037e48     0x19ef ./ra/fsp/src/r_icu/r_icu.o
+ .debug_info    0x00039837     0x956f ./ra/fsp/src/r_gpt/r_gpt.o
+ .debug_info    0x00042da6     0x61ad ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+ .debug_info    0x00048f53     0x9857 ./ra/fsp/src/r_adc/r_adc.o
+ .debug_info    0x000527aa     0x5b01 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
+ .debug_info    0x000582ab      0x923 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
+ .debug_info    0x00058bce      0x1d7 ./ra/fsp/src/bsp/mcu/all/bsp_delay.o
+ .debug_info    0x00058da5     0x1303 ./ra/fsp/src/bsp/mcu/all/bsp_group_irq.o
+ .debug_info    0x0005a0a8       0xa6 ./ra/fsp/src/bsp/mcu/all/bsp_io.o
+ .debug_info    0x0005a14e     0x18be ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
+ .debug_info    0x0005ba0c     0x38e8 ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
+ .debug_info    0x0005f2f4       0xd5 ./ra/fsp/src/bsp/mcu/all/bsp_rom_registers.o
+ .debug_info    0x0005f3c9      0x136 ./ra/fsp/src/bsp/mcu/all/bsp_sbrk.o
+ .debug_info    0x0005f4ff      0x170 ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.o
+ .debug_info    0x0005f66f     0x1fb3 ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.o
+ .debug_info    0x00061622     0x106e ./libs/c-watcher/src/watcher.o
+ .debug_info    0x00062690      0x48e ./libs/c-stopwatch/src/stopwatch.o
+ .debug_info    0x00062b1e      0x567 ./libs/c-stopwatch/src/stopwatch_timer.o
+ .debug_info    0x00063085      0x242 ./libs/c-debounce/src/debounce.o
+ .debug_info    0x000632c7      0x20a ./libs/c-debounce/src/pulsecounter.o
 
 .debug_abbrev   0x00000000     0x739c
  .debug_abbrev  0x00000000       0xc6 ./src/services/crc16-ccitt.o
@@ -2826,83 +2827,83 @@ LOAD linker stubs
  .debug_abbrev  0x0000721b      0x181 ./libs/c-debounce/src/pulsecounter.o
 
 .debug_loclists
-                0x00000000     0xa246
+                0x00000000     0xa683
  .debug_loclists
                 0x00000000       0x6f ./src/services/crc16-ccitt.o
  .debug_loclists
-                0x0000006f      0xc3b ./src/model/cycle.o
+                0x0000006f      0xde7 ./src/model/cycle.o
  .debug_loclists
-                0x00000caa      0x40e ./src/model/heating.o
+                0x00000e56      0x4af ./src/model/heating.o
  .debug_loclists
-                0x000010b8     0x17cd ./src/model/model.o
+                0x00001305     0x1920 ./src/model/model.o
  .debug_loclists
-                0x00002885       0xf7 ./src/controller/controller.o
+                0x00002c25       0xf7 ./src/controller/controller.o
  .debug_loclists
-                0x0000297c      0x23f ./src/controller/observer.o
+                0x00002d1c      0x2d0 ./src/controller/observer.o
  .debug_loclists
-                0x00002bbb       0xc3 ./src/bsp/adc.o
+                0x00002fec       0xc3 ./src/bsp/adc.o
  .debug_loclists
-                0x00002c7e      0x114 ./src/bsp/coin_reader.o
+                0x000030af      0x114 ./src/bsp/coin_reader.o
  .debug_loclists
-                0x00002d92       0xce ./src/bsp/digin.o
+                0x000031c3       0xce ./src/bsp/digin.o
  .debug_loclists
-                0x00002e60       0x6a ./src/bsp/heartbit.o
+                0x00003291       0x6a ./src/bsp/heartbit.o
  .debug_loclists
-                0x00002eca      0x2d9 ./src/bsp/power_off.o
+                0x000032fb      0x2d9 ./src/bsp/power_off.o
  .debug_loclists
-                0x000031a3       0x90 ./src/bsp/pwm.o
+                0x000035d4       0x90 ./src/bsp/pwm.o
  .debug_loclists
-                0x00003233       0x3a ./src/bsp/relay.o
+                0x00003664       0x3a ./src/bsp/relay.o
  .debug_loclists
-                0x0000326d      0x100 ./src/bsp/rs232.o
+                0x0000369e      0x100 ./src/bsp/rs232.o
  .debug_loclists
-                0x0000336d       0xa1 ./src/bsp/spi.o
+                0x0000379e       0xa1 ./src/bsp/spi.o
  .debug_loclists
-                0x0000340e       0x6a ./src/bsp/system.o
+                0x0000383f       0x6a ./src/bsp/system.o
  .debug_loclists
-                0x00003478       0xec ./src/bsp/temperature_humidity_probe.o
+                0x000038a9       0xec ./src/bsp/temperature_humidity_probe.o
  .debug_loclists
-                0x00003564     0x2160 ./src/adapters/modbus_server.o
+                0x00003995     0x2160 ./src/adapters/modbus_server.o
  .debug_loclists
-                0x000056c4       0x34 ./src/hal_entry.o
+                0x00005af5       0x40 ./src/hal_entry.o
  .debug_loclists
-                0x000056f8      0x919 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+                0x00005b35      0x919 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
  .debug_loclists
-                0x00006011      0x621 ./ra/fsp/src/r_ioport/r_ioport.o
+                0x0000644e      0x621 ./ra/fsp/src/r_ioport/r_ioport.o
  .debug_loclists
-                0x00006632      0x216 ./ra/fsp/src/r_icu/r_icu.o
+                0x00006a6f      0x216 ./ra/fsp/src/r_icu/r_icu.o
  .debug_loclists
-                0x00006848      0xc48 ./ra/fsp/src/r_gpt/r_gpt.o
+                0x00006c85      0xc48 ./ra/fsp/src/r_gpt/r_gpt.o
  .debug_loclists
-                0x00007490      0x98f ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+                0x000078cd      0x98f ./ra/fsp/src/r_flash_lp/r_flash_lp.o
  .debug_loclists
-                0x00007e1f      0xabd ./ra/fsp/src/r_adc/r_adc.o
+                0x0000825c      0xabd ./ra/fsp/src/r_adc/r_adc.o
  .debug_loclists
-                0x000088dc      0x1a8 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
+                0x00008d19      0x1a8 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
  .debug_loclists
-                0x00008a84       0x23 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
+                0x00008ec1       0x23 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
  .debug_loclists
-                0x00008aa7       0xe8 ./ra/fsp/src/bsp/mcu/all/bsp_delay.o
+                0x00008ee4       0xe8 ./ra/fsp/src/bsp/mcu/all/bsp_delay.o
  .debug_loclists
-                0x00008b8f       0x79 ./ra/fsp/src/bsp/mcu/all/bsp_group_irq.o
+                0x00008fcc       0x79 ./ra/fsp/src/bsp/mcu/all/bsp_group_irq.o
  .debug_loclists
-                0x00008c08      0x165 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
+                0x00009045      0x165 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
  .debug_loclists
-                0x00008d6d       0xa8 ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
+                0x000091aa       0xa8 ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
  .debug_loclists
-                0x00008e15       0xb1 ./ra/fsp/src/bsp/mcu/all/bsp_sbrk.o
+                0x00009252       0xb1 ./ra/fsp/src/bsp/mcu/all/bsp_sbrk.o
  .debug_loclists
-                0x00008ec6       0x9a ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.o
+                0x00009303       0x9a ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.o
  .debug_loclists
-                0x00008f60      0xc61 ./libs/c-watcher/src/watcher.o
+                0x0000939d      0xc61 ./libs/c-watcher/src/watcher.o
  .debug_loclists
-                0x00009bc1      0x1f2 ./libs/c-stopwatch/src/stopwatch.o
+                0x00009ffe      0x1f2 ./libs/c-stopwatch/src/stopwatch.o
  .debug_loclists
-                0x00009db3      0x209 ./libs/c-stopwatch/src/stopwatch_timer.o
+                0x0000a1f0      0x209 ./libs/c-stopwatch/src/stopwatch_timer.o
  .debug_loclists
-                0x00009fbc      0x177 ./libs/c-debounce/src/debounce.o
+                0x0000a3f9      0x177 ./libs/c-debounce/src/debounce.o
  .debug_loclists
-                0x0000a133      0x113 ./libs/c-debounce/src/pulsecounter.o
+                0x0000a570      0x113 ./libs/c-debounce/src/pulsecounter.o
 
 .debug_aranges  0x00000000     0x1070
  .debug_aranges
@@ -3085,102 +3086,102 @@ LOAD linker stubs
  .debug_rnglists
                 0x00000e5f       0x20 ./libs/c-debounce/src/pulsecounter.o
 
-.debug_line     0x00000000    0x10fb5
+.debug_line     0x00000000    0x118db
  .debug_line    0x00000000       0xc0 ./src/services/crc16-ccitt.o
- .debug_line    0x000000c0      0xc00 ./src/model/cycle.o
- .debug_line    0x00000cc0      0x4f2 ./src/model/heating.o
- .debug_line    0x000011b2     0x1fe5 ./src/model/model.o
- .debug_line    0x00003197      0x5f2 ./src/controller/controller.o
- .debug_line    0x00003789      0x3f5 ./src/controller/observer.o
- .debug_line    0x00003b7e      0x4f3 ./src/bsp/adc.o
- .debug_line    0x00004071      0x438 ./src/bsp/coin_reader.o
- .debug_line    0x000044a9      0x40e ./src/bsp/digin.o
- .debug_line    0x000048b7      0x312 ./src/bsp/heartbit.o
- .debug_line    0x00004bc9      0x5cf ./src/bsp/power_off.o
- .debug_line    0x00005198      0x32b ./src/bsp/pwm.o
- .debug_line    0x000054c3      0x1cf ./src/bsp/relay.o
- .debug_line    0x00005692      0x3bb ./src/bsp/rs232.o
- .debug_line    0x00005a4d      0x280 ./src/bsp/spi.o
- .debug_line    0x00005ccd      0x299 ./src/bsp/system.o
- .debug_line    0x00005f66      0x2e3 ./src/bsp/temperature_humidity_probe.o
- .debug_line    0x00006249     0x235d ./src/adapters/modbus_server.o
- .debug_line    0x000085a6      0x4ea ./src/hal_entry.o
- .debug_line    0x00008a90      0x25b ./ra_gen/common_data.o
- .debug_line    0x00008ceb      0x353 ./ra_gen/hal_data.o
- .debug_line    0x0000903e       0x56 ./ra_gen/main.o
- .debug_line    0x00009094      0x18b ./ra_gen/pin_data.o
- .debug_line    0x0000921f      0x17a ./ra_gen/vector_data.o
- .debug_line    0x00009399      0xf95 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
- .debug_line    0x0000a32e      0x7f7 ./ra/fsp/src/r_ioport/r_ioport.o
- .debug_line    0x0000ab25      0x585 ./ra/fsp/src/r_icu/r_icu.o
- .debug_line    0x0000b0aa     0x113c ./ra/fsp/src/r_gpt/r_gpt.o
- .debug_line    0x0000c1e6      0xb5a ./ra/fsp/src/r_flash_lp/r_flash_lp.o
- .debug_line    0x0000cd40     0x1156 ./ra/fsp/src/r_adc/r_adc.o
- .debug_line    0x0000de96      0x584 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
- .debug_line    0x0000e41a      0x1b3 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
- .debug_line    0x0000e5cd      0x20c ./ra/fsp/src/bsp/mcu/all/bsp_delay.o
- .debug_line    0x0000e7d9      0x27a ./ra/fsp/src/bsp/mcu/all/bsp_group_irq.o
- .debug_line    0x0000ea53       0xe3 ./ra/fsp/src/bsp/mcu/all/bsp_io.o
- .debug_line    0x0000eb36      0x429 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
- .debug_line    0x0000ef5f      0x310 ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
- .debug_line    0x0000f26f       0x84 ./ra/fsp/src/bsp/mcu/all/bsp_rom_registers.o
- .debug_line    0x0000f2f3      0x117 ./ra/fsp/src/bsp/mcu/all/bsp_sbrk.o
- .debug_line    0x0000f40a      0x14c ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.o
- .debug_line    0x0000f556      0x513 ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.o
- .debug_line    0x0000fa69      0xc62 ./libs/c-watcher/src/watcher.o
- .debug_line    0x000106cb      0x30e ./libs/c-stopwatch/src/stopwatch.o
- .debug_line    0x000109d9      0x249 ./libs/c-stopwatch/src/stopwatch_timer.o
- .debug_line    0x00010c22      0x1e7 ./libs/c-debounce/src/debounce.o
- .debug_line    0x00010e09      0x1ac ./libs/c-debounce/src/pulsecounter.o
+ .debug_line    0x000000c0      0xe63 ./src/model/cycle.o
+ .debug_line    0x00000f23      0x6c5 ./src/model/heating.o
+ .debug_line    0x000015e8     0x211f ./src/model/model.o
+ .debug_line    0x00003707      0x5f1 ./src/controller/controller.o
+ .debug_line    0x00003cf8      0x60b ./src/controller/observer.o
+ .debug_line    0x00004303      0x4f3 ./src/bsp/adc.o
+ .debug_line    0x000047f6      0x438 ./src/bsp/coin_reader.o
+ .debug_line    0x00004c2e      0x40e ./src/bsp/digin.o
+ .debug_line    0x0000503c      0x312 ./src/bsp/heartbit.o
+ .debug_line    0x0000534e      0x5cf ./src/bsp/power_off.o
+ .debug_line    0x0000591d      0x32b ./src/bsp/pwm.o
+ .debug_line    0x00005c48      0x1cf ./src/bsp/relay.o
+ .debug_line    0x00005e17      0x3bb ./src/bsp/rs232.o
+ .debug_line    0x000061d2      0x280 ./src/bsp/spi.o
+ .debug_line    0x00006452      0x299 ./src/bsp/system.o
+ .debug_line    0x000066eb      0x2e3 ./src/bsp/temperature_humidity_probe.o
+ .debug_line    0x000069ce     0x235d ./src/adapters/modbus_server.o
+ .debug_line    0x00008d2b      0x68b ./src/hal_entry.o
+ .debug_line    0x000093b6      0x25b ./ra_gen/common_data.o
+ .debug_line    0x00009611      0x353 ./ra_gen/hal_data.o
+ .debug_line    0x00009964       0x56 ./ra_gen/main.o
+ .debug_line    0x000099ba      0x18b ./ra_gen/pin_data.o
+ .debug_line    0x00009b45      0x17a ./ra_gen/vector_data.o
+ .debug_line    0x00009cbf      0xf95 ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+ .debug_line    0x0000ac54      0x7f7 ./ra/fsp/src/r_ioport/r_ioport.o
+ .debug_line    0x0000b44b      0x585 ./ra/fsp/src/r_icu/r_icu.o
+ .debug_line    0x0000b9d0     0x113c ./ra/fsp/src/r_gpt/r_gpt.o
+ .debug_line    0x0000cb0c      0xb5a ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+ .debug_line    0x0000d666     0x1156 ./ra/fsp/src/r_adc/r_adc.o
+ .debug_line    0x0000e7bc      0x584 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
+ .debug_line    0x0000ed40      0x1b3 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
+ .debug_line    0x0000eef3      0x20c ./ra/fsp/src/bsp/mcu/all/bsp_delay.o
+ .debug_line    0x0000f0ff      0x27a ./ra/fsp/src/bsp/mcu/all/bsp_group_irq.o
+ .debug_line    0x0000f379       0xe3 ./ra/fsp/src/bsp/mcu/all/bsp_io.o
+ .debug_line    0x0000f45c      0x429 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
+ .debug_line    0x0000f885      0x310 ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
+ .debug_line    0x0000fb95       0x84 ./ra/fsp/src/bsp/mcu/all/bsp_rom_registers.o
+ .debug_line    0x0000fc19      0x117 ./ra/fsp/src/bsp/mcu/all/bsp_sbrk.o
+ .debug_line    0x0000fd30      0x14c ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.o
+ .debug_line    0x0000fe7c      0x513 ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.o
+ .debug_line    0x0001038f      0xc62 ./libs/c-watcher/src/watcher.o
+ .debug_line    0x00010ff1      0x30e ./libs/c-stopwatch/src/stopwatch.o
+ .debug_line    0x000112ff      0x249 ./libs/c-stopwatch/src/stopwatch_timer.o
+ .debug_line    0x00011548      0x1e7 ./libs/c-debounce/src/debounce.o
+ .debug_line    0x0001172f      0x1ac ./libs/c-debounce/src/pulsecounter.o
 
-.debug_str      0x00000000    0x1695d
- .debug_str     0x00000000    0x1695d ./src/services/crc16-ccitt.o
+.debug_str      0x00000000    0x1695f
+ .debug_str     0x00000000    0x1695f ./src/services/crc16-ccitt.o
                                 0x17b (size before relaxing)
- .debug_str     0x0001695d     0x10e4 ./src/model/cycle.o
- .debug_str     0x0001695d      0xd98 ./src/model/heating.o
- .debug_str     0x0001695d     0x16af ./src/model/model.o
- .debug_str     0x0001695d      0xf1c ./src/controller/controller.o
- .debug_str     0x0001695d      0xf74 ./src/controller/observer.o
- .debug_str     0x0001695d     0x39bc ./src/bsp/adc.o
- .debug_str     0x0001695d     0x34a9 ./src/bsp/coin_reader.o
- .debug_str     0x0001695d     0x344a ./src/bsp/digin.o
- .debug_str     0x0001695d     0x32fd ./src/bsp/heartbit.o
- .debug_str     0x0001695d     0x23fe ./src/bsp/power_off.o
- .debug_str     0x0001695d     0x329b ./src/bsp/pwm.o
- .debug_str     0x0001695d     0x32fc ./src/bsp/relay.o
- .debug_str     0x0001695d     0x25df ./src/bsp/rs232.o
- .debug_str     0x0001695d     0x3325 ./src/bsp/spi.o
- .debug_str     0x0001695d      0x3a2 ./src/bsp/system.o
- .debug_str     0x0001695d     0x3386 ./src/bsp/temperature_humidity_probe.o
- .debug_str     0x0001695d     0x206e ./src/adapters/modbus_server.o
- .debug_str     0x0001695d     0x43d3 ./src/hal_entry.o
- .debug_str     0x0001695d     0x36d4 ./ra_gen/common_data.o
- .debug_str     0x0001695d     0xa5c7 ./ra_gen/hal_data.o
- .debug_str     0x0001695d      0x1bb ./ra_gen/main.o
- .debug_str     0x0001695d     0x1d48 ./ra_gen/pin_data.o
- .debug_str     0x0001695d     0x2e41 ./ra_gen/vector_data.o
- .debug_str     0x0001695d     0x671c ./ra/fsp/src/r_sci_uart/r_sci_uart.o
- .debug_str     0x0001695d     0x3ae0 ./ra/fsp/src/r_ioport/r_ioport.o
- .debug_str     0x0001695d     0x24a4 ./ra/fsp/src/r_icu/r_icu.o
- .debug_str     0x0001695d     0x695b ./ra/fsp/src/r_gpt/r_gpt.o
- .debug_str     0x0001695d     0x43f1 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
- .debug_str     0x0001695d     0x76b5 ./ra/fsp/src/r_adc/r_adc.o
- .debug_str     0x0001695d     0x271b ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
- .debug_str     0x0001695d     0x1bf3 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
- .debug_str     0x0001695d      0x2db ./ra/fsp/src/bsp/mcu/all/bsp_delay.o
- .debug_str     0x0001695d     0x214f ./ra/fsp/src/bsp/mcu/all/bsp_group_irq.o
- .debug_str     0x0001695d      0x1d9 ./ra/fsp/src/bsp/mcu/all/bsp_io.o
- .debug_str     0x0001695d     0x3448 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
- .debug_str     0x0001695d     0x1b1b ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
- .debug_str     0x0001695d      0x1ef ./ra/fsp/src/bsp/mcu/all/bsp_rom_registers.o
- .debug_str     0x0001695d      0x23a ./ra/fsp/src/bsp/mcu/all/bsp_sbrk.o
- .debug_str     0x0001695d      0x23f ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.o
- .debug_str     0x0001695d      0xfdb ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.o
- .debug_str     0x0001695d      0x62f ./libs/c-watcher/src/watcher.o
- .debug_str     0x0001695d      0x332 ./libs/c-stopwatch/src/stopwatch.o
- .debug_str     0x0001695d      0x3d9 ./libs/c-stopwatch/src/stopwatch_timer.o
- .debug_str     0x0001695d      0x252 ./libs/c-debounce/src/debounce.o
- .debug_str     0x0001695d      0x1f3 ./libs/c-debounce/src/pulsecounter.o
+ .debug_str     0x0001695f     0x111a ./src/model/cycle.o
+ .debug_str     0x0001695f      0xdcc ./src/model/heating.o
+ .debug_str     0x0001695f     0x16af ./src/model/model.o
+ .debug_str     0x0001695f      0xf1c ./src/controller/controller.o
+ .debug_str     0x0001695f      0xf9e ./src/controller/observer.o
+ .debug_str     0x0001695f     0x39bc ./src/bsp/adc.o
+ .debug_str     0x0001695f     0x34a9 ./src/bsp/coin_reader.o
+ .debug_str     0x0001695f     0x344a ./src/bsp/digin.o
+ .debug_str     0x0001695f     0x32fd ./src/bsp/heartbit.o
+ .debug_str     0x0001695f     0x23fe ./src/bsp/power_off.o
+ .debug_str     0x0001695f     0x329b ./src/bsp/pwm.o
+ .debug_str     0x0001695f     0x32fc ./src/bsp/relay.o
+ .debug_str     0x0001695f     0x25df ./src/bsp/rs232.o
+ .debug_str     0x0001695f     0x3325 ./src/bsp/spi.o
+ .debug_str     0x0001695f      0x3a2 ./src/bsp/system.o
+ .debug_str     0x0001695f     0x3386 ./src/bsp/temperature_humidity_probe.o
+ .debug_str     0x0001695f     0x206e ./src/adapters/modbus_server.o
+ .debug_str     0x0001695f     0x43fd ./src/hal_entry.o
+ .debug_str     0x0001695f     0x36d4 ./ra_gen/common_data.o
+ .debug_str     0x0001695f     0xa5c7 ./ra_gen/hal_data.o
+ .debug_str     0x0001695f      0x1bb ./ra_gen/main.o
+ .debug_str     0x0001695f     0x1d48 ./ra_gen/pin_data.o
+ .debug_str     0x0001695f     0x2e41 ./ra_gen/vector_data.o
+ .debug_str     0x0001695f     0x671c ./ra/fsp/src/r_sci_uart/r_sci_uart.o
+ .debug_str     0x0001695f     0x3ae0 ./ra/fsp/src/r_ioport/r_ioport.o
+ .debug_str     0x0001695f     0x24a4 ./ra/fsp/src/r_icu/r_icu.o
+ .debug_str     0x0001695f     0x695b ./ra/fsp/src/r_gpt/r_gpt.o
+ .debug_str     0x0001695f     0x43f1 ./ra/fsp/src/r_flash_lp/r_flash_lp.o
+ .debug_str     0x0001695f     0x76b5 ./ra/fsp/src/r_adc/r_adc.o
+ .debug_str     0x0001695f     0x271b ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
+ .debug_str     0x0001695f     0x1bf3 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
+ .debug_str     0x0001695f      0x2db ./ra/fsp/src/bsp/mcu/all/bsp_delay.o
+ .debug_str     0x0001695f     0x214f ./ra/fsp/src/bsp/mcu/all/bsp_group_irq.o
+ .debug_str     0x0001695f      0x1d9 ./ra/fsp/src/bsp/mcu/all/bsp_io.o
+ .debug_str     0x0001695f     0x3448 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
+ .debug_str     0x0001695f     0x1b1b ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
+ .debug_str     0x0001695f      0x1ef ./ra/fsp/src/bsp/mcu/all/bsp_rom_registers.o
+ .debug_str     0x0001695f      0x23a ./ra/fsp/src/bsp/mcu/all/bsp_sbrk.o
+ .debug_str     0x0001695f      0x23f ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.o
+ .debug_str     0x0001695f      0xfdb ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.o
+ .debug_str     0x0001695f      0x62f ./libs/c-watcher/src/watcher.o
+ .debug_str     0x0001695f      0x332 ./libs/c-stopwatch/src/stopwatch.o
+ .debug_str     0x0001695f      0x3d9 ./libs/c-stopwatch/src/stopwatch_timer.o
+ .debug_str     0x0001695f      0x252 ./libs/c-debounce/src/debounce.o
+ .debug_str     0x0001695f      0x1f3 ./libs/c-debounce/src/pulsecounter.o
 
 .debug_frame    0x00000000     0x2c0c
  .debug_frame   0x00000000       0x2c ./src/services/crc16-ccitt.o

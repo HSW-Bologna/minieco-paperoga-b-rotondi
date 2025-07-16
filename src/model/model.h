@@ -10,7 +10,7 @@
 #include "state_machine.h"
 
 
-#define PWOFF_SERIALIZED_SIZE 43
+#define PWOFF_SERIALIZED_SIZE 49
 #define COIN_LINES            6
 
 #define HEATING_TYPE_ELECTRIC 0

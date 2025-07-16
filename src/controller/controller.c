@@ -20,7 +20,6 @@ void controller_init(mut_model_t *model) {
     }
 
     observer_init(model);
-
     modbus_server_init();
 }
 
