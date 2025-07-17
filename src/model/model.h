@@ -138,8 +138,8 @@ typedef enum {
     OUTPUT_BACKWARD,
     OUTPUT_FAN,
     OUTPUT_HEATING,
-    OUTPUT_RESET_GAS,
     OUTPUT_BUSY,
+    OUTPUT_RESET_GAS,
     OUTPUT_AUX,
 } output_t;
 
